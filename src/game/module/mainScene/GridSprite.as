@@ -24,7 +24,7 @@ package game.module.mainScene
 		public function GridSprite()
 		{
 			super();
-//			this.alpha = 0.3;
+			this.alpha = 0.3;
 		}
 		
 		/**初始化参数*/
@@ -40,9 +40,9 @@ package game.module.mainScene
 		private function drawGrid(mapWidth:int, mapHeight:int,curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int,
 								 beginX:int = 0 , beginY:int = 0):void
 		{
-			curW = curH = 100;
-//			_curW = curW;
-//			_curH = curH;
+//			curW = curH = 100;
+			_curW = curW;
+			_curH = curH;
 			trace("------------------",mapWidth,mapHeight, curW, curH);
 			this._mapData = HomeData.intance.copyMap();
 			
@@ -170,7 +170,7 @@ package game.module.mainScene
 		
 		public function showGrid(v:Boolean):void{
 			// 暂时全显示
-			v = true;
+//			v = true;
 			if(v && _param){
 				this.drawGrid.apply(this,_param);
 				_param = null;
