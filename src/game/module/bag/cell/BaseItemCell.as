@@ -6,6 +6,7 @@ package game.module.bag.cell
 	import game.common.ItemTips;
 	import game.global.GameConfigManager;
 	import game.global.data.bag.ItemData;
+	import game.global.util.TraceUtils;
 	import game.global.vo.equip.EquipmentListVo;
 	import game.module.equip.EquipTipsView;
 	
@@ -96,7 +97,7 @@ package game.module.bag.cell
 //			var url:String = "appRes/icon/itemIcon/"+this.data.vo.icon+".png"
 			var url:String = GameConfigManager.getItemImgPath(this.data.iid);
 			_itemIcon.loadImage(url,0,0,22,22);
-			trace(url); 
+			TraceUtils.log(url); 
 		}
 		
 		public function bindNum():void{

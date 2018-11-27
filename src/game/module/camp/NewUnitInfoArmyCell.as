@@ -2,19 +2,13 @@ package game.module.camp
 {
 	import MornUI.camp.NewUnitInfoArmyCellUI;
 	
-	import game.global.GameConfigManager;
-	import game.global.ModuleName;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
-	import game.global.vo.FightUnitVo;
 	import game.module.fighting.adata.ArmyData;
 	
 	import laya.display.Animation;
 	import laya.display.Sprite;
-	import laya.events.Event;
 	import laya.ui.Box;
-	import laya.ui.Image;
-	import laya.ui.UIGroup;
-	import laya.ui.UIUtils;
 	
 	public class NewUnitInfoArmyCell extends Box
 	{
@@ -102,7 +96,6 @@ package game.module.camp
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy NewUnitInfoArmyCell");
 			
 			_data = null;
 			_cellUi =null;

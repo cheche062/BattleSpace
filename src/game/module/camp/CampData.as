@@ -6,13 +6,12 @@ package game.module.camp
 	import game.global.data.DBUnit;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.User;
 	import game.global.vo.teamCopy.TeamFightUnitVo;
 	import game.module.tips.KpiUpView;
 	import game.net.socket.WebSocketNetService;
-	
-	import laya.ani.bone.Bone;
 	
 	import org.hamcrest.mxml.collection.InArray;
 
@@ -52,11 +51,11 @@ package game.module.camp
 			for(i in info.solier_list){
 				_unitData[i] = info.solier_list[i];
 			}
-			trace("后端兵营数据:"+JSON.stringify(info));
-			trace("更新_unitData:"+JSON.stringify(_unitData));
+			TraceUtils.log("后端兵营数据:"+JSON.stringify(info));
+			TraceUtils.log("更新_unitData:"+JSON.stringify(_unitData));
 			caculateKpi();
 			Signal.intance.event(UPDATE);
-			trace("更新!!!!!!!!");
+			TraceUtils.log("更新!!!!!!!!");
 		}
 		
 		/**计算kpi*/

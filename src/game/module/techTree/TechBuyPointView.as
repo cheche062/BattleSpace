@@ -1,21 +1,24 @@
 package game.module.techTree 
 {
+	import MornUI.tech.TechBuyPointViewUI;
+	
 	import game.common.AnimationUtil;
-	import game.common.base.BaseDialog;
 	import game.common.ItemTips;
 	import game.common.XTip;
+	import game.common.base.BaseDialog;
+	import game.global.GameConfigManager;
+	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.BagManager;
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
-	import game.global.GameConfigManager;
-	import game.global.GameLanguage;
-	import game.global.vo.tech.TechPointVo;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
+	import game.global.vo.tech.TechPointVo;
 	import game.net.socket.WebSocketNetService;
+	
 	import laya.events.Event;
 	import laya.ui.Image;
-	import MornUI.tech.TechBuyPointViewUI;
 	
 	/**
 	 * ...
@@ -339,7 +342,7 @@ package game.module.techTree
 		
 		private function serviceResultHandler():void 
 		{
-			trace("addNum:", addNum);
+			TraceUtils.log("addNum:"+ addNum);
 			/*trace("pppp2:", User.getInstance().currentTechPoint);*/
 			XTip.showTip(GameLanguage.getLangByKey("L_A_42018").replace("{0}", addNum));
 			User.getInstance().currentTechPoint+=addNum;

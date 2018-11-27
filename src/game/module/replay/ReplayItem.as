@@ -7,10 +7,10 @@ package game.module.replay
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.data.DBItem;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.fighting.adata.frSoldierData;
 	import game.module.fighting.cell.FightResultsSoldierCell;
-	import game.module.fighting.mgr.FightingManager;
 	import game.module.fighting.panel.BaseFightResultsView;
 	import game.net.socket.WebSocketNetService;
 	
@@ -144,7 +144,7 @@ package game.module.replay
 					sList.refresh();
 				}
 			}
-			trace("data----------------------",data);
+			TraceUtils.log("data----------------------"+data);
 		}
 		
 		private function onClick(e:Event):void{

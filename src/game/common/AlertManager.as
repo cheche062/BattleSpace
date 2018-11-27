@@ -1,5 +1,7 @@
 package game.common
 {
+	import game.global.util.TraceUtils;
+	
 	import laya.ui.Dialog;
 	import laya.utils.ClassUtils;
 
@@ -42,7 +44,7 @@ package game.common
 		public function onLoaded(flag:int, type:String, data:*,externalCallBack:Function=null):void
 		{
 			_alert = ClassUtils.getInstance(type);
-			trace("弹出框", _alert);
+			TraceUtils.log("弹出框"+_alert);
 			
 			var back:* = externalCallBack != null ? externalCallBack : callBack;
 			_alert.alert(flag, back, false, data);

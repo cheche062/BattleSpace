@@ -50,7 +50,6 @@ package game.module.tips.itemTip
 		} 
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy ItemTipTileCell");
 			itemNameLbl = null;
 			equipedLbl = null;
 			super.destroy(destroyChild);

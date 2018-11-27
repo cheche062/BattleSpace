@@ -7,6 +7,7 @@ package game.module.bag.cell
 	import game.common.baseScene.SceneType;
 	import game.global.GameLanguage;
 	import game.global.ModuleName;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.itemSourceVo;
 	
@@ -71,7 +72,7 @@ package game.module.bag.cell
 			switch(Number(_data.type))
 			{
 				case 1:  //主线 ：章节ID ， 关卡ID
-				{	trace("跳转数据:", _data);
+				{	TraceUtils.log("跳转数据:"+ _data);
 					SceneManager.intance.setCurrentScene(SceneType.M_SCENE_FIGHT_MAP,true,1,[0,Number(_data.params[0]) - 1,Number(_data.params[1])]);
 					callBackHandler && callBackHandler.run();
 					break;

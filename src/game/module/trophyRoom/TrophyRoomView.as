@@ -10,6 +10,7 @@ package game.module.trophyRoom
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	
 	import laya.events.Event;
@@ -85,7 +86,7 @@ package game.module.trophyRoom
 			totalFreeTimes();
 			
 			//打开战利品室
-			trace("【TrophyRoomView】发送:", TROPHY_ROOM_ENTER);
+			TraceUtils.log("【TrophyRoomView】发送:"+ TROPHY_ROOM_ENTER);
 			sendData(TROPHY_ROOM_ENTER);
 		}
 		
@@ -120,7 +121,7 @@ package game.module.trophyRoom
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace("【TrophyRoomView】接受数据:", args);
+			TraceUtils.log("【TrophyRoomView】接受数据:"+args);
 
 			var data:* = args[1];
 			//产出
@@ -213,7 +214,7 @@ package game.module.trophyRoom
 		 * 
 		 */
 		private function levelToOutput(level:Number):Object{
-			trace("【TrophyRoomView】玩家等级:", level);
+			TraceUtils.log("【TrophyRoomView】玩家等级:"+ level);
 
 			var supply_output = ResourceManager.instance.getResByURL(configJson[2]);
 			var data:Object = {};
@@ -250,7 +251,7 @@ package game.module.trophyRoom
 			FOOD_FREE_TIMES = times1;
 			GRAIN_FREE_TIMES = times2;
 			
-			trace("【总共的免费次数】",FOOD_FREE_TIMES, GRAIN_FREE_TIMES);
+			TraceUtils.log("【总共的免费次数】"+FOOD_FREE_TIMES+ GRAIN_FREE_TIMES);
 		}
 		
 		override public function close():void{
@@ -288,7 +289,7 @@ package game.module.trophyRoom
 		 * 
 		 */
 		private function confirmGet(value:int):void{
-			trace("【TrophyRoomView】领取发送:", TROPHY_ROOM_GET, value);
+			TraceUtils.log("【TrophyRoomView】领取发送:"+ TROPHY_ROOM_GET+ value);
 			sendData(TROPHY_ROOM_GET, [value]);
 		}
 		

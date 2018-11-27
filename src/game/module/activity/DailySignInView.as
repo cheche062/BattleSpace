@@ -13,6 +13,7 @@ package game.module.activity
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	import laya.utils.Handler;
@@ -117,7 +118,7 @@ package game.module.activity
 					break;
 				
 				case view.reCheckBtn:
-					trace(listSelectIndex);
+					TraceUtils.log(listSelectIndex);
 					
 					var data = ResourceManager.instance.getResByURL("config/activity/clock_fill_price.json");
 					var targetData = ToolFunc.getItemDataOfWholeData(Number(serverdata["buy_num"] + 1), data, "down", "up");
@@ -135,7 +136,7 @@ package game.module.activity
 		/**获取服务器消息*/
 		private function serviceResultHandler(...args):void
 		{
-			trace("7日签", args[1]);
+			TraceUtils.log("7日签"+ args[1]);
 			switch(args[0]) {
 				case ServiceConst.SIGNIN_OPEN:
 					serverdata = args[1];

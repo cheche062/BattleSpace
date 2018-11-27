@@ -9,6 +9,7 @@ package game.module.armyGroup
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Node;
@@ -128,7 +129,7 @@ package game.module.armyGroup
 		private function rewardHandler(type):void{
 			
 			WebSocketNetService.instance.sendData(ServiceConst.ARMY_GROUP_GET_ROLLKILL_REWARD, [type]);
-			trace('点击领取', type);
+			TraceUtils.log('点击领取'+ type);
 			
 		}
 		

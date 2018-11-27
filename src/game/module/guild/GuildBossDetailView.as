@@ -1,16 +1,11 @@
 package game.module.guild
 {
 	import MornUI.guild.GuildBossDetailUI;
-	import MornUI.guild.GuildBossViewUI;
 	
-	import game.common.AlertManager;
-	import game.common.AlertType;
-	import game.common.AnimationUtil;
 	import game.common.ItemTips;
 	import game.common.ResourceManager;
 	import game.common.SceneManager;
 	import game.common.XFacade;
-	import game.common.XTip;
 	import game.common.XTipManager;
 	import game.common.base.BaseDialog;
 	import game.common.baseScene.SceneType;
@@ -19,6 +14,7 @@ package game.module.guild
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.guild.GuildBossVo;
 	import game.module.fighting.mgr.FightingManager;
@@ -210,7 +206,7 @@ package game.module.guild
 			WebSocketNetService.instance.sendData(ServiceConst.CHECK_GUILD_BOSS, bossData.type);
 			_rankRewardArr = GameConfigManager.intance.getGuildBossInfo(bossData.id).ranking_reward.split(",");
 			
-			trace("bossData:", bossData);
+			TraceUtils.log("bossData:"+bossData);
 			
 			for (var i:int = 0; i < 5; i++) 
 			{

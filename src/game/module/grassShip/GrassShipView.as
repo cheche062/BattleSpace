@@ -17,6 +17,7 @@ package game.module.grassShip
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.alert.XAlert;
 	import game.module.fighting.mgr.FightingManager;
@@ -66,7 +67,7 @@ package game.module.grassShip
 		}
 		
 		public function resLoader(...args):void{
-			trace('%c 【草船借箭id】：', 'color: green', info.id);
+			TraceUtils.log('%c 【草船借箭id】：'+ 'color: green'+ info.id);
 			this.addChild(view);
 			
 			this.on(Event.ADDED, this, addToStageEvent);
@@ -307,7 +308,7 @@ package game.module.grassShip
 				sendData(ServiceConst.CAOCHUAN_BUY_SHOP_ITEM, [dataSource.my_ID, info.id]);
 			}
 			
-			trace("兑换道具ID:", dataSource.my_ID, dataSource)
+			TraceUtils.log("兑换道具ID:"+ dataSource.my_ID+ dataSource)
 		}
 		
 		private function onError(...args):void{
@@ -335,7 +336,7 @@ package game.module.grassShip
 					FightingManager.intance.getSquad(FightingManager.FIGHTINGTYPE_SHIPWAR, [info.id], Handler.create(this, function(args){
 						SceneManager.intance.setCurrentScene(SceneType.M_SCENE_HOME);
 						XFacade.instance.openModule(ModuleName.ActivityMainView, [info.id]);
-						trace('【草船借箭】 战斗回调', args);
+						TraceUtils.log('【草船借箭】 战斗回调'+ args);
 					}));
 					
 					break;
@@ -404,7 +405,7 @@ package game.module.grassShip
 		private function boxClickHandler(event:Event):void{
 			var target:View = event.target;
 			var dataSource = target.dataSource;
-			trace("小箱子click:", dataSource);
+			TraceUtils.log("小箱子click:"+ dataSource);
 			// 收取过了无需响应
 			if(dataSource["dom_icon"] == 1) return;
 			
@@ -448,7 +449,7 @@ package game.module.grassShip
 				}, function() {
 					view.dom_remain.text = "0m 0s";
 					clearTimerHandler = null;
-					trace('倒计时结束：：：');
+					TraceUtils.log('倒计时结束：：：');
 				});
 			} else {
 				view.dom_remain.text = "0m 0s";
@@ -461,7 +462,7 @@ package game.module.grassShip
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace('%c 【草船借箭】：', 'color: green', args[0], args[1]);
+			TraceUtils.log('%c 【草船借箭】：'+ 'color: green'+ args[0]+args[1]);
 			switch(args[0]){
 				//打开
 				case ServiceConst.CAOCHUAN_GET_INFO:

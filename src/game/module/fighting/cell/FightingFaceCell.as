@@ -104,7 +104,6 @@ package game.module.fighting.cell
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy FightingFaceCell");
 			this.off(Event.CLICK,this,thisClick);
 			this.scene = null;
 			if(_selectEf)

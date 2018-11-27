@@ -1,7 +1,5 @@
 package game.module.newPata
 {
-	import mx.modules.ModuleManager;
-	
 	import MornUI.newPaTa.NewPaTaUI;
 	import MornUI.newPaTa.RewardItem1UI;
 	import MornUI.newPaTa.RewardItem2UI;
@@ -15,21 +13,18 @@ package game.module.newPata
 	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.XTipManager;
-	import game.common.XUtils;
 	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.GlobalRoleDataManger;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
-	import game.global.data.ConsumeHelp;
-	import game.global.data.bag.BagManager;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.event.TrainBattleLogEvent;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.fighting.mgr.FightingManager;
-	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Animation;
 	import laya.events.Event;
@@ -82,7 +77,7 @@ package game.module.newPata
 		{
 			var user:User=GlobalRoleDataManger.instance.user;
 			if(user.water<sweepingNeedNum){
-				trace("道具不足，道具ID为："+sweepingNeedId);
+				TraceUtils.log("道具不足，道具ID为："+sweepingNeedId);
 				XFacade.instance.openModule(ModuleName.ChargeView);
 				return;
 			}
@@ -95,9 +90,9 @@ package game.module.newPata
 				return;
 			}
 			isPlayAni = false;
-			trace("领取奖励");
-			trace("reward_log:"+reward_log);
-			trace("curRewardArr:"+curRewardArr);
+			TraceUtils.log("领取奖励");
+			TraceUtils.log("reward_log:"+reward_log);
+			TraceUtils.log("curRewardArr:"+curRewardArr);
 			if(reward_log.length<3&&deleteArr.length>0&&(reward_log.length==deleteArr.length
 				||reward_log.length-deleteArr.length==1))
 			{
@@ -191,7 +186,7 @@ package game.module.newPata
 				SceneManager.intance.setCurrentScene(currSceneName, true , 1, [1]);
 				XFacade.instance.openModule(ModuleName.NewPataView);
 				playEndAni();
-				trace('【爬塔】 战斗回调', args);
+				TraceUtils.log('【爬塔】 战斗回调'+ args);
 			}));
 			
 			close();
@@ -201,7 +196,7 @@ package game.module.newPata
 		{
 			if(NewPataData.intance.passId==30)
 			{
-				trace("播放全部通关动画");
+				TraceUtils.log("播放全部通关动画");
 				if(!end)
 				{
 					end = new Animation(); 
@@ -273,7 +268,7 @@ package game.module.newPata
 		private function onServerResult(...args):void{
 			var cmd = Number(args[0]);
 			var data = args[1];
-			trace('%c 【爬塔】：', 'color: green', cmd, data);
+			TraceUtils.log('%c 【爬塔】：'+ 'color: green'+ cmd+ data);
 			
 			switch(cmd) {
 				case ServiceConst.PATA_ENTER:
@@ -353,7 +348,7 @@ package game.module.newPata
 		
 		private function onBoomComplete(reward:Array):void
 		{
-			trace("reward:"+reward);
+			TraceUtils.log("reward:"+reward);
 			showRewards(reward);
 			removeBoomAni();
 		}
@@ -534,10 +529,10 @@ package game.module.newPata
 			//			trace("levelObj:"+JSON.stringify(levelObj));
 			var c_name:String;
 			var max_name:String;
-			trace("maxId:"+maxId);
+			TraceUtils.log("maxId:"+maxId);
 			
 			var canshu:Object = ResourceManager.instance.getResByURL(PATA_CANSHU_CONFIG);
-			trace("canshu:"+JSON.stringify(canshu));
+			TraceUtils.log("canshu:"+JSON.stringify(canshu));
 			
 			for(var key:String in canshu)
 			{
@@ -563,7 +558,7 @@ package game.module.newPata
 			for(var key:String in levelObj)
 			{
 				var id1:Number = Number(key);
-				trace("id1:"+id1);
+				TraceUtils.log("id1:"+id1);
 				if(id1 == curId)
 				{
 					//					trace("stage_name:"+levelObj[key]["stage_name"]);
@@ -575,7 +570,7 @@ package game.module.newPata
 				if(id1 == maxId)
 				{
 					max_name = id1 +'.'+GameLanguage.getLangByKey(levelObj[key]["stage_name"]);
-					trace("-----------------------------------max_name:"+max_name);
+					TraceUtils.log("-----------------------------------max_name:"+max_name);
 					//					break;
 				}
 				if(id1<=maxId - limitSweep){
@@ -586,7 +581,7 @@ package game.module.newPata
 					}
 				}
 			}
-			trace("max_name:"+max_name);
+			TraceUtils.log("max_name:"+max_name);
 			view.day1.text = GameLanguage.getLangByKey("L_A_88142")+GameLanguage.getLangByKey(c_name);
 			view.day2.text =GameLanguage.getLangByKey("L_A_88143")+GameLanguage.getLangByKey(max_name);
 			
@@ -611,7 +606,7 @@ package game.module.newPata
 				}
 				if(toSweepName == "")
 				{
-					trace("没有找到扫荡关卡:"+toSweep);
+					TraceUtils.log("没有找到扫荡关卡:"+toSweep);
 					toSweepName = "";
 				}
 			}
@@ -639,7 +634,7 @@ package game.module.newPata
 					rewardArr.push(id);
 				}
 			}
-			trace("rewardArr:"+rewardArr);
+			TraceUtils.log("rewardArr:"+rewardArr);
 			rewardDic = new Object(); //记录rewardArr里所有关卡的宝箱状态,0:不能领，1可以领，2已经领
 			for(var i:int=0;i<rewardArr.length;i++)
 			{
@@ -660,10 +655,10 @@ package game.module.newPata
 				var key:String = reward_log[i];
 				rewardDic[key] = 2;//设置已经领
 			}
-			trace("rewardDic:"+JSON.stringify(rewardDic));
+			TraceUtils.log("rewardDic:"+JSON.stringify(rewardDic));
 			
 			curRewardArr = rewardArr.concat(); 
-			trace("curRewardArr:"+curRewardArr);
+			TraceUtils.log("curRewardArr:"+curRewardArr);
 			deleteArr = []; 
 			for(var i:int=0;i<curRewardArr.length;i++)
 			{
@@ -720,7 +715,7 @@ package game.module.newPata
 					var id1:Number = Number(key);
 					if(id1 == id)
 					{
-						trace("stage_name:"+levelObj[key]["stage_name"]);
+						TraceUtils.log("stage_name:"+levelObj[key]["stage_name"]);
 						(view[na1] as Label).text = id +'.'+GameLanguage.getLangByKey(levelObj[key]["stage_name"]);
 					}
 					
@@ -738,7 +733,7 @@ package game.module.newPata
 					(view[na2] as Image).visible = status==1?true:false;
 					if(status==1)
 					{
-						trace("添加宝箱特效");
+						TraceUtils.log("添加宝箱特效");
 						var boxEff:Animation = new Animation()
 						boxEff.loadAtlas("appRes/effects/guang.json");
 						boxEff.play(0,true);
@@ -771,9 +766,9 @@ package game.module.newPata
 				return;
 			}
 			isPlayAni = true;
-			trace("e.target.name:"+e.target.name);
-			trace("status:"+status+","+"id:"+id);
-			trace("boxId:"+boxId);
+			TraceUtils.log("e.target.name:"+e.target.name);
+			TraceUtils.log("status:"+status+","+"id:"+id);
+			TraceUtils.log("boxId:"+boxId);
 			if(status==1)
 			{
 				curTarBox   = (e.target as Image); 
@@ -863,7 +858,7 @@ package game.module.newPata
 				s_name = GameLanguage.getLangByKey(s_name);
 				if(rarr.length == 1)
 				{
-					trace("s_name---------"+s_name);
+					TraceUtils.log("s_name---------"+s_name);
 					var rItem1:RewardItem1UI = new RewardItem1UI();
 					rItem1.width = 191;
 					rItem1.height = 88;
@@ -968,7 +963,7 @@ package game.module.newPata
 				}
 			}else
 			{
-				trace("当前关卡"+id+"奖励字符串为空");
+				TraceUtils.log("当前关卡"+id+"奖励字符串为空");
 			}
 		}
 		
@@ -989,7 +984,7 @@ package game.module.newPata
 			}
 			else
 			{
-				trace("通关");
+				TraceUtils.log("通关");
 				rePosMap(id);
 			}
 		}

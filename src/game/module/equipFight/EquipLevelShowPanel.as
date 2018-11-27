@@ -100,7 +100,6 @@ package game.module.equipFight
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy EquipLevelShowPanel");
 			_rList = null;
 			_showVo = null;
 			

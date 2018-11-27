@@ -1,15 +1,12 @@
 package game.module.bossFight
 {
 	import MornUI.bossFight.RankRewardInfoCellUI;
-	import MornUI.bossFight.RankingRewardViewUI;
-	import MornUI.train.TrainingItemUI;
 	
 	import game.common.RewardList;
+	import game.global.util.TraceUtils;
 	import game.global.vo.worldBoss.BossRankVo;
-	import game.global.vo.worldBoss.RewardVo;
 	import game.module.bag.cell.RewardCellMin;
 	
-	import laya.display.Text;
 	import laya.ui.Box;
 	
 	public class RankRewardInfoCell extends Box
@@ -72,7 +69,6 @@ package game.module.bossFight
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy RankRewardInfoCell");
 			m_ui = null;
 			m_data = null;
 			_rList = null;

@@ -2,6 +2,7 @@ package game.common
 {
 	import game.global.ModuleName;
 	import game.global.data.bag.ItemData;
+	import game.global.util.TraceUtils;
 	import game.module.bingBook.ItemContainer;
 	
 	import laya.resource.Texture;
@@ -119,7 +120,7 @@ package game.common
 		 * 
 		 */
 		public static function getItemDataOfWholeData(target:Number, data:*, downKey:String, upKey:String, isSingleData:Boolean = true):*{
-			if (!data) { return trace("【!!!源数据为空】") }
+			if (!data) { return TraceUtils.log("【!!!源数据为空】") }
 			
 			var result:Array = [];
 			// 源数据的键集合
@@ -137,11 +138,11 @@ package game.common
 				// 比最小都要小
 				if (target < Number(data[keyArr[0]][downKey])) {
 					result.push(data[keyArr[0]]);
-					trace("【数据比最小区间都要小】");
+					TraceUtils.log("【数据比最小区间都要小】");
 				}
 				if (target > Number(data[keyArr[keyArr.length - 1]][upKey])) {
 					result.push(data[keyArr[keyArr.length - 1]])
-					trace("【数据比最大区间都要大】");
+					TraceUtils.log("【数据比最大区间都要大】");
 				}
 			}
 			
@@ -555,7 +556,7 @@ package game.common
 		}
 		
 		public static function loadImag(url:String, callback:Function):void {
-			if (!url) return trace("图片地址为空");
+			if (!url) return TraceUtils.log("图片地址为空");
 			Laya.loader.load(url, Handler.create(null, function() {
 				var t:Texture = Laya.loader.getRes(url);
 				callback(t);

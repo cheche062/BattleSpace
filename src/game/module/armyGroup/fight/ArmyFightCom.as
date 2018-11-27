@@ -3,6 +3,7 @@ package game.module.armyGroup.fight
 	import MornUI.armyGroupFight.ArmyGroupFightViewUI;
 	
 	import game.common.ResourceManager;
+	import game.global.util.TraceUtils;
 	
 	import laya.net.Loader;
 	import laya.utils.Handler;
@@ -44,7 +45,7 @@ package game.module.armyGroup.fight
 		 * @param data [[[1,336],[0,11208]],[[1,406],[0,10674]],[[1,118],[0,10977]]];
 		 * */
 		public function format(data:Array):void{
-			trace("format:::",data);
+			TraceUtils.log("format:::"+data);
 			var info:Array;
 			for(var i:int=0; i<ACT_SIZE; i++){
 				info = data[i];

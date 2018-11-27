@@ -19,6 +19,7 @@ package game.module.playerHelp
 	import game.global.data.bag.ItemData;
 	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.fighting.mgr.FightingManager;
 	
@@ -209,7 +210,7 @@ package game.module.playerHelp
 		
 		/**渲染右侧的帮助panel*/
 		private function renderRightPanel(id):void{
-			trace('渲染', id);
+			TraceUtils.log('渲染'+ id);
 			// 通过小id来判断显示哪一版
 			var targetData = ToolFunc.getTargetItemData(ResourceManager.instance.getResByURL(HELP_URL), "small_id", id);
 			var _index = targetData["small_type"] == "1"? 0 : 1;
@@ -226,7 +227,7 @@ package game.module.playerHelp
 			var splitContent:Array = content.split("{{").filter(function(item:String){
 				return !!item;
 			})
-			trace("【帮助内容】", splitContent);
+			TraceUtils.log("【帮助内容】"+ splitContent);
 			
 			// 图片地址列表
 			var urlList:Array = splitContent.map(function(item:String){
@@ -343,7 +344,7 @@ package game.module.playerHelp
 				case view.btn_get:
 					if (button_effect === "reward") {
 						sendData(ServiceConst.PLAYER_HELP_GET, [selected_smallid]);
-						trace("领取...", selected_smallid);
+						TraceUtils.log("领取..."+ selected_smallid);
 						
 					} else {
 						// 战斗结束后的回调
@@ -352,7 +353,7 @@ package game.module.playerHelp
 							XFacade.instance.openModule(ModuleName.PlayerHelpView, selected_smallid);
 						}));
 						
-						trace("进入战斗...", selected_smallid);
+						TraceUtils.log("进入战斗..."+ selected_smallid);
 						close();
 					}
 					
@@ -371,7 +372,7 @@ package game.module.playerHelp
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace("【新手帮助】", args);
+			TraceUtils.log("【新手帮助】"+ args);
 			switch(args[0]){
 				//打开
 				case ServiceConst.PLAYER_HELP_OPEN:

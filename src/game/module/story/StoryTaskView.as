@@ -1,13 +1,10 @@
 package game.module.story
 {
-	import MornUI.Story.StoryViewUI;
 	import MornUI.StoryTask.RewardItemUI;
 	import MornUI.StoryTask.StoryTaskViewUI;
 	
-	import game.RedPointManager;
 	import game.common.AnimationUtil;
 	import game.common.ItemTips;
-	import game.common.LayerManager;
 	import game.common.ModuleManager;
 	import game.common.ResourceManager;
 	import game.common.SceneManager;
@@ -24,15 +21,13 @@ package game.module.story
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.mission.MissionStateVo;
 	import game.global.vo.mission.MissionVo;
-	import game.module.bag.cell.ItemCell4;
-	import game.module.bingBook.ItemContainer;
 	import game.module.camp.CampView;
 	import game.module.mainScene.HomeScene;
 	import game.module.mainui.MainMenuView;
-	import game.module.mission.MissionMainView;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Sprite;
@@ -40,9 +35,7 @@ package game.module.story
 	import laya.events.Event;
 	import laya.ui.Box;
 	import laya.ui.Button;
-	import laya.ui.Component;
 	import laya.ui.Label;
-	import laya.ui.List;
 	import laya.utils.Ease;
 	import laya.utils.Handler;
 	import laya.utils.Tween;
@@ -100,7 +93,7 @@ package game.module.story
 		private function setBtnStatus():void
 		{
 
-			trace("按钮状态："+cIndex);
+			TraceUtils.log("按钮状态："+cIndex);
 			if(cIndex==0&&cIndex==allChapterData.length-1)
 			{
 				view.btn_left.visible = false;
@@ -127,7 +120,7 @@ package game.module.story
 				view.btn_left.disabled = false;
 				view.btn_left.visible = true;
 			}
-			trace("view.btn_left.visible:"+view.btn_left.visible);
+			TraceUtils.log("view.btn_left.visible:"+view.btn_left.visible);
 		}
 		
 		private function setCurCharacter(cIndex:int):void
@@ -314,7 +307,7 @@ package game.module.story
 					}
 				}
 			}
-			trace("左边红点:"+leftRed);
+			TraceUtils.log("左边红点:"+leftRed);
 			if(!leftRed)
 			{
 				for(var i:int=0;i<cIndex;i++)
@@ -341,7 +334,7 @@ package game.module.story
 				}
 			}
 			view.red1.visible = leftRed;
-			trace("左边红点:"+leftRed);
+			TraceUtils.log("左边红点:"+leftRed);
 			
 			//设置左右红点
 			var rightRed:Boolean = false;
@@ -363,7 +356,7 @@ package game.module.story
 					}
 				}
 			}
-			trace("右边红点:"+rightRed);
+			TraceUtils.log("右边红点:"+rightRed);
 			if(!rightRed)
 			{
 				for(var i:int=cIndex+1;i<allChapterData.length;i++)
@@ -390,7 +383,7 @@ package game.module.story
 				}
 			}
 			view.red2.visible = rightRed;
-			trace("右边红点:"+rightRed);
+			TraceUtils.log("右边红点:"+rightRed);
 		}
 		public function get view():StoryTaskViewUI{
 			if(!_view)
@@ -410,7 +403,7 @@ package game.module.story
 		}
 		public  function functionLink(gongneng:String, requirement:String,canshu1:String=""):void
 		{
-			trace("gongneng:"+gongneng);
+			TraceUtils.log("gongneng:"+gongneng);
 			var sp:Sprite;
 			switch(gongneng)
 				//switch("3")
@@ -702,8 +695,8 @@ package game.module.story
 //			view.visible = true;
 //			trace("任务池:"+JSON.stringify(GameConfigManager.missionInfo));
 			var _missionData:MissionVo = GameConfigManager.missionInfo[data.id];
-			trace("_missionData:"+JSON.stringify(_missionData));
-			trace("data.id:"+data.id);
+			TraceUtils.log("_missionData:"+JSON.stringify(_missionData));
+			TraceUtils.log("data.id:"+data.id);
 			//trace("id:", _missionData.id + " name:", view.nameTF.text, " state: ", data.state)
 			//state:String,gongneng:String,requirement:String,canshu1:String,type:String
 			btn.on(Event.CLICK, this, this.btnEventHandle,[data.state,_missionData.gongneng,_missionData.requirement,_missionData.canshu1,_missionData.type]);
@@ -711,7 +704,7 @@ package game.module.story
 //			view.normailBg.visible = true;
 			if (!_missionData)
 			{
-				trace("任务ID查询失败:", data.id);
+				TraceUtils.log("任务ID查询失败:"+data.id);
 //				view.visible = false;
 				return;
 			}
@@ -794,7 +787,7 @@ package game.module.story
 			view.goBtn.label = GameLanguage.getLangByKey("L_A_32004");
 			view.goBtn.visible = true;
 			}*/
-			trace("currentInfo[0]"+data.currentInfo[0]);
+			TraceUtils.log("currentInfo[0]"+data.currentInfo[0]);
 			if (data.currentInfo[0])
 			{
 				tname.text = "("+data.currentInfo[0]+"/"+_missionData.story_canshu+")"+GameLanguage.getLangByKey(_missionData.name);
@@ -903,8 +896,8 @@ package game.module.story
 		
 		private function confirmReward(storyId:String,taskId:String):void
 		{
-			trace("storyId"+storyId);
-			trace("taskId"+taskId);
+			TraceUtils.log("storyId"+storyId);
+			TraceUtils.log("taskId"+taskId);
 			WebSocketNetService.instance.sendData(ServiceConst.GET_MISSION_REWARD,[storyId,taskId]);
 		}
 		override public function removeEvent():void{
@@ -969,7 +962,7 @@ package game.module.story
 					setCurCharacter(cIndex);
 					break;
 				case ServiceConst.GET_CHAPTER_REWARD:
-					trace("章节奖励放回:"+JSON.stringify(args[1]));
+					TraceUtils.log("章节奖励放回:"+JSON.stringify(args[1]));
 					var len:int = 0;
 					var i:int=0;
 					var ar:Array = [];

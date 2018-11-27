@@ -15,6 +15,7 @@ package game.module.chatNew
 	import game.global.data.bag.BagManager;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.alert.XAlert;
 	import game.module.mainui.MainView;
@@ -203,7 +204,7 @@ package game.module.chatNew
 				view.sendBtn.disabled = false;
 				view.sendBtn.label = "send";
 				clearTimerHandler = null;
-				trace('倒计时结束：：：');
+				TraceUtils.log('倒计时结束：：：');
 			});
 		}
 		
@@ -396,7 +397,7 @@ package game.module.chatNew
 			
 			MainView.isChatNewViewShow = bool;
 			
-			trace("聊天切换1111")
+			TraceUtils.log("聊天切换1111");
 		}
 		
 		/**创建聊天消息对象*/
@@ -433,7 +434,7 @@ package game.module.chatNew
 		/**请求回来的数据处理*/
 		private function onServerResult(...args):void{
 			var cmd = Number(args[0]);
-			trace('%c 【聊天】：', 'color: green', cmd, args);
+			TraceUtils.log('%c 【聊天】：'+ 'color: green'+ cmd+ args);
 			toggleRedot(!isShow);
 			var result = args[1];
 			var uid = User.getInstance().uid;

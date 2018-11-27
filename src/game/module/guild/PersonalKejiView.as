@@ -9,6 +9,7 @@ package game.module.guild
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -66,7 +67,7 @@ package game.module.guild
 		
 		/**获取服务器消息*/
 		private function serviceEventHandler(...args):void {
-			trace("【个人科技】", args);
+			TraceUtils.log("【个人科技】"+args);
 			switch(args[0])
 			{
 				case ServiceConst.GUILD_PERSONAL_SKILL:

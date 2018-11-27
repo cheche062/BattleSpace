@@ -10,6 +10,7 @@ package game.module.bingBook
 	import game.common.baseScene.SceneType;
 	import game.global.ModuleName;
 	import game.global.data.bag.ItemCell;
+	import game.global.util.TraceUtils;
 	import game.module.bag.mgr.ItemManager;
 	import game.module.fighting.mgr.FightingManager;
 	
@@ -36,7 +37,7 @@ package game.module.bingBook
 			AnimationUtil.popIn(this);
 			var ar:Array = args[0];
 			infoData = ar[0];
-			trace(JSON.stringify(infoData));
+			TraceUtils.log(JSON.stringify(infoData));
 			view.fBtn.disabled = !ar[1];
 			var ar:Array = ItemManager.StringToReward(infoData.reward);
 			_rList.array = ar;
@@ -106,7 +107,6 @@ package game.module.bingBook
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BingBookShowInfoView");
 			_rList = null;
 			infoData = null;
 			super.destroy(destroyChild);

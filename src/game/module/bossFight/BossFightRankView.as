@@ -8,7 +8,7 @@ package game.module.bossFight
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
-	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.worldBoss.BossRankPlayerInfoVo;
 	import game.net.socket.WebSocketNetService;
 	
@@ -221,7 +221,6 @@ package game.module.bossFight
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BossFightRankView");
 			m_rankList = null;
 			m_myRank = null;
 			

@@ -1,22 +1,20 @@
 package game.module.arena 
 {
-	import game.common.AnimationUtil;
-	import game.common.base.BaseDialog;
-	import game.common.ItemTips;
-	import game.common.XFacade;
-	import game.common.XItemTip;
-	import game.common.XTip;
-	import game.global.consts.ServiceConst;
-	import game.global.data.bag.ItemData;
-	import game.global.event.Signal;
-	import game.global.GameConfigManager;
-	import game.global.GameLanguage;
-	import game.global.ModuleName;
-	import game.global.vo.arena.ArenaShopVo;
-	import game.global.vo.User;
-	import game.net.socket.WebSocketNetService;
-	import laya.events.Event;
 	import MornUI.arena.ArenaShopUI;
+	
+	import game.common.AnimationUtil;
+	import game.common.ItemTips;
+	import game.common.XItemTip;
+	import game.common.base.BaseDialog;
+	import game.global.GameConfigManager;
+	import game.global.consts.ServiceConst;
+	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
+	import game.global.vo.User;
+	import game.global.vo.arena.ArenaShopVo;
+	import game.net.socket.WebSocketNetService;
+	
+	import laya.events.Event;
 	
 	/**
 	 * ...
@@ -139,7 +137,7 @@ package game.module.arena
 			
 			_rewardVec =  GameConfigManager.arena_shop_vec;
 			
-			trace("rewVec:", _rewardVec);
+			TraceUtils.log("rewVec:"+ _rewardVec);
 			
 			
 			view.goodsList.itemRender = ArenaShopItem;

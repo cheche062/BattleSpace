@@ -1,32 +1,33 @@
 package game.module.loneHero 
 {
+	import MornUI.loneHero.loneHeroViewUI;
+	
 	import game.common.AnimationUtil;
-	import game.common.base.BaseDialog;
-	import game.common.baseScene.SceneType;
 	import game.common.SceneManager;
 	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.XTipManager;
 	import game.common.XUtils;
-	import game.global.consts.ServiceConst;
-	import game.global.data.DBSkill2;
-	import game.global.event.Signal;
+	import game.common.base.BaseDialog;
+	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.ModuleName;
+	import game.global.consts.ServiceConst;
+	import game.global.data.DBSkill2;
+	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
-	import game.global.vo.SkillBuffVo;
 	import game.global.vo.SkillVo;
 	import game.module.bingBook.ItemContainer;
-	import game.module.camp.CampData;
 	import game.module.fighting.mgr.FightingManager;
 	import game.net.socket.WebSocketNetService;
+	
 	import laya.display.Animation;
 	import laya.events.Event;
 	import laya.ui.Button;
 	import laya.ui.Image;
 	import laya.utils.Handler;
-	import MornUI.loneHero.loneHeroViewUI;
 	
 	/**
 	 * ...
@@ -226,7 +227,7 @@ package game.module.loneHero
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			 trace("loneHero: ",args);
+			TraceUtils.log("loneHero: "+args);
 			// TODO Auto Generated method stub
 			var len:int = 0;
 			var i:int = 0;

@@ -1,11 +1,10 @@
 package game.module.login
 {
 	import MornUI.login.ServerNoticeViewUI;
-	import MornUI.relic.EscortMainViewUI;
 	
 	import game.common.LayerManager;
 	import game.common.base.BaseDialog;
-	import game.global.GameConfigManager;
+	import game.global.util.TraceUtils;
 	
 	public class ServerNoticeView extends BaseDialog
 	{
@@ -35,7 +34,7 @@ package game.module.login
 		private function initUI():void
 		{
 			var str:String=m_data["en"];
-			trace("m_data"+str);
+			TraceUtils.log("m_data"+str);
 			view.InfoText.text=str;
 		}
 		

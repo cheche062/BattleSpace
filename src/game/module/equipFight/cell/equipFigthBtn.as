@@ -2,19 +2,13 @@ package game.module.equipFight.cell
 {
 	import MornUI.fightingChapter.GuanQiaCellUIUI;
 	
-	import game.common.FilterTool;
 	import game.global.GameConfigManager;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
-	import game.global.vo.StageLevelVo;
 	import game.module.equipFight.vo.equipFightChapterVo;
 	import game.module.equipFight.vo.equipFightLevelVo;
 	
-	import laya.filters.ColorFilter;
-	import laya.filters.GlowFilter;
-	import laya.net.Loader;
-	import laya.ui.Button;
 	import laya.ui.UIUtils;
-	import laya.utils.Handler;
 	
 	public class equipFigthBtn extends GuanQiaCellUIUI
 	{
@@ -45,7 +39,7 @@ package game.module.equipFight.cell
 				}
 				
 				//faceImg.loadImage(UnitPicUtil.getUintPic(ecv.hero,UnitPicUtil.PIC_EF));
-				trace("PIC::::::::",UnitPicUtil.getUintPic(ecv.hero,UnitPicUtil.PIC_EF))
+				TraceUtils.log("PIC::::::::"+UnitPicUtil.getUintPic(ecv.hero,UnitPicUtil.PIC_EF));
 				faceImg.skin = UnitPicUtil.getUintPic(ecv.hero,UnitPicUtil.PIC_EF)
 				nameLbl.text = this.data.name;
 			}
@@ -93,7 +87,6 @@ package game.module.equipFight.cell
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy equipFigthBtn");
 			_data = null;
 			super.destroy(destroyChild);
 		}

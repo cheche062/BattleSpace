@@ -4,8 +4,8 @@ package game.module.test
 	
 	import game.common.AnimationUtil;
 	import game.common.LayerManager;
-	import game.common.base.BaseDialog;
 	import game.common.base.BaseView;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Sprite;
 	import laya.events.Event;
@@ -57,7 +57,7 @@ package game.module.test
 		
 		private function onClick(e:Event=null):void
 		{
-			trace("箭头点击");
+			TraceUtils.log("箭头点击");
 		}
 		private function onClose():void{
 			super.close();

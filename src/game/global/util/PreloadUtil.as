@@ -2,11 +2,9 @@ package game.global.util
 {
 	import game.common.ResourceManager;
 	import game.global.GameSetting;
-	import game.global.vo.FightUnitVo;
 	import game.global.vo.User;
 	
 	import laya.net.Loader;
-	import laya.utils.Handler;
 
 	/**
 	 * PreloadUtil
@@ -81,7 +79,7 @@ package game.global.util
 		public static function preloadMain():void{
 			if(GameSetting.IsRelease && !_dic["preloadMain"]){
 				_dic["preloadMain"] = true;
-				trace("preloadMain")
+				TraceUtils.log("preloadMain");
 				var arr:Array = [];
 				arr.push("scene/main/mainscene_01.jpg");
 				arr.push("scene/main/mainscene_02.jpg");
@@ -122,7 +120,7 @@ package game.global.util
 		/**第一场战斗*/
 		public static function preloadFirstBattle():void{
 			if(GameSetting.IsRelease && !_dic["preloadFirstBattle"] && !User.getInstance().hasFinishGuide){
-				trace("preloadFirstBattle")
+				TraceUtils.log("preloadFirstBattle");
 				_dic["preloadFirstBattle"] = true;
 				var arr:Array = [];
 				arr.push("fightingMapImg/11.jpg");
@@ -162,7 +160,7 @@ package game.global.util
 		/**第二场战斗*/
 		public static function preloadSecondBattle():void{
 			if(GameSetting.IsRelease && !_dic["preloadSecondBattle"] && _dic["preloadFirstBattle"] && !User.getInstance().hasFinishGuide){
-				trace("preloadSecondBattle")
+				TraceUtils.log("preloadSecondBattle");
 				_dic["preloadSecondBattle"] = true;
 				var arr:Array = [];
 				arr.push("scene/fightingScene/4.jpg");
@@ -196,7 +194,7 @@ package game.global.util
 		/**第三场战斗*/
 		public static function preloadThirdBattle():void{
 			if(GameSetting.IsRelease && !_dic["preloadThirdBattle"] && _dic["preloadSecondBattle"] && !User.getInstance().hasFinishGuide){
-				trace("preloadThirdBattle")
+				TraceUtils.log("preloadThirdBattle");
 				_dic["preloadThirdBattle"] = true;
 				var arr:Array = [];
 				//正向

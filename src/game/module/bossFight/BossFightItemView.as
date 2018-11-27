@@ -1,11 +1,9 @@
 package game.module.bossFight
 {
 	import MornUI.bossFight.BossFightItemViewUI;
-	import MornUI.bossFight.DemonBandatViewUI;
 	
 	import game.common.ItemTips;
 	import game.common.XFacade;
-	import game.common.XTip;
 	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
@@ -17,6 +15,7 @@ package game.module.bossFight
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
 	import game.global.util.ItemUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.worldBoss.BossFightInfoVo;
 	import game.global.vo.worldBoss.BossLevelVo;
@@ -231,7 +230,6 @@ package game.module.bossFight
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BossFightItemView");
 			m_data = null;
 			m_itemArr = null;
 			super.destroy(destroyChild);

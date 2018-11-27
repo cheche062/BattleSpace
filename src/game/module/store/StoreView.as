@@ -4,7 +4,7 @@ package game.module.store
 	
 	import game.common.AnimationUtil;
 	import game.common.DataLoading;
-	import game.common.ResourceManager;
+	import game.common.ToolFunc;
 	import game.common.XFacade;
 	import game.common.XItemTip;
 	import game.common.XTip;
@@ -18,21 +18,19 @@ package game.module.store
 	import game.global.data.ItemCell2;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
-	import game.module.activity.ActivityMainView;
 	import game.module.alert.XAlert;
 	import game.net.socket.WebSocketNetService;
-	import game.common.ToolFunc;
-	import game.global.util.TimeUtil;
 	
-	import laya.ui.*;
-	import laya.display.*; 
 	import laya.display.Text;
 	import laya.events.Event;
 	import laya.ui.Box;
 	import laya.ui.Button;
 	import laya.ui.Image;
+	import laya.ui.Label;
 	import laya.utils.Handler;
 	
 	/**
@@ -63,7 +61,7 @@ package game.module.store
 		}
 		
 		private function onResult(cmd:int, ...args):void{
-			trace("S_OnResult",args);
+			TraceUtils.log("S_OnResult"+args);
 			DataLoading.instance.close();
 			switch(cmd){
 				case ServiceConst.S_LIST:
@@ -79,8 +77,8 @@ package game.module.store
 				case ServiceConst.GET_ACT_LIST:
 				{
 					//trace("actList:"+JSON.stringify(args));
-					trace("actList:",args);
-					trace("args[1]:",args[0]);
+					TraceUtils.log("actList:"+args);
+					TraceUtils.log("args[1]:"+args[0]);
 					activityData  = args[0].activity; 
 					doClearTimerHandler();
 					for(var i = 0;i<activityData.length;i++){
@@ -96,7 +94,7 @@ package game.module.store
 								clearTimerHandler = null;
 								//更新数据
 								WebSocketNetService.instance.sendData(ServiceConst.GET_ACT_LIST);
-								trace('倒计时结束：：：');
+								TraceUtils.log('倒计时结束：：：');
 							}, false);
 							
 						}
@@ -108,7 +106,7 @@ package game.module.store
 				{
 					var buyObj:Object = args[0];
 					var listArr:Array = args[1];
-					trace("listArr0:"+JSON.stringify(listArr));
+					TraceUtils.log("listArr0:"+JSON.stringify(listArr));
 					if(buyObj)
 					{
 						for(var i:int=0;i<listArr.length;i++)
@@ -125,7 +123,7 @@ package game.module.store
 					onChange();
 					view.listDiscount.array = listArr;
 					//					view.numTf.text = XUtils.formatResWith(User.getInstance().water);
-					trace("listArr:"+JSON.stringify(listArr));
+					TraceUtils.log("listArr:"+JSON.stringify(listArr));
 					break;
 				}	
 				case ServiceConst.DISCOUNT_BUY:
@@ -162,10 +160,10 @@ package game.module.store
 			txt.visible = false;
 			var nameTxt:Text = cell.getChildByName("itemName") as Text;
 			//			nameTxt.text = data["name"];
-			trace("data:"+JSON.stringify(data));
+			TraceUtils.log("data:"+JSON.stringify(data));
 			var propStr:String =  data["item_id"];
 			var propArr:Array = propStr.split("=");
-			trace("propArr"+propArr[0]);
+			TraceUtils.log("propArr"+propArr[0]);
 			var itData:ItemVo = DBItem.getItemData(propArr[0]);
 			nameTxt.text = XUtils.strLengthLimit(itData.name); 
 			numTf_base.text = data['old_price'].split("=")[1];
@@ -208,7 +206,7 @@ package game.module.store
 		
 		private function onBuy_1(itemId:int):void
 		{
-			trace("购买");
+			TraceUtils.log("购买");
 			WebSocketNetService.instance.sendData(ServiceConst.DISCOUNT_BUY,[dis_shop_id,itemId]);//活动id 
 		}
 		

@@ -1,12 +1,10 @@
 package game.common
 {
 	import game.global.GameSetting;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.login.PreLoadingView;
 	
-	import laya.events.Event;
-	import laya.net.HttpRequest;
-	import laya.net.LocalStorage;
 	import laya.runtime.IPlatform;
 	import laya.runtime.IPlatformClass;
 	import laya.utils.Browser;
@@ -27,7 +25,7 @@ package game.common
 		public function AndroidPlatform()
 		{
 			if(Laya.PlatformClass){
-				trace("Laya.PlatformClass--------------------------------AndroidPlatform")
+				TraceUtils.log("Laya.PlatformClass--------------------------------AndroidPlatform")
 				if(Browser.onIOS){
 					m_platformClass = Laya.PlatformClass.createClass("FGMPlatform");
 					m_patform=m_platformClass.newObject();
@@ -64,7 +62,7 @@ package game.common
 				return;
 			}
 			function callBack(str:String):void{
-				trace("initGame->-------------------------------- Get FCM_Token:=="+ str);
+				TraceUtils.log("initGame->-------------------------------- Get FCM_Token:=="+ str);
 				GameSetting.FCM_Token=str;
 				if(_callBack){
 					_callBack.runWith(str);
@@ -113,7 +111,7 @@ package game.common
 				_callBack.runWith(1);
 				return;
 			}
-			trace("FGM_GetAppVersion----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_GetAppVersion----->FGMPlatform="+m_platformClass);
 			function callBack(str:String):void
 			{
 				_callBack.runWith(str);
@@ -134,7 +132,7 @@ package game.common
 			{
 				return;
 			}
-			trace("FGM_GetSDKVersion----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_GetSDKVersion----->FGMPlatform="+m_platformClass);
 			function callBack(str:String):void
 			{
 				_callBack.runWith(str);
@@ -154,7 +152,7 @@ package game.common
 			{
 				return;
 			}
-			trace("FGM_OpenAppStore----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_OpenAppStore----->FGMPlatform="+m_platformClass);
 			function callBack(str:String):void
 			{
 				_callBack.runWith(str);
@@ -175,7 +173,7 @@ package game.common
 			{
 				return;
 			}
-			trace("FGM_GetDeviceInfo----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_GetDeviceInfo----->FGMPlatform="+m_platformClass);
 			function callBack(str:String):void
 			{
 				_callBack.runWith(str);
@@ -201,7 +199,7 @@ package game.common
 			else{
 				lang = Browser.window.navigator.userLanguage;
 			}
-			trace("laya---------语言:"+lang +"	type:"+type);
+			TraceUtils.log("laya---------语言:"+lang +"	type:"+type);
 			return lang;
 		}
 		/**
@@ -209,14 +207,14 @@ package game.common
 		 * @param _callBack
 		 */
 		public function FGM_SetLanguage( language:String ):void{
-			trace("initgame->FGM_SetLanguage: " + language);
+			TraceUtils.log("initgame->FGM_SetLanguage: " + language);
 			if(language && language!=""){
 				//告诉本地cookie
 				//存储指定键名和键值，字符串类型。
 				//				LocalStorage.setItem(GameSetting.COOKIE_CF_LAN, language);
 				
 				if(!Laya.PlatformClass){				
-					trace("************FGM_SetLanguage Laya.PlatformClass==null*************");
+					TraceUtils.log("************FGM_SetLanguage Laya.PlatformClass==null*************");
 					return;
 				}
 				//告诉sdk切换语言包
@@ -241,7 +239,7 @@ package game.common
 			{
 				return;
 			}
-			trace("FGM_GetTimeZone----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_GetTimeZone----->FGMPlatform="+m_platformClass);
 			function callBack(str:String):void
 			{
 				_callBack.runWith(str);
@@ -264,7 +262,7 @@ package game.common
 			{
 				return;
 			}
-			trace("FGM_GetSDKVersion----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_GetSDKVersion----->FGMPlatform="+m_platformClass);
 			function callBack(str:String):void
 			{
 				_callBack.runWith(str);
@@ -290,7 +288,7 @@ package game.common
 			{
 				return;
 			}
-			trace("FGM_RegisterCommCallBack----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_RegisterCommCallBack----->FGMPlatform="+m_platformClass);
 			function callBack(str:String):void
 			{
 				_callBack.runWith(str);
@@ -311,7 +309,7 @@ package game.common
 			{
 				return;
 			}
-			trace("FGM_OpenSupport----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_OpenSupport----->FGMPlatform="+m_platformClass);
 			function callBack(str:String):void
 			{
 				_callBack.runWith(str);
@@ -338,13 +336,13 @@ package game.common
 			{
 				return;
 			}
-			trace("FGM_NetTest----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_NetTest----->FGMPlatform="+m_platformClass);
 			if(Browser.onIOS){
 				m_patform.call("FGM_NetTest:", params);
 				
 			}else if(Browser.onAndriod){
-				trace("android调用FGM_NetTest："+m_platformClass);
-				trace("android调用FGM_NetTest："+params);	
+				TraceUtils.log("android调用FGM_NetTest："+m_platformClass);
+				TraceUtils.log("android调用FGM_NetTest："+params);	
 				m_platformClass.call("FGM_NetTest", params);
 			}
 		}
@@ -359,10 +357,10 @@ package game.common
 			{
 				return;
 			}
-			trace("android调用登录："+m_platformClass);	
+			TraceUtils.log("android调用登录："+m_platformClass);	
 			function callBack(str:String):void
 			{
-				trace("FGM_Login->callBack():  "+str);
+				TraceUtils.log("FGM_Login->callBack():  "+str);
 				_callBack.runWith(str);
 			}
 			if(Browser.onIOS){
@@ -374,7 +372,7 @@ package game.common
 				} 
 				catch(error:Error) 
 				{
-					trace("gameinit->调用skd登录接口异常："+error);
+					TraceUtils.log("gameinit->调用skd登录接口异常："+error);
 					GameSetting.reloadGame();
 				}
 			}
@@ -390,7 +388,7 @@ package game.common
 			{
 				return;
 			}
-			trace("FGM_SwitchUser:"+m_platformClass);
+			TraceUtils.log("FGM_SwitchUser:"+m_platformClass);
 			function callBack(str:String):void
 			{
 				_callBack.runWith(str);
@@ -408,10 +406,10 @@ package game.common
 		 * @param _callBack
 		 */
 		public function FGM_GameRequest(_callBack:Handler, title:String = "邀请", message:String = "快来和我一起玩游戏吧", data:String="", recipients:Array = null):void{
-			trace("FGM_GameRequest----->FGMPlatform="+m_platformClass);
+			TraceUtils.log("FGM_GameRequest----->FGMPlatform="+m_platformClass);
 			function callBack(str:String):void
 			{
-				trace("AndroidPlatform.FGM_GameRequest.callBack(str): " + str);
+				TraceUtils.log("AndroidPlatform.FGM_GameRequest.callBack(str): " + str);
 				var isFail:Boolean = false;
 				var errCode:int;
 				if(Browser.onIOS){
@@ -422,9 +420,9 @@ package game.common
 				else if(Browser.onAndriod)
 					isFail = (_obj["isSuc"]==false);
 				if(isFail){
-					trace("initGame->获取邀请好友失败", 1);
+					TraceUtils.log("initGame->获取邀请好友失败");
 				}else{
-					trace("initGame->获取邀请好友成功*******************************************************");
+					TraceUtils.log("initGame->获取邀请好友成功*******************************************************");
 					if(Browser.onIOS){
 					}
 					else if(Browser.onAndriod){
@@ -452,8 +450,8 @@ package game.common
 					m_patform.callWithBack(callBack,"FGM_GameRequest:", str);
 				}
 			}else if(Browser.onAndriod){
-				trace("FGM_GameRequest----->邀请好友=");
-				trace("FGM_GameRequest----->邀请好友=");
+				TraceUtils.log("FGM_GameRequest----->邀请好友=");
+				TraceUtils.log("FGM_GameRequest----->邀请好友=");
 				//				if( parseInt(GameSetting.App_Version) >= 1000072 )//老版本
 				//				{
 				var _obj1:Object=new Object();
@@ -508,10 +506,10 @@ package game.common
 			{
 				return;
 			}
-			trace("android调用支付："+m_platformClass);	
+			TraceUtils.log("android调用支付："+m_platformClass);	
 			function callBack(str:String):void
 			{
-				trace("FGM_Purchase->callBack():  "+str);
+				TraceUtils.log("FGM_Purchase->callBack():  "+str);
 				_callBack.runWith(str);
 			}
 			if(Browser.onIOS){
@@ -572,7 +570,7 @@ package game.common
 		 * 
 		 */		
 		public function FGM_CustumEvent(jsonData:String, starttime:*=null, endtime:*=null ,type:String = ''):void {
-			trace("发送记录事件：", jsonData);
+			TraceUtils.log("发送记录事件："+ jsonData);
 			var arr = jsonData.split("_");
 			var guideId = arr[0];
 			var obj = {
@@ -588,7 +586,7 @@ package game.common
 				"560" : "guideId_clk_560"//
 			}
 			if(obj[guideId] && !User.getInstance().hasFinishGuide){
-				trace("埋点: ", guideId,obj[guideId]);
+				TraceUtils.log("埋点: "+ guideId,obj[guideId]);
 				(XFacade.instance.getView(PreLoadingView) as PreLoadingView).setIndexLog(obj[guideId]);
 			}
 			if(m_platformClass!=null||m_patform!=null)
@@ -599,7 +597,7 @@ package game.common
 				}else if(Browser.onAndriod){
 					//XTip.showTip( GameLanguage.getLangByKey("事件"+jsonData));
 					m_platformClass.call("FGM_CustumEvent",jsonData);
-					trace("initgame->自定义事件"+jsonData);
+					TraceUtils.log("initgame->自定义事件"+jsonData);
 				}
 			}
 			else
@@ -658,13 +656,13 @@ package game.common
 		public function FGM_OpenURL(url:String =  "https://www.instagram.com/clothesforever/"):void
 		{
 			if(!Laya.PlatformClass){				
-				trace("************Laya.PlatformClass==null*************");
+				TraceUtils.log("************Laya.PlatformClass==null*************");
 				return;
 			}
-			trace("FGM_OpenURL 调用打开连接方法: "+url);
+			TraceUtils.log("FGM_OpenURL 调用打开连接方法: "+url);
 			function callBack(str:String):void
 			{
-				trace("FGM_OpenURL 关闭连接回调成功");
+				TraceUtils.log("FGM_OpenURL 关闭连接回调成功");
 			}
 			if(Browser.onIOS){
 				if( isOldThan("1.8.14") )//老版本
@@ -784,7 +782,7 @@ package game.common
 			var appVersionNum:int = getVersionNum(GameSetting.App_Version);
 			var compareVersionNum:int = getVersionNum(version);
 			
-			trace("initgame--->netTest 版本号index:"+appVersionNum+" <= "+compareVersionNum, 1);
+			TraceUtils.log("initgame--->netTest 版本号index:"+appVersionNum+" <= "+compareVersionNum, 1);
 			return appVersionNum <= compareVersionNum;
 		}
 		
@@ -816,17 +814,17 @@ package game.common
 		/**获取app FB好友列表*/
 		public function FGM_getFacebookAppFriends(_callBack:Handler):*{
 			
-			trace("init------FGM_getFacebookAppFriends");
+			TraceUtils.log("init------FGM_getFacebookAppFriends");
 			function callBack(data:Object):void
 			{
-				trace("back-------FGM_getFacebookAppFriends" , data);
+				TraceUtils.log("back-------FGM_getFacebookAppFriends" , data);
 				_callBack.runWith(data);
 			}
 			if(Browser.onIOS){
-				trace("ios----------FGM_getFacebookAppFriends");
+				TraceUtils.log("ios----------FGM_getFacebookAppFriends");
 				m_patform.callWithBack(callBack, "FGM_getFacebookAppFriends");
 			}else if(Browser.onAndriod){
-				trace("and----------FGM_getFacebookAppFriends");
+				TraceUtils.log("and----------FGM_getFacebookAppFriends");
 				m_platformClass.callWithBack(callBack, "FGM_getFacebookAppFriends");
 			}
 		}

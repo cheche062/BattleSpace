@@ -1,13 +1,11 @@
 package game.module.equipFight.cell
 {
 	import game.common.XFacade;
-	import game.common.XTip;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	import game.module.equipFight.data.equipFightInfoData;
-	import game.module.fighting.adata.ArmyData;
 	
 	import laya.display.Stage;
-	import laya.events.Event;
 	import laya.ui.Box;
 	import laya.ui.Image;
 	import laya.ui.Label;
@@ -64,7 +62,7 @@ package game.module.equipFight.cell
 			{
 				if(!data.vo)
 				{
-					trace(data.heroId +"~~~~");
+					TraceUtils.log(data.heroId +"~~~~");
 					return ;
 				}
 				this.mouseEnabled = this.mouseThrough = true;
@@ -74,7 +72,7 @@ package game.module.equipFight.cell
 				this.filters = data.state ? null : [UIUtils.grayFilter];
 			}else
 			{
-				trace("~~~~~~");
+				TraceUtils.log("~~~~~~");
 			}
 		} 
 		
@@ -94,7 +92,6 @@ package game.module.equipFight.cell
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy equipFightHeroCell");
 			_quan1 = null;
 			_quan2 = null;
 			_heroFace = null;

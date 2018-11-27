@@ -5,24 +5,20 @@ package game.module.mission
 	import game.common.ModuleManager;
 	import game.common.ResourceManager;
 	import game.common.SceneManager;
-	import game.common.SoundMgr;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.base.BaseView;
 	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.DBBuilding;
-	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.mission.MissionStateVo;
 	import game.global.vo.mission.MissionVo;
 	import game.module.bingBook.ItemContainer;
 	import game.module.camp.CampView;
-	import game.module.fighting.view.FightingChapetrView;
-	import game.module.gene.GeneView;
 	import game.module.mainScene.HomeScene;
 	import game.module.mainui.MainMenuView;
 	import game.net.socket.WebSocketNetService;
@@ -326,7 +322,7 @@ package game.module.mission
 			view.normailBg.visible = true;
 			if (!_missionData)
 			{
-				trace("任务ID查询失败:", data.id);
+				TraceUtils.log("任务ID查询失败:"+ data.id);
 				view.visible = false;
 				return;
 			}

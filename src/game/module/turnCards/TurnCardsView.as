@@ -13,6 +13,7 @@ package game.module.turnCards
 	import game.global.event.Signal;
 	import game.global.event.TrainBattleLogEvent;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.module.activity.ActivityMainView;
 	import game.net.socket.WebSocketNetService;
 	
@@ -140,12 +141,12 @@ package game.module.turnCards
 			{
 				if(unSelectedArr.length==0)
 				{
-					trace("所有奖励都已经选择，不播动画");
+					TraceUtils.log("所有奖励都已经选择，不播动画");
 					return;	
 				}
 				if(ifSelected)
 				{
-					trace("已经选中奖励，停止动画");
+					TraceUtils.log("已经选中奖励，停止动画");
 					selectedArr.push(newRewardPos);
 					for(var i:int=unSelectedArr.length-1;i>=0;i--)
 					{
@@ -181,14 +182,14 @@ package game.module.turnCards
 			function lightComplete(pos:int,target:Image):void
 			{
 				target.alpha = 0;
-				trace("pos:"+pos);
+				TraceUtils.log("pos:"+pos);
 				index++;
 				if(v<=360)
 				{
 					v+=20;
 				}else
 				{
-					trace("v=:"+v);
+					TraceUtils.log("v=:"+v);
 					if(pos == newRewardPos)
 					{
 						ifSelected = true;
@@ -211,7 +212,7 @@ package game.module.turnCards
 					itemData.iid =curRewardsArr[0];
 					itemData.inum = curRewardsArr[1];
 					propArr.push(itemData);		
-					trace("显示的奖励数组:"+JSON.stringify(propArr));
+					TraceUtils.log("显示的奖励数组:"+JSON.stringify(propArr));
 					XFacade.instance.openModule(ModuleName.ShowRewardPanel, [propArr]);
 				}
 		}
@@ -223,12 +224,12 @@ package game.module.turnCards
 				case ServiceConst.TURN_CARDS_VIEW:
 				{
 					view.btn_start.disabled = false;
-					trace("翻牌子界面:"+JSON.stringify(args[1]));
+					TraceUtils.log("翻牌子界面:"+JSON.stringify(args[1]));
 					turnNum = args[1]["my_info"]["number"]+1; 
-					trace("翻牌子次数:"+turnNum);
+					TraceUtils.log("翻牌子次数:"+turnNum);
 					selectedArr = args[1]["my_info"]["draw_log"];
 					configObj = args[1]["draw_config"]; 
-					trace("配置文档："+JSON.stringify(configObj));
+					TraceUtils.log("配置文档："+JSON.stringify(configObj));
 					unSelectedArr = [];
 					for(var i:int=1;i<=6;i++)
 					{
@@ -238,19 +239,19 @@ package game.module.turnCards
 						}
 					}
 					//假数据
-					trace("选中奖励的数组:"+selectedArr);
-					trace("未选中奖励的数组:"+unSelectedArr);
+					TraceUtils.log("选中奖励的数组:"+selectedArr);
+					TraceUtils.log("未选中奖励的数组:"+unSelectedArr);
 					setView();
 					break; 
 				}
 				case ServiceConst.TURN_CARDS:
 				{
-					trace("翻开的牌子数据:"+JSON.stringify(args[2]));
+					TraceUtils.log("翻开的牌子数据:"+JSON.stringify(args[2]));
 					newRewardPos = args[2]; 
 					curRewardsArr = args[1][0]; 
-					trace("翻拍后奖励数组："+curRewardsArr);
-					trace("翻盘后选中奖励的数组:"+selectedArr);
-					trace("翻盘后未选中奖励的数组:"+unSelectedArr);
+					TraceUtils.log("翻拍后奖励数组："+curRewardsArr);
+					TraceUtils.log("翻盘后选中奖励的数组:"+selectedArr);
+					TraceUtils.log("翻盘后未选中奖励的数组:"+unSelectedArr);
 					playAni();
 //					setView
 					break;

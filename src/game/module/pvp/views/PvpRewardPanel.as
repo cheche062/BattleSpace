@@ -71,7 +71,6 @@ package game.module.pvp.views
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy PvpRewardPanel");
 			_model.isGetIntegral = false;
 			_model = null;
 			super.destroy(destroyChild);

@@ -1,22 +1,17 @@
 package game.module.mineFight 
 {
-	import MornUI.mineFight.MineFightViewUI;
 	import MornUI.mineFight.MineScenceUI;
 	
-	import game.common.AlertManager;
-	import game.common.AlertType;
 	import game.common.ItemTips;
 	import game.common.SceneManager;
 	import game.common.ToolFunc;
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.base.BaseView;
 	import game.common.baseScene.BaseScene;
 	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
-	import game.global.GameSetting;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.BagManager;
@@ -24,9 +19,9 @@ package game.module.mineFight
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.fighting.mgr.FightingManager;
-	import game.module.mainui.MainView;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -261,7 +256,7 @@ package game.module.mineFight
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			trace("矿场消息", args);
+			TraceUtils.log("矿场消息"+ args);
 			var len:int = 0;
 			var i:int=0;
 			switch(cmd)

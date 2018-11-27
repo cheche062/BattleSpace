@@ -1,20 +1,15 @@
 package game.module.bag.alert
 {
-	import MornUI.fightingChapter.ShaoDangViewUI;
-	import MornUI.panels.BagSellViewUI;
 	import MornUI.panels.BagUseViewUI;
 	
 	import game.common.AnimationUtil;
 	import game.common.InputSetCommon;
-	import game.common.RewardList;
-	import game.common.UIRegisteredMgr;
-	import game.common.XFacade;
 	import game.common.base.BaseDialog;
-	import game.global.ModuleName;
 	import game.global.consts.ItemConst;
 	import game.global.data.bag.BagManager;
 	import game.global.data.bag.ItemCell;
 	import game.global.data.bag.ItemData;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	
@@ -36,7 +31,7 @@ package game.module.bag.alert
 			var ar:Array = args[0];
 			_itemData = ar[0];
 			bindData();
-			trace("show:::-->",args);
+			TraceUtils.log("show:::-->"+args);
 		} 
 		
 		private function bindData():void
@@ -119,7 +114,6 @@ package game.module.bag.alert
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BagUsePanl");
 			_inputSC.dispose();
 			_itemCell = null;
 			_inputSC = null;

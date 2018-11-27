@@ -6,6 +6,7 @@ package game.module.fighting.cell
 	import game.global.GameConfigManager;
 	import game.global.event.Signal;
 	import game.global.fighting.BaseUnit;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillBuffVo;
 	import game.global.vo.skillControlActionVos.effectSkillActionVo;
 	import game.module.fighting.mgr.FightingManager;
@@ -13,7 +14,6 @@ package game.module.fighting.cell
 	
 	import laya.display.Animation;
 	import laya.display.Sprite;
-	import laya.display.Text;
 	import laya.events.Event;
 	import laya.maths.Point;
 	import laya.net.Loader;
@@ -216,7 +216,7 @@ package game.module.fighting.cell
 			_animationBuff.y = 0 - (frameHeight /2)+ FightingScene.tileH / 2;
 			_animationBuff.gotoAndStop(1);
 			_animationBuff.play();
-			trace("添加BUFF成功,id",buffId);
+			TraceUtils.log("添加BUFF成功,id"+buffId);
 		}
 		
 		public function deleteAllBuff():void

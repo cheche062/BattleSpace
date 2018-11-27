@@ -17,6 +17,7 @@ package game.module.bagua
 	import game.global.consts.ServiceConst;
 	import game.global.data.DBFightEffect;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	import game.module.bingBook.ItemContainer;
 	import game.module.fighting.mgr.FightingManager;
@@ -24,7 +25,6 @@ package game.module.bagua
 	import laya.display.Sprite;
 	import laya.events.Event;
 	import laya.ui.Box;
-	import laya.ui.Image;
 	import laya.utils.Handler;
 	
 	/**
@@ -93,7 +93,7 @@ package game.module.bagua
 			
 			view.dom_buff.text = GameLanguage.getLangByKey("L_A_80507").replace(/##/g, '\n');
 			
-			trace(MODULE_NAME, "init");
+			TraceUtils.log(MODULE_NAME+"init");
 		}
 		
 		/**创建遮罩  百分比*/ 
@@ -123,7 +123,7 @@ package game.module.bagua
 			
 			current_select = index;
 			
-			trace("八卦状态树->state", current_select, state);
+			TraceUtils.log("八卦状态树->state"+current_select+state);
 		}
 		
 		/**更新左侧八卦子元素state*/
@@ -384,7 +384,7 @@ package game.module.bagua
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace(MODULE_NAME, args);
+			TraceUtils.log(MODULE_NAME+ args);
 			switch(args[0]){
 				//打开
 				case ServiceConst.BAGUA_ENTER:

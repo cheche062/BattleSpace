@@ -1,8 +1,10 @@
 package game.module.bingBook 
 {
 	import game.common.ItemTips;
-	import game.global.data.DBItem;
 	import game.global.GameConfigManager;
+	import game.global.data.DBItem;
+	import game.global.util.TraceUtils;
+	
 	import laya.display.Sprite;
 	import laya.events.Event;
 	import laya.ui.Image;
@@ -136,7 +138,7 @@ package game.module.bingBook
 			{
 				if (!DBItem.getItemData(id))
 				{
-					trace("物品查找失败:", id);
+					TraceUtils.log("物品查找失败:"+id);
 					return;
 				}
 				_quailtyBar.skin = "";

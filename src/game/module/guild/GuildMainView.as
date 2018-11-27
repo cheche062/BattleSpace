@@ -14,6 +14,7 @@ package game.module.guild
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.chatNew.LiaotianView;
 	import game.module.mainui.MainView;
@@ -90,7 +91,7 @@ package game.module.guild
 		/**获取服务器消息*/
 		private function onResult(...args):void
 		{
-			trace("guildPanelView: ",args);
+			TraceUtils.log("guildPanelView: "+args);
 			// TODO Auto Generated method stub
 			var len:int = 0;
 			var i:int=0;

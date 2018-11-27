@@ -8,6 +8,7 @@ package game.module.armyGroup.newArmyGroup
 	import game.global.event.ArmyGroupEvent;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Animation;
 	import laya.display.Graphics;
@@ -55,7 +56,7 @@ package game.module.armyGroup.newArmyGroup
 		}
 		
 		private function clickHandler():void {
-			trace(star_data.id);
+			TraceUtils.log(star_data.id);
 			Signal.intance.event(ArmyGroupEvent.SELECT_PLANT, [star_data.id]);
 		}
 		
@@ -150,7 +151,7 @@ package game.module.armyGroup.newArmyGroup
 					}
 //					setTitle_bg("2");
 					clearTimerHandler = null;
-					trace('倒计时结束：：：');
+					TraceUtils.log('倒计时结束：：：');
 				}, false);
 				
 			} else  {
@@ -199,7 +200,7 @@ package game.module.armyGroup.newArmyGroup
 			}, function() {
 				dom_title_bg.visible = false;
 				clearTimerHandler = null;
-				trace('倒计时结束：：：');
+				TraceUtils.log('倒计时结束：：：');
 			}, false);
 		}
 		

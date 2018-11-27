@@ -7,11 +7,10 @@ package game.module.chests
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.StringUtil;
-	import game.global.consts.ServiceConst;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.DrawCardVo;
 	import game.global.vo.ItemVo;
-	import game.net.socket.WebSocketNetService;
 	
 	import laya.ui.Box;
 	import laya.ui.Image;
@@ -215,7 +214,7 @@ package game.module.chests
 			{
 				
 				l_arr=m_data.cardCost.getCost(m_type,2);
-				trace("l_arr："+l_arr);
+				TraceUtils.log("l_arr："+l_arr);
 				l_itemVo=GameConfigManager.items_dic[l_arr[0]];
 				m_ui.TenTimeImage.skin="appRes/icon/itemIcon/"+l_itemVo.icon+".png";
 				m_ui.TenTimesCostTxt.text=XUtils.formatResWith(l_arr[1]);
@@ -267,7 +266,7 @@ package game.module.chests
 					m_ui.imgTipDiscount.visible = false;
 					//					setTitle_bg("2");
 					clearTimerHandler = null;
-					trace('倒计时结束：：：');
+					TraceUtils.log('倒计时结束：：：');
 					//刷新抽卡
 //					setCardCost();
 				}, false);

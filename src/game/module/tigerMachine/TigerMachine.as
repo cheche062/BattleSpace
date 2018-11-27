@@ -1,7 +1,6 @@
 package game.module.tigerMachine
 {
 	import MornUI.tigerMachine.TigerMachineUI;
-	import MornUI.turnCards.TurnCardsViewUI;
 	
 	import game.common.ResourceManager;
 	import game.common.XFacade;
@@ -12,22 +11,17 @@ package game.module.tigerMachine
 	import game.global.consts.ServiceConst;
 	import game.global.data.DBItem;
 	import game.global.data.bag.ItemCell;
-	import game.global.data.bag.ItemCell3;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
-	import game.global.event.TrainBattleLogEvent;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
-	import game.global.vo.LangCigVo;
 	import game.module.activity.ActivityMainView;
-	import game.module.bag.cell.ItemCell4;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Sprite;
-	import laya.display.Text;
 	import laya.events.Event;
 	import laya.ui.Box;
-	import laya.ui.Image;
 	import laya.utils.Handler;
 	import laya.utils.Tween;
 	
@@ -92,8 +86,8 @@ package game.module.tigerMachine
 //			trace("当前时间:"+TimeUtil.now);
 //			trace("到期时间:"+dataTime);
 //			trace("剩余时间："+leftTime);
-			trace("活动结束时间:"+TimeUtil.getShortTimeStr(actLeftTime," "));
-			trace("领奖结束时间:"+TimeUtil.getShortTimeStr(getRewardLeftTime," "));
+			TraceUtils.log("活动结束时间:"+TimeUtil.getShortTimeStr(actLeftTime," "));
+			TraceUtils.log("领奖结束时间:"+TimeUtil.getShortTimeStr(getRewardLeftTime," "));
 			super();
 			ResourceManager.instance.load(ModuleName.TigerMachine,Handler.create(this, resLoader));
 			playerPool = [];
@@ -182,7 +176,7 @@ package game.module.tigerMachine
 //				trace("c1.x:"+c1.x);
 				moveArr.push(c1);
 				var rewdArr:Array = totalArr[i];
-				trace("rewdArr:"+rewdArr);
+				TraceUtils.log("rewdArr:"+rewdArr);
 				for(var j:int=0;j<4;j++)
 				{
 					var rewdStr:String = rewdArr[j];
@@ -357,7 +351,7 @@ package game.module.tigerMachine
 			var re:RegExp =/{(\d)}/g;
 //			playerPool = [["p1",1,50],["p2",1,150]];
 			msg=""; 
-			trace("playerPool.length:"+playerPool.length); 
+			TraceUtils.log("playerPool.length:"+playerPool.length); 
 			while(index<=0&&index<=playerPool.length)
 			{
 				var tArr:Array =playerPool.shift(); 
@@ -385,14 +379,14 @@ package game.module.tigerMachine
 					// 第二个参数 : $1(匹配成功的第一个分组，这里指的是\d   2013, 6)
 					//第三个参数 : $1(匹配成功的第二个分组，这里指的是-    - - )   
 //					trace("$1:"+$1);
-					trace("tArr[$1]:"+ tArr[$1]);
+					TraceUtils.log("tArr[$1]:"+ tArr[$1]);
 					return tArr[$1];  
 				})+"    ";
 				index++;
 			}
 //			trace("playerPool.length:"+playerPool.length); 
 //			trace("index:"+index);
-			trace("msg:"+msg);
+			TraceUtils.log("msg:"+msg);
 			view.forcast.text = msg; 
 			var pos:int = 159; 
 			
@@ -495,7 +489,7 @@ package game.module.tigerMachine
 				//打开周卡 
 				case ServiceConst.TIGER_MACHINE_VIEW:
 				{
-					trace("老虎机界面:"+JSON.stringify(args[1]));
+					TraceUtils.log("老虎机界面:"+JSON.stringify(args[1]));
 					reward =  args[2]; 
 					rewardArr = []; 
 					costArr = args[3].split("=");
@@ -503,7 +497,7 @@ package game.module.tigerMachine
 					rewardGeted =  args[5]["rewardGeted"];  
 					scoreInRank = args[6]; 
 					rankConf = args[4]; 
-					trace("排行榜配置:"+rankConf);
+					TraceUtils.log("排行榜配置:"+rankConf);
 					for each(var rewd:String in reward)
 					{
 						rewardArr.push(rewd);
@@ -517,19 +511,19 @@ package game.module.tigerMachine
 				}
 				case ServiceConst.TIGER_MACHINE_START:
 				{
-					trace("老虎机启动:"+JSON.stringify(args[2]));
+					TraceUtils.log("老虎机启动:"+JSON.stringify(args[2]));
 					points = args[3]; 
 					setPoints();
 					if(args[2].length==0)
 					{
-						trace("没有抽中");
+						TraceUtils.log("没有抽中");
 						rstObj = null;
 						rewdStr = null;
 						createInitData();
 						setSelect();
 					}else
 					{
-						trace("抽中了");
+						TraceUtils.log("抽中了");
 						rstObj = args[2][0]; 
 						selectArr = [false,false,false,false,false];
 						setSelect();
@@ -540,7 +534,7 @@ package game.module.tigerMachine
 				}	
 				case ServiceConst.TIGER_FORCAST:
 				{
-					trace("老虎机广播:"+JSON.stringify(args[1]));
+					TraceUtils.log("老虎机广播:"+JSON.stringify(args[1]));
 					var pool:Array = args[1];
 					for(var i:int=0;i<pool.length;i++)
 					{
@@ -598,7 +592,7 @@ package game.module.tigerMachine
 					selectArr.push(false);
 				}
 			}
-			trace("selectArr:"+selectArr);
+			TraceUtils.log("selectArr:"+selectArr);
 			arr1[2] = rst[0];
 			arr2[2] = rst[1];
 			arr3[2] = rst[2];
@@ -641,7 +635,7 @@ package game.module.tigerMachine
 			selectArr = [false,false,false,false,false];
 			var rst:Array = rewardArr.slice(0,5);
 			rst = randomArr(rst);
-			trace("rst:"+rst);
+			TraceUtils.log("rst:"+rst);
 			totalArr = []; 
 			arr1 = [];
 			arr2 = []; 

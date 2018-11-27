@@ -7,6 +7,7 @@ package game.module.monterRiot
 	import game.global.data.DBBuildingAttribute;
 	import game.global.data.DBBuildingUpgrade;
 	import game.global.util.ItemUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.BuildingVo;
 	import game.global.vo.User;
@@ -63,7 +64,7 @@ package game.module.monterRiot
 						this.valueTF_0.text = Math.round(cap)+"";
 					}
 					ItemUtil.formatIcon(this.icon_0, _lvData.buldng_output || _lvData.buldng_capacty);
-					trace("_lvData.buldng_output.............",_lvData.buldng_output);
+					TraceUtils.log("_lvData.buldng_output............."+_lvData.buldng_output);
 					
 					this.valueTF_1.text = Math.round(cap * (1+parseFloat(_data.buff.PRD[1])) + _data.buff.PRD[0])+"";
 					if(arr.indexOf(bid) != -1){
@@ -78,7 +79,7 @@ package game.module.monterRiot
 				}
 			}
 			//
-			trace("format data____________________________________",this._data);
+			TraceUtils.log("format data____________________________________"+this._data);
 		}
 	}
 }

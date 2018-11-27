@@ -1,6 +1,7 @@
 package game.common
 {
 	import game.common.base.IBaseView;
+	import game.global.util.TraceUtils;
 	import game.module.tips.CommTip;
 	
 	import laya.display.Sprite;
@@ -85,7 +86,7 @@ package game.common
 		 * @private
 		 */
 		private static function showToStage(dis:Sprite, offX:int = 10, offY:int =10):void {
-			trace("showToStage-------------------->>");
+			TraceUtils.log("showToStage-------------------->>");
 			var rec:Rectangle = dis.getBounds();
 			dis.x = Laya.stage.mouseX + offX;
 			dis.y = Laya.stage.mouseY + offY;

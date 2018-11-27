@@ -8,7 +8,6 @@ package game.module.fortress
 	import game.common.ToolFunc;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.XTipManager;
 	import game.common.base.BaseView;
 	import game.common.baseScene.SceneType;
 	import game.global.GameLanguage;
@@ -17,6 +16,7 @@ package game.module.fortress
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.module.fighting.mgr.FightingManager;
 	
 	import laya.display.Sprite;
@@ -69,7 +69,7 @@ package game.module.fortress
 		}
 		
 		private function resLoader(...args):void{
-			trace("堡垒活动id", info.id);
+			TraceUtils.log("堡垒活动id"+info.id);
 			this.addChild(view);
 			
 			this.on(Event.ADDED, this, addToStageEvent);
@@ -152,7 +152,7 @@ package game.module.fortress
 					FightingManager.intance.getSquad(FightingManager.FIGHTINGTYPE_FORTRESS, [info.id], Handler.create(this, function(...args){
 						SceneManager.intance.setCurrentScene(SceneType.M_SCENE_HOME);
 						XFacade.instance.openModule(ModuleName.ActivityMainView, [info.id]);
-						trace('【堡垒】 战斗回调', args);
+						TraceUtils.log('【堡垒】 战斗回调'+ args);
 					}));
 					
 					break;
@@ -230,7 +230,7 @@ package game.module.fortress
 			}
 			
 			sendData(ServiceConst.FORTRESS_REWARD, [currentNumText, info.id]);
-			trace("小箱子click:", index, currentNumText);
+			TraceUtils.log("小箱子click:"+index+currentNumText);
 		}
 		
 		/**更新小箱子状态*/
@@ -346,7 +346,7 @@ package game.module.fortress
 				}, function() {
 					view.dom_remain.text = "0m 0s";
 					clearTimerHandler = null;
-					trace('倒计时结束：：：');
+					TraceUtils.log('倒计时结束：：：');
 				});
 			} else {
 				view.dom_remain.text = "0m 0s";
@@ -359,7 +359,7 @@ package game.module.fortress
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace("【堡垒活动】", args);
+			TraceUtils.log("【堡垒活动】"+args);
 			switch(args[0]){
 				case ServiceConst.FORTRESS_ENTER:{
 					fortressData = args[1];

@@ -1,19 +1,16 @@
 package game.common
 {
 	import game.global.GameConfigManager;
-	import game.global.GameLanguage;
 	import game.global.GameSetting;
 	import game.global.fighting.BaseUnit;
-	import game.module.alert.XAlert;
+	import game.global.util.TraceUtils;
 	import game.module.login.UpdateView;
 	
 	import laya.events.Event;
 	import laya.net.Loader;
 	import laya.ui.View;
 	import laya.utils.Browser;
-	import laya.utils.Dictionary;
 	import laya.utils.Handler;
-	import laya.utils.Timer;
 
 	public class ResourceManager
 	{	
@@ -67,7 +64,7 @@ package game.common
 		
 		private function onError(err:String):void
 		{
-			trace("GameResource加载失败:  " + err);
+			TraceUtils.log("GameResource加载失败:  " + err);
 		}  
 		
 		private function onConfigLoaded(data:Object):void
@@ -141,7 +138,7 @@ package game.common
 			}
 			
 			var targeVer:int = versinInfo["ver"];
-			trace("ver::"+ver+"__targetVer::"+targeVer)
+			TraceUtils.log("ver::"+ver+"__targetVer::"+targeVer)
 			if(ver < targeVer){
 				XFacade.instance.showModule(UpdateView,[versinInfo,Handler.create(this,callback)])
 			}else{
@@ -213,7 +210,7 @@ package game.common
 				}
 				return type;
 			}
-			trace("Not recognize the resources suffix", url);
+			TraceUtils.log("Not recognize the resources suffix"+ url);
 			return "text";
 		}
 		
@@ -283,11 +280,11 @@ package game.common
 			var urlArr:Array = ResourceManager.instance.m_objModuleReource[name];	
 			if(urlArr==null || urlArr.length<1)
 			{
-				trace("ModuleName:"+name+"  URL:null");
+				TraceUtils.log("ModuleName:"+name+"  URL:null");
 				complete.run();
 				return;
 			}
-			trace("加载模块资源 ModuleName:【"+name+"】  URL:");
+			TraceUtils.log("加载模块资源 ModuleName:【"+name+"】  URL:");
 			addInUseingCount(urlArr, name);
 			ModuleLoading.instance.show();
 			Laya.loader.load(urlArr,Handler.create(this,loadItemComplete,[complete,showLoading]),Handler.create(this, onLoadProgress,[name], false),type,priority,cache, ii.toString());
@@ -312,10 +309,10 @@ package game.common
 		public function clearResource(name:String):void {
 			var urlArr:Array = ResourceManager.instance.m_objModuleReource[name];
 			if (!urlArr || urlArr.length == 0) {
-				trace("不存在模块资源或者资源为空======", name);
+				TraceUtils.log("不存在模块资源或者资源为空======"+ name);
 				return;
 			}
-			trace("清除模块资源 ModuleName:【"+name+"】  URL:");
+			TraceUtils.log("清除模块资源 ModuleName:【"+name+"】  URL:");
 			
 			urlArr.forEach(function(item) {
 				if (inUseingResource[item.url]) {

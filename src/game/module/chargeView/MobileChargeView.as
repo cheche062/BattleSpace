@@ -1,9 +1,5 @@
 package game.module.chargeView 
 {
-	import game.common.ResourceManager;
-	import game.global.GlobalRoleDataManger;
-	import game.global.vo.facebookPay.FaceBookPayVo;
-	import laya.events.Event;
 	import MornUI.chargeView.MobilChargeViewUI;
 	
 	import game.common.XTip;
@@ -11,12 +7,15 @@ package game.module.chargeView
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.GameSetting;
+	import game.global.GlobalRoleDataManger;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
-	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import game.global.vo.reVo;
+	import game.global.vo.facebookPay.FaceBookPayVo;
 	import game.module.mainui.ReItemView;
+	
+	import laya.events.Event;
 	
 	/**
 	 * 充值弹窗
@@ -67,8 +66,8 @@ package game.module.chargeView
 					
 					
 					
-					trace("voName:", voName);
-					trace("=========================");
+					TraceUtils.log("voName:"+ voName);
+					TraceUtils.log("=========================");
 					
 					__JS__("openurl(url,voName, GameSetting.Platform, payCallBackHandler)");
 					
@@ -213,7 +212,7 @@ package game.module.chargeView
 						len--;
 					}
 				}
-				trace("finalList:", data);
+				TraceUtils.log("finalList:"+ data);
 				this.view.chargeList.array = data;
 			}
 		}

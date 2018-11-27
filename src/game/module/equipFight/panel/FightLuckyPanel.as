@@ -421,7 +421,6 @@ package game.module.equipFight.panel
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy FightLuckyPanel");
 			infoData = null;
 			cellList = null;
 			_callBackFun = null;

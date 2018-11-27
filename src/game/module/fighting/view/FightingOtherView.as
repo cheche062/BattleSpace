@@ -19,10 +19,10 @@ package game.module.fighting.view
 	import game.global.event.GameEvent;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.worldBoss.BossFightInfoVo;
 	import game.module.fighting.scene.FightingMapScene;
-	import game.module.mainui.BtnDecorate;
 	import game.module.mainui.SceneVo;
 	import game.net.socket.WebSocketNetService;
 	
@@ -106,7 +106,7 @@ package game.module.fighting.view
 				{
 					var vo:SceneVo = User.getInstance().sceneInfo;
 					var ifIqueue:Boolean = vo.hasBuildingInQueue(Number(DBBuilding.B_CAMP));
-					trace("兵营是否在建筑队列中:"+ifIqueue);
+					TraceUtils.log("兵营是否在建筑队列中:"+ifIqueue);
 					if(ifIqueue)
 					{
 						XTipManager.showTip(GameLanguage.getLangByKey("L_A_150"));
@@ -150,7 +150,7 @@ package game.module.fighting.view
 			}else if(User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_GENE)==1)
 			{	var vo:SceneVo = User.getInstance().sceneInfo;
 				var ifIqueue:Boolean = vo.hasBuildingInQueue(Number(DBBuilding.B_GENE));
-				trace("酒馆是否在建筑队列中:"+ifIqueue);
+				TraceUtils.log("酒馆是否在建筑队列中:"+ifIqueue);
 				if(ifIqueue)
 				{
 					XTipManager.showTip(GameLanguage.getLangByKey("L_A_154"));
@@ -187,7 +187,7 @@ package game.module.fighting.view
 			}else if(User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_HOTRL)==1)
 			{	var vo:SceneVo = User.getInstance().sceneInfo;
 				var ifIqueue:Boolean = vo.hasBuildingInQueue(Number(DBBuilding.B_HOTRL));
-				trace("酒馆是否在建筑队列中:"+ifIqueue);
+				TraceUtils.log("酒馆是否在建筑队列中:"+ifIqueue);
 				if(ifIqueue)
 				{
 					XTipManager.showTip(GameLanguage.getLangByKey("L_A_153"));
@@ -253,7 +253,7 @@ package game.module.fighting.view
 				{
 					var vo:SceneVo = User.getInstance().sceneInfo;
 					var ifIqueue:Boolean = vo.hasBuildingInQueue(Number(DBBuilding.B_CAMP));
-					trace("兵营是否在建筑队列中:"+ifIqueue);
+					TraceUtils.log("兵营是否在建筑队列中:"+ifIqueue);
 					if(ifIqueue)
 					{
 						XTipManager.showTip(GameLanguage.getLangByKey("L_A_151"));
@@ -387,7 +387,6 @@ package game.module.fighting.view
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy FightingOtherView");
 			geneBtn = null;
 			equipfBtn = null;
 			m_bossBtn2 = null;

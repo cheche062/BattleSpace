@@ -1,19 +1,18 @@
 package game.module.armyGroup.fight 
 {
-	import game.common.base.BaseView;
 	import game.common.ImageFont;
 	import game.common.ResourceManager;
 	import game.common.XFacade;
-	import game.global.consts.ServiceConst;
-	import game.global.event.ArmyGroupEvent;
-	import game.global.event.Signal;
-	import game.global.fighting.BaseUnit;
+	import game.common.base.BaseView;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
+	import game.global.consts.ServiceConst;
+	import game.global.fighting.BaseUnit;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import game.module.fighting.mgr.FightingManager;
 	import game.module.mainScene.HpCom;
 	import game.net.socket.WebSocketNetService;
+	
 	import laya.display.Animation;
 	import laya.display.Sprite;
 	import laya.display.Text;
@@ -441,13 +440,10 @@ package game.module.armyGroup.fight
 		
 		private function updateArmyInfo(upInfo:Object):void
 		{
-			trace("战斗中更新未战斗部队",upInfo);
-			trace("战斗中更新未战斗部队 this._data",this._data);
-			trace("战斗中更新未战斗部队 _playerArmyData", _playerArmyData);
-			trace("---------------------------------------------------");
-			trace("");
-			trace("");
-			trace("");
+			TraceUtils.log("战斗中更新未战斗部队"+upInfo);
+			TraceUtils.log("战斗中更新未战斗部队 this._data"+this._data);
+			TraceUtils.log("战斗中更新未战斗部队 _playerArmyData"+ _playerArmyData);
+			TraceUtils.log("---------------------------------------------------");
 			var i:int = 0;
 			var len:int = 0;
 			if (upInfo[5] == "0")
@@ -528,9 +524,9 @@ package game.module.armyGroup.fight
 				
 				if (!_armyFightRole)
 				{
-					trace("nullll: ", data);
-					trace("playArmy: ", _playerArmyData.length);
-					trace("npcArmy: ", _npcArmyData.length);
+					TraceUtils.log("nullll: "+data);
+					TraceUtils.log("playArmy: "+ _playerArmyData.length);
+					TraceUtils.log("npcArmy: "+ _npcArmyData.length);
 					resetState();
 					return;
 				}

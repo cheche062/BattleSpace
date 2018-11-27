@@ -7,6 +7,7 @@ package game.module.guild
 	import game.common.ToolFunc;
 	import game.common.base.BaseDialog;
 	import game.global.GameLanguage;
+	import game.global.util.TraceUtils;
 	import game.module.bingBook.ItemContainer;
 	
 	import laya.events.Event;
@@ -48,7 +49,7 @@ package game.module.guild
 				view.dom_content.addChild(box);
 			}
 			
-			trace(result);
+			TraceUtils.log(result);
 		}
 		
 		private function createItemBox(key:String, data:Array):Box {

@@ -5,6 +5,7 @@ package game.module.worldBoss
 	import game.common.AnimationUtil;
 	import game.common.XFacade;
 	import game.common.base.BaseDialog;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	
@@ -42,7 +43,7 @@ package game.module.worldBoss
 			
 			AnimationUtil.flowIn(this);
 			
-			trace('GameOverView', args);
+			TraceUtils.log('GameOverView'+ args);
 			//参数
 			var param:Array = args[0];
 			closeCallback = param[2];

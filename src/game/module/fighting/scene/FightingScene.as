@@ -20,6 +20,7 @@ package game.module.fighting.scene
 	import game.global.fighting.BaseUnit;
 	import game.global.fighting.manager.FightingSceneManager;
 	import game.global.fighting.manager.FightingShowFormatData;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillVo;
 	import game.global.vo.User;
 	import game.global.vo.skillControlActionVos.vibrationSkillActionVo;
@@ -139,7 +140,7 @@ package game.module.fighting.scene
 		public override function show(...args):void{
 			super.show(args);
 			ftData = args[0];
-			trace("调用show时候传递的回调ftData.complete:"+ftData.complete);
+			TraceUtils.log("调用show时候传递的回调ftData.complete:"+ftData.complete);
 			if(_loadedAllOver)
 			{
 				XFacade.instance.openModule(fightingViewMName);
@@ -233,7 +234,7 @@ package game.module.fighting.scene
 			if(!isFightingShowFormatData)  //非战斗战斗部分hao 
 				
 			{
-				trace("isFightingShowFormatData调用loadOver");
+				TraceUtils.log("isFightingShowFormatData调用loadOver");
 				loaderOver();
 				return;
 			}
@@ -487,9 +488,9 @@ package game.module.fighting.scene
 		{
 			fightingView.selectUnitView.unitTypeTab.labels = FightingManager.intance.getUnitTypeList();
 			timer.clear(this,begingFighting);
-			trace("开始战斗:11111111111111111111");
-			trace("ftData:"+ftData);
-			trace("ftData.complete:"+ftData.complete);
+			TraceUtils.log("开始战斗:11111111111111111111");
+			TraceUtils.log("ftData:"+ftData);
+			TraceUtils.log("ftData.complete:"+ftData.complete);
 			
 			if(ftData)
 			{  
@@ -740,7 +741,7 @@ package game.module.fighting.scene
 				
 			}else
 			{
-				trace("没有可以建造的位置");
+				TraceUtils.log("没有可以建造的位置");
 				return null;
 			}
 			SortingFun();
@@ -825,7 +826,7 @@ package game.module.fighting.scene
 				var myUid:String = String(GlobalRoleDataManger.instance.userid);
 				if(myUid != fData.disposeUid && fightingView && fightingView.showType != FightingView.SHOWTYPE_2) //
 				{
-					trace("回合停顿",reportkey);
+					TraceUtils.log("回合停顿"+reportkey);
 					Laya.timer.once(
 						Math.ceil(1000/FightingManager.velocity)
 						,this,fightingFun,[fData,trneKey,caller,method,args]);
@@ -867,7 +868,7 @@ package game.module.fighting.scene
 		
 		public function set useFightingUnit(v:BaseUnit):void{
 			_useFightingUnit = v;
-			trace("出手单位",_useFightingUnit);
+			TraceUtils.log("出手单位"+_useFightingUnit);
 			fightingView.rightBottomView.visible = useFightingUnit != null && fightingView.showType != FightingView.SHOWTYPE_6;
 			if(useFightingUnit)
 			{
@@ -948,7 +949,7 @@ package game.module.fighting.scene
 			}
 			if(un == null || un.select)
 			{
-				trace(un == null ? "un is null":"nu is select");
+				TraceUtils.log(un == null ? "un is null":"nu is select");
 				return ;
 			}
 			
@@ -957,7 +958,7 @@ package game.module.fighting.scene
 				Signal.intance.event(NewerGuildeEvent.SELECT_ACT_BAR);
 			}
 			un.select = true;
-			trace("选中",un.data.unitId);
+			TraceUtils.log("选中"+un.data.unitId);
 
 			if(_lastBaseUnit && _lastBaseUnit.displayedInStage)
 			{
@@ -1630,7 +1631,7 @@ package game.module.fighting.scene
 				mp3Url = ResourceManager.getSoundUrl(mp3Url,"fighting/action");
 				loderAr.push({url:mp3Url,type:Loader.SOUND});
 				
-				trace(1,"移动预加载",loderAr);
+				TraceUtils.log("移动预加载"+loderAr);
 				
 				Laya.loader.load(loderAr,Handler.create(this,moveLoaderOver,[jsonStr,unit,movers,fightHandler,newPstr]),null,null,1,true,FightingScene.figtingModerGroup);
 				return ;
@@ -2143,7 +2144,7 @@ package game.module.fighting.scene
 			{
 				var uitem:BaseUnit = _unitList[i];
 				uitem.data.wyid = Math.random();
-				trace("生成唯一ID",uitem.data.wyid);
+				TraceUtils.log("生成唯一ID"+uitem.data.wyid);
 			}
 			
 		}
@@ -2157,7 +2158,7 @@ package game.module.fighting.scene
 				this.m_sprMap.y = sprMapPoint.y;
 				return ;
 			}
-			trace("++++++++++goVibration+++++++++++++");
+			TraceUtils.log("++++++++++goVibration+++++++++++++");
 			if(idx >= vo.vibrationRouteAr.length)
 				idx = 0;
 			
@@ -2193,7 +2194,7 @@ package game.module.fighting.scene
 		
 		
 		override public function close():void{
-			trace("战斗场景close被调用");
+			TraceUtils.log("战斗场景close被调用");
 			unitLayer.mouseEnabled = true;
 			_handler = null;
 			_copyfData = null;
@@ -2247,7 +2248,7 @@ package game.module.fighting.scene
 			while(animationCacheKeys.length){
 				var key:String = animationCacheKeys.shift();
 				Animation.clearCache(key);
-				trace("清除动画缓存",key);
+				TraceUtils.log("清除动画缓存"+key);
 			};
 			_useFightingUnit = null;
 			Laya.loader.clearRes(_mBgImgUrl+".jpg");
@@ -2266,8 +2267,6 @@ package game.module.fighting.scene
 		
 		
 		public override function dispose():void{
-			
-			trace(1,"dispose FightingScene");
 			
 			if(fightingView){
 				fightingView.scence = null;

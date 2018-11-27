@@ -1,11 +1,11 @@
 package game.module.startrek
 {
-	import game.common.UIRegisteredMgr;
 	import MornUI.startrek.StarTrekMainViewUI;
 	
 	import game.common.ItemTips;
 	import game.common.LayerManager;
 	import game.common.SceneManager;
+	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.XTipManager;
@@ -21,6 +21,7 @@ package game.module.startrek
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.event.StarTrekEvent;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.fighting.mgr.FightingManager;
 	import game.net.socket.WebSocketNetService;
@@ -186,7 +187,7 @@ package game.module.startrek
 			switch (cmd)
 			{
 				case ServiceConst.STAR_TREK_INIT_MENU:
-					trace("初始面板数据", args);
+					TraceUtils.log("初始面板数据"+ args);
 					// 设置起点
 					updateSingleBox(args[1].startPos[0], args[1].startPos[1], StarTrekBox.STATE_0);
 					// 更新各点
@@ -213,7 +214,7 @@ package game.module.startrek
 					}
 					break;
 				case ServiceConst.STAR_TREK_RESET_MENU:
-					trace("重置面板数据", args);
+					TraceUtils.log("重置面板数据"+ args);
 					// 重置游戏
 					setCostInfo(parseInt(args[1].resetTimes) + 1);
 					refreshTimes=args[1].resetTimes;
@@ -237,7 +238,7 @@ package game.module.startrek
 					}
 					break;
 				case ServiceConst.STAR_TREK_OPEN_BOX:
-					trace("开盒子数据", args);
+					TraceUtils.log("开盒子数据"+ args);
 					// 开盒子
 					if (args[1])
 					{
@@ -245,7 +246,7 @@ package game.module.startrek
 					}
 					break;
 				case ServiceConst.STAR_TREK_GET_THINGS:
-					trace("开宝箱||开奖励数据", args);
+					TraceUtils.log("开宝箱||开奖励数据"+ args);
 					if (args[2].reward)
 					{
 						// 显示奖励
@@ -471,7 +472,7 @@ package game.module.startrek
 			// 可以播放音效
 			// SoundMgr.instance.playSound(ResourceManager.getSoundUrl("ui_common_click",'uiSound'));
 			var thisBox:StarTrekBox=getBoxBySid(args[0], args[1]);
-			trace("当前的盒子状态：", thisBox.iState);
+			TraceUtils.log("当前的盒子状态："+ thisBox.iState);
 			switch (thisBox.iState)
 			{
 				case StarTrekBox.STATE_0:
@@ -499,7 +500,7 @@ package game.module.startrek
 				case StarTrekBox.STATE_5:
 					//商店
 					// 打开shop view
-					trace("main buytimes", buyTimes);
+					TraceUtils.log("main buytimes"+ buyTimes);
 					XFacade.instance.openModule(ModuleName.StarTrekShopView, {"x": thisBox.iX, "y": thisBox.iY, "id": thisBox.iEvent, "buyTimes": buyTimes});
 					break;
 				case StarTrekBox.STATE_6:
@@ -717,8 +718,8 @@ package game.module.startrek
 			UIRegisteredMgr.AddUI(iBox[3][1],"StarBlock44");
 			UIRegisteredMgr.AddUI(iBox[4][2],"StarBlock55");
 			
-			trace("33: ", iBox[3][3]);
-			trace("44: ", UIRegisteredMgr.getTargetUI("StarBlock44"));
+			TraceUtils.log("33: "+ iBox[3][3]);
+			TraceUtils.log("44: "+ UIRegisteredMgr.getTargetUI("StarBlock44"));
 		}
 
 		/**

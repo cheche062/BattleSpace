@@ -71,7 +71,6 @@ package game.module.tips.itemTip.base
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BaseItemTip");
 			tipChilds = null;
 			poolChilds = null;
 			super.destroy(destroyChild);

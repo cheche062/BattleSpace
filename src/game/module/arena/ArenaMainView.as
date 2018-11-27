@@ -1,17 +1,14 @@
 package game.module.arena
 {
-	import game.common.XUtils;
 	import MornUI.arena.ArenaMainViewUI;
 	
-	import game.common.AlertManager;
-	import game.common.AlertType;
-	import game.common.AnimationUtil;
 	import game.common.LayerManager;
 	import game.common.SceneManager;
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.XTipManager;
+	import game.common.XUtils;
 	import game.common.base.BaseDialog;
 	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
@@ -22,8 +19,8 @@ package game.module.arena
 	import game.global.event.ChallengeEvent;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import game.global.vo.VIPVo;
 	import game.module.bingBook.ItemContainer;
 	import game.module.fighting.mgr.FightingManager;
 	import game.net.socket.WebSocketNetService;
@@ -192,7 +189,7 @@ package game.module.arena
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ... args):void
 		{
-			trace("arenaServiecResult: ", args);
+			TraceUtils.log("arenaServiecResult: "+ args);
 			var len:int=0;
 			var i:int=0;
 			switch (cmd)

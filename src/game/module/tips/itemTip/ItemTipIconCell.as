@@ -161,7 +161,6 @@ package game.module.tips.itemTip
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy ItemTipIconCell");
 			iconBg = null;
 			flag = null;
 			itemIcon = null;

@@ -3,6 +3,7 @@ package game.global
 	import game.common.ResourceManager;
 	import game.global.data.DBSkill2;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.AwakenSpecialityVo;
 	import game.global.vo.AwakenTypeVo;
 	import game.global.vo.AwakenVo;
@@ -15,7 +16,6 @@ package game.global
 	import game.global.vo.ItemVo;
 	import game.global.vo.JYStageChapterVo;
 	import game.global.vo.LangCigVo;
-	import game.global.vo.ObstacleVo;
 	import game.global.vo.PvpLevelVo;
 	import game.global.vo.PvpMathCostVo;
 	import game.global.vo.PvpRewardVo;
@@ -41,13 +41,11 @@ package game.global
 	import game.global.vo.Card.CardPayItemVo;
 	import game.global.vo.Card.CardPvwVo;
 	import game.global.vo.activity.ActivityListVo;
-	import game.global.vo.activity.CheckInVo;
 	import game.global.vo.activity.SevenDaysVo;
 	import game.global.vo.activity.SignInVo;
 	import game.global.vo.advance.AdvanceVo;
 	import game.global.vo.arena.ArenaGroupVo;
 	import game.global.vo.arena.ArenaNPCVo;
-	import game.global.vo.arena.ArenaRankRewardVo;
 	import game.global.vo.arena.ArenaRankVo;
 	import game.global.vo.arena.ArenaRefeshVo;
 	import game.global.vo.arena.ArenaResetVo;
@@ -100,7 +98,6 @@ package game.global
 	import game.global.vo.mine.MineProtectTimeVo;
 	import game.global.vo.mission.DailyScoreVo;
 	import game.global.vo.mission.MissionVo;
-	import game.global.vo.mission.MissionXishuVo;
 	import game.global.vo.relic.TransportBookVo;
 	import game.global.vo.relic.TransportParam;
 	import game.global.vo.relic.TransportPlanVo;
@@ -108,7 +105,6 @@ package game.global
 	import game.global.vo.relic.TransportPrice1Vo;
 	import game.global.vo.relic.TransportPriceVo;
 	import game.global.vo.relic.TransportVehicleVo;
-	import game.global.vo.starTrek.StarTrekBuffsVo;
 	import game.global.vo.starTrek.StarTrekEventsVo;
 	import game.global.vo.starTrek.StarTrekGridVo;
 	import game.global.vo.starTrek.StarTrekPricesVo;
@@ -123,7 +119,6 @@ package game.global
 	import game.global.vo.unit.UnitParameterVo;
 	import game.global.vo.unit.UnitUpgradeExpVo;
 	import game.global.vo.worldBoss.BossBuyVo;
-	import game.global.vo.worldBoss.BossFightInfoVo;
 	import game.global.vo.worldBoss.BossLevelVo;
 	import game.global.vo.worldBoss.BossRankVo;
 	import game.global.vo.worldBoss.BossSellItemVo;
@@ -131,13 +126,11 @@ package game.global
 	import game.module.equipFight.vo.equipFightChapterVo;
 	import game.module.equipFight.vo.equipFightLevelVo;
 	import game.module.friendCode.FriendCodeVo;
-	import game.module.guild.GuildListItem;
 	
 	import laya.display.Sprite;
 	import laya.display.Text;
 	import laya.net.Loader;
 	import laya.net.URL;
-	import laya.resource.Resource;
 	import laya.ui.Image;
 	import laya.utils.Browser;
 	import laya.utils.Handler;
@@ -1087,7 +1080,7 @@ package game.global
 							break;
 						case 70:
 							ArmyGroupBaseParam.protectReward = c["value"];
-							trace("protectReward:", ArmyGroupBaseParam.protectReward);
+							TraceUtils.log("protectReward:"+ ArmyGroupBaseParam.protectReward);
 							break;
 						default:
 							break;
@@ -1788,7 +1781,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:config/convict_level.json");
+					TraceUtils.log("配置未加载:config/convict_level.json");
 				}
 			}
 		}
@@ -2598,7 +2591,7 @@ package game.global
 					}
 
 				}
-				trace("配表活动列表:"+JSON.stringify(activiey_list_vec));
+				TraceUtils.log("配表活动列表:"+JSON.stringify(activiey_list_vec));
 			}
 
 			var svo:Object = ResourceManager.instance.getResByURL("config/activity/7days_objective_reward.json");
@@ -2859,7 +2852,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:staticConfig/skillControlConfig.json");
+					TraceUtils.log("配置未加载:staticConfig/skillControlConfig.json");
 				}
 			}
 		}
@@ -2884,7 +2877,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:config/galaxy_chapter.json");
+					TraceUtils.log("配置未加载:config/galaxy_chapter.json");
 				}
 			}
 			return _equipFightChapters;
@@ -2908,7 +2901,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:config/galaxy_level.json");
+					TraceUtils.log("配置未加载:config/galaxy_level.json");
 				}
 			}
 			return _equipFightLevelVos;
@@ -2933,7 +2926,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:config/pvp_shop.json");
+					TraceUtils.log("配置未加载:config/pvp_shop.json");
 				}
 			}
 			return _pvpShopItemVos;
@@ -2983,7 +2976,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:config/pvp_integral_reward.json");
+					TraceUtils.log("配置未加载:config/pvp_integral_reward.json");
 				}
 			}
 			return _pvpIntegralVos;
@@ -3064,7 +3057,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:config/awaken_nature.json");
+					TraceUtils.log("配置未加载:config/awaken_nature.json");
 				}
 			}
 			return _awakenVoDic;
@@ -3086,7 +3079,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:config/awaken_type.json");
+					TraceUtils.log("配置未加载:config/awaken_type.json");
 				}
 			}
 			return _awakenTypeVoDic;
@@ -3109,7 +3102,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:config/awaken_speciality.json");
+					TraceUtils.log("配置未加载:config/awaken_speciality.json");
 				}
 			}
 			return _awakenSpecialityVoArr;
@@ -3132,7 +3125,7 @@ package game.global
 				}
 				else
 				{
-					trace("配置未加载:config/source.json");
+					TraceUtils.log("配置未加载:config/source.json");
 				}
 			}
 			return _itemSource_dic;

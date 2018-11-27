@@ -4,33 +4,24 @@
 package game.module.fighting.panel
 {
 	import MornUI.fightingChapter.ChapterLevelInfoViewUI;
-	import MornUI.panels.BagViewUI;
 	
-	import game.common.AlertManager;
-	import game.common.AlertType;
 	import game.common.AnimationUtil;
-	import game.common.GameLanguageMgr;
 	import game.common.ResourceManager;
-	import game.common.RewardList;
 	import game.common.SceneManager;
 	import game.common.UIRegisteredMgr;
-	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.XTipManager;
 	import game.common.starBar;
 	import game.common.base.BaseDialog;
 	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
-	import game.global.ModuleName;
 	import game.global.StringUtil;
 	import game.global.consts.ServiceConst;
 	import game.global.data.ConsumeHelp;
-	import game.global.data.bag.ItemCell;
-	import game.global.data.bag.ItemCell3;
 	import game.global.data.bag.ItemData;
 	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.StageLevelVo;
 	import game.global.vo.User;
 	import game.global.vo.VIPVo;
@@ -38,7 +29,6 @@ package game.module.fighting.panel
 	import game.module.bag.cell.needItemCell;
 	import game.module.bag.mgr.ItemManager;
 	import game.module.fighting.cell.chapterListCell;
-	import game.module.fighting.cell.chapterStarCell;
 	import game.module.fighting.mgr.FightingManager;
 	import game.module.fighting.mgr.FightingStageManger;
 	import game.module.fighting.sData.stageChapetrData;
@@ -208,12 +198,12 @@ package game.module.fighting.panel
 			
 			if (!User.getInstance().hasFinishGuide)
 			{
-				trace("id=============="+thisData.id);
+				TraceUtils.log("id=============="+thisData.id);
 				switch(parseInt(thisData.id))
 				{
 					case 1: 
 						Laya.timer.once(750, null, function() { 
-							trace("FIGHT_CHAPTER_ONE==============");
+							TraceUtils.log("FIGHT_CHAPTER_ONE==============");
 							Signal.intance.event(NewerGuildeEvent.FIGHT_CHAPTER_ONE);
 							} );
 						break;
@@ -241,7 +231,7 @@ package game.module.fighting.panel
 			var cId:Number = vo.chapter_id;
 			if(!thisData.star)
 				cId = 0;
-			trace("关卡id:"+vo.id);
+			TraceUtils.log("关卡id:"+vo.id);
 			FightingManager.intance.getSquad(1,vo.id,new Handler(this,fBackFunction,[cId,vo.id]));
 			
 			this.close();
@@ -255,15 +245,15 @@ package game.module.fighting.panel
 		 * 
 		 */
 		protected function fBackFunction(cid:Number,id:Number):void{
-			trace("执行一次推图回调");
+			TraceUtils.log("执行一次推图回调");
 			var ar:Array = [0];
 			if(cid)
 				ar.push(cid - 1);
-			trace("推图回调的数据:"+ar);
-			trace("第"+id+"关打完");
+			TraceUtils.log("推图回调的数据:"+ar);
+			TraceUtils.log("第"+id+"关打完");
 			if(id==20)//暂时在4-1提示首冲
 			{
-				trace("FightingStageManger.intance.ifFirstCharge："+FightingStageManger.intance.ifFirstCharge);
+				TraceUtils.log("FightingStageManger.intance.ifFirstCharge："+FightingStageManger.intance.ifFirstCharge);
 				if(FightingStageManger.intance.ifFirstCharge)
 				{
 //					XFacade.instance.openModule(ModuleName.FirstChargeView,0);
@@ -280,7 +270,7 @@ package game.module.fighting.panel
 		override public function show(...args):void{
 			super.show();
 			AnimationUtil.flowIn(this);
-			trace("开面不开：", args);
+			TraceUtils.log("开面不开："+ args);
 			scData =  args[0][0];
 			dataList = args[0][1];
 			dataIdx = args[0][2];
@@ -324,7 +314,7 @@ package game.module.fighting.panel
 				listAr.push([rvo,thisData.star > j,j + 1]);
 			}
 			view.list1.array = listAr;
-			trace("thisData::::::::", thisData);
+			TraceUtils.log("thisData::::::::"+ thisData);
 			if(thisData.star == 0){
 				var vipVo:VIPVo = VIPVo.getVipInfo();
 				//trace("thisData::::::::",thisData)

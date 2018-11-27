@@ -1,15 +1,15 @@
 package game.module.arena 
 {
+	import MornUI.arena.ReportItemUI;
+	
 	import game.common.base.BaseView;
-	import game.common.GameLanguageMgr;
-	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.util.TimeUtil;
-	import game.global.vo.arena.ArenaNPCVo;
+	import game.global.util.TraceUtils;
 	import game.module.fighting.mgr.FightingManager;
+	
 	import laya.events.Event;
-	import laya.utils.Handler;
-	import MornUI.arena.ReportItemUI;
+
 	/**
 	 * ...
 	 * @author ...
@@ -32,7 +32,7 @@ package game.module.arena
 				
 				case view.reBtn:
 					//FightingManager.intance.getFightReport([fightID],null,Handler.create(this,completeReplayHandler),null,ServiceConst.getFightReport);
-					trace("展播会看：", fightID);
+					TraceUtils.log("展播会看："+ fightID);
 					FightingManager.intance.getFightReport([fightID,"arena"]);
 					break;
 				

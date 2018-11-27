@@ -5,6 +5,7 @@ package game.module.mainui
 	import game.global.data.DBBuildingUpgrade;
 	import game.global.data.DBItem;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.User;
 
@@ -69,7 +70,7 @@ package game.module.mainui
 					{
 						var id:String = queue[i][0];
 						
-						trace("后端建筑id:"+id);
+						TraceUtils.log("后端建筑id:"+id);
 //						trace("building:"+JSON.stringify(building));
 						var bid:Number =Number( building[id]["id"]);
 						if(bid==Bid)

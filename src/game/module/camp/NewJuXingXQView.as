@@ -1,17 +1,12 @@
 package game.module.camp
 {
 	import MornUI.camp.NewJuXingXQViewUI;
-	import MornUI.panels.ShowRewardViewUI;
 	
 	import game.common.AnimationUtil;
-	import game.common.DataLoading;
 	import game.common.UIHelp;
-	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
-	import game.common.XTip;
 	import game.common.base.BaseDialog;
 	import game.global.GameLanguage;
-	import game.global.ModuleName;
 	import game.global.StringUtil;
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.BagManager;
@@ -19,11 +14,10 @@ package game.module.camp
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.event.TrainBattleLogEvent;
+	import game.global.util.TraceUtils;
 	import game.global.vo.AwakenEqVo;
 	import game.global.vo.itemSourceVo;
 	import game.module.bag.cell.BaseItemSourceCell;
-	import game.module.bag.cell.ItemCell4;
-	import game.module.camp.data.JueXingData;
 	import game.module.camp.data.JueXingMange;
 	import game.module.fighting.mgr.FightingStageManger;
 	
@@ -79,7 +73,7 @@ package game.module.camp
 			view.numBox.x = view.rigthBox.width - view.numBox.width >> 1;
 			view.numBox2.x = view.rigthBox.width - view.numBox2.width >> 1;
 			
-			trace("道具来源数据;", iData.vo.sourceAr);
+			TraceUtils.log("道具来源数据;"+ iData.vo.sourceAr);
 			view.laiyuanList.array = iData.vo.sourceAr;
 			
 			if(!FightingStageManger.intance.isInit)

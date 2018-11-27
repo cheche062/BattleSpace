@@ -5,6 +5,7 @@ package game.module.fighting.adata
 {
 	import game.global.GameConfigManager;
 	import game.global.data.bag.ItemData;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
 
 	public class FightingResultsData
@@ -189,7 +190,7 @@ package game.module.fighting.adata
 			
 			turnCard = obje.turnCard;
 			
-			trace("解析战斗结算");
+			TraceUtils.log("解析战斗结算");
 		}
 		
 		public function get rType():Number{

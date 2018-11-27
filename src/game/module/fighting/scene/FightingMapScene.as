@@ -17,11 +17,9 @@ package game.module.fighting.scene
 	import game.common.baseScene.BaseScene;
 	import game.common.baseScene.SceneType;
 	import game.global.ModuleName;
-	import game.global.consts.ServiceConst;
 	import game.global.event.GameEvent;
 	import game.global.event.Signal;
-	import game.global.vo.User;
-	import game.global.vo.worldBoss.BossFightInfoVo;
+	import game.global.util.TraceUtils;
 	import game.module.equipFight.EquipFightInfoView;
 	import game.module.fighting.cell.GuanQiaCell;
 	import game.module.fighting.mgr.FightingStageManger;
@@ -34,7 +32,6 @@ package game.module.fighting.scene
 	import game.module.mainui.MainView;
 	
 	import laya.events.Event;
-	import laya.ui.Box;
 	import laya.ui.Button;
 	import laya.ui.Tab;
 	import laya.ui.UIUtils;
@@ -85,8 +82,8 @@ package game.module.fighting.scene
 			if (_args.length > 0)
 			{
 				FightingStageManger.intance.autoSelectCID = parseInt(_args[1]) + 1;
-				trace("传入关卡数据", _args);
-				trace("自动选择关卡ID：", FightingStageManger.intance.autoSelectCID);
+				TraceUtils.log("传入关卡数据"+ _args);
+				TraceUtils.log("自动选择关卡ID："+ FightingStageManger.intance.autoSelectCID);
 			}
 			
 			loadSceneResource();
@@ -184,7 +181,7 @@ package game.module.fighting.scene
 		
 		private function bindArgs():void
 		{
-			trace("_args111:"+_args)
+			TraceUtils.log("_args111:"+_args);
 			if(_args && _args.length){
 				if(_args.length >= 1)
 				{

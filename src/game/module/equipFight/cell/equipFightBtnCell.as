@@ -1,16 +1,14 @@
 package game.module.equipFight.cell
 {
-	import game.common.FilterTool;
-	import game.common.GameLanguageMgr;
 	import game.common.XFacade;
 	import game.global.GameLanguage;
 	import game.global.StringUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.equipFight.data.equipFightChapterData;
 	
 	import laya.display.Stage;
 	import laya.ui.Box;
-	import laya.ui.Button;
 	import laya.ui.Component;
 	import laya.ui.Image;
 	import laya.ui.Label;
@@ -85,7 +83,6 @@ package game.module.equipFight.cell
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy equipFightBtnCell");
 			grayBox = null;
 			btn = null;
 			cNameLbl = null;

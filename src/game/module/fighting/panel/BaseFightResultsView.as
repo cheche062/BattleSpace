@@ -4,6 +4,7 @@
 package game.module.fighting.panel
 {
 	import game.common.UnpackMgr;
+	import game.global.util.TraceUtils;
 	import game.module.fighting.adata.FightingResultsData;
 	import game.module.fighting.adata.frSoldierData;
 	
@@ -86,7 +87,7 @@ package game.module.fighting.panel
 			if(bgImg){
 				if(UnpackMgr.instance.check(bgImg.skin))
 				{	
-					trace(1,"清除未压缩背景图",bgImg.skin);
+					TraceUtils.log("清除未压缩背景图"+bgImg.skin);
 					Loader.clearRes(bgImg.skin);
 				}
 			}
@@ -94,7 +95,6 @@ package game.module.fighting.panel
 			closeBtn = null;
 			tileImg = null;
 			_data = null;
-			trace(1,"destroy BaseFightResultsView");
 			super.destroy(destroyChild);
 		}
 		

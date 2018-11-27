@@ -1,6 +1,7 @@
 package game.global.vo.facebookPay
 {
 	import game.global.GameSetting;
+	import game.global.util.TraceUtils;
 
 	public class FaceBookPayVo
 	{
@@ -133,7 +134,7 @@ package game.global.vo.facebookPay
 
 		public function getPackListByPayId(p_id:int, p_chanelId:int):Array
 		{
-			trace("getPackListByPayId", p_id, p_chanelId)
+			TraceUtils.log("getPackListByPayId"+p_id+p_chanelId);
 			var l_vo:FaceBookGwVo;
 			var l_arr:Array=new Array();
 
@@ -147,8 +148,8 @@ package game.global.vo.facebookPay
 					l_vo=vo.getGwInfo(p_chanelId);
 				}
 			}
-			trace("l_vo====>>",l_vo)
-			trace("xx",packList)
+			TraceUtils.log("l_vo====>>"+l_vo);
+			TraceUtils.log("xx"+packList);
 			for (var i:int=0; i < packList.length; i++)
 			{
 				var l_packVo:PackVo=packList[i];

@@ -6,6 +6,7 @@ package game.module.inviteFriend
 	import game.common.XTip;
 	import game.common.base.BaseDialog;
 	import game.global.GameLanguage;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	import laya.utils.Browser;
@@ -60,8 +61,8 @@ package game.module.inviteFriend
 			 * 
 			 */
 			function initData(arr:Array = [] ):void {
-				trace("done==========")
-				trace(arr);
+				TraceUtils.log("done==========");
+				TraceUtils.log(arr);
 				var friendList:Array = arr;
 				
 				for(var i:int=0; i < friendList.length; i++){
@@ -111,7 +112,7 @@ package game.module.inviteFriend
 						var _txt = GameLanguage.getLangByKey("L_A_80737");
 						
 						var str:String = "fbInvite('invteFriend', _txt, result)";
-						trace("确认发送: ", str);
+						TraceUtils.log("确认发送: "+ str);
 						
 						__JS__("fbInvite('invteFriend', _txt, result)");
 						
@@ -141,7 +142,7 @@ package game.module.inviteFriend
 			
 			updateAllBtnState();
 			
-			trace(index)
+			TraceUtils.log(index);
 		}
 		
 		/**
@@ -184,7 +185,7 @@ package game.module.inviteFriend
 			updateList(data);
 			updateAllBtnState();
 			
-			trace(search);
+			TraceUtils.log(search);
 		}
 		
 		/**

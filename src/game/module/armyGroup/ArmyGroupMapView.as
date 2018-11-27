@@ -14,7 +14,6 @@ package game.module.armyGroup
 	import game.common.XTip;
 	import game.common.XTipManager;
 	import game.common.XUtils;
-	import game.common.starBar;
 	import game.common.base.BaseView;
 	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
@@ -27,8 +26,8 @@ package game.module.armyGroup
 	import game.global.event.ArmyGroupEvent;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import game.module.armyGroup.fight.ArmyGroupFightView;
 	import game.module.armyGroup.newArmyGroup.StarItem;
 	import game.module.armyGroup.newArmyGroup.StarVo;
 	import game.module.chatNew.LiaotianView;
@@ -198,8 +197,8 @@ package game.module.armyGroup
 //			Browser.window.gg = this;
 //			Laya["Stat"].show();
 //			console.clear();
-			trace("=========================================================ok")
-			trace("ModuleName:ArmyGroupMapView");
+			TraceUtils.log("=========================================================ok");
+			TraceUtils.log("ModuleName:ArmyGroupMapView");
 			view.lb_boss_time.text = '';
 			view.lb_boss_time.visible = false;
 			if (obj) {
@@ -445,7 +444,7 @@ package game.module.armyGroup
 			var id2 = _plantStarCollection[id] ? id : getDefaultId(_plantStarCollection);
 			var data:StarVo = open_planet_data[id1];
 			var star:StarItem = _plantStarCollection[id2] ;
-			trace("getStarPosInWholeMap", id)
+			TraceUtils.log("getStarPosInWholeMap"+ id);
 			return [star.x + galact_pos_Obj[data.block][0], star.y + galact_pos_Obj[data.block][1]];
 		}
 		
@@ -515,7 +514,7 @@ package game.module.armyGroup
 
 		/**获取服务器消息*/
 		private function serviceResultHandler(... args):void {
-			trace("【国战数据】", args[0], args[1]);
+			TraceUtils.log("【国战数据】"+ args[0]+ args[1]);
 			var server_data = args[1];
 			switch (args[0]) {
 				//国战BOSS倒计时
@@ -536,7 +535,7 @@ package game.module.armyGroup
 						view.lb_boss_time.text = '';
 						view.lb_boss_time.visible = false;
 						clearTimerHandler = null;
-						trace('倒计时结束：：：');
+						TraceUtils.log('倒计时结束：：：');
 					}, false);
 					break;
 				case ServiceConst.ARMY_GROUP_MAP_INIT:
@@ -686,7 +685,7 @@ package game.module.armyGroup
 					break;
 				
 				case ServiceConst.ARMY_GROUP_NPC_INFO:
-					trace("npcInfo", args);
+					TraceUtils.log("npcInfo"+ args);
 					var _npcListArr = args[2].npc_info;
 					//trace("_npcListArr", _npcListArr);
 					if (!_npcListArr || _npcListArr.length == 0)
@@ -713,7 +712,7 @@ package game.module.armyGroup
 		private function joinLabelString(s0, s1, s3, c0, c1):String {
 			if (!CURRENT_SEASON || !GameConfigManager.ArmyGroupSeasonVec[CURRENT_SEASON - 1]) return "";
 			var data = GameConfigManager.ArmyGroupSeasonVec[CURRENT_SEASON - 1];
-			trace("赛季时间========", data)
+			TraceUtils.log("赛季时间========"+data);
 			return ("<div style='width:600px;font-size:18px;color:"+c0+";align:center'>" +
 				GameLanguage.getLangByKey(s0)+ "<span style='color:"+c1+"'>&nbsp;" + 
 				GameConfigManager.ArmyGroupSeasonVec[CURRENT_SEASON - 1][s1] +
@@ -1112,7 +1111,7 @@ package game.module.armyGroup
 			updateAllVisibleStarView();
 			
 			if (starIds.length) {
-				trace("请求数据ids", starIds.join(","));
+				TraceUtils.log("请求数据ids"+starIds.join(","));
 				sendData(ServiceConst.ARMY_GROUP_GET_PART_MAP, [starIds.join(",")]);
 			}
 		}

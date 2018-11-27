@@ -9,6 +9,7 @@ package game.module.guild
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	
 	import laya.events.Event;
@@ -74,7 +75,7 @@ package game.module.guild
 			
 			view.dom_list.array = createListData(result);
 			
-			trace(result);
+			TraceUtils.log(result);
 		}
 		
 		private function createListData(data:Array):Array {
@@ -117,7 +118,7 @@ package game.module.guild
 		/**获取服务器消息*/
 		private function serviceEventHandler(...args):void
 		{
-			trace("【公会捐献】", args);
+			TraceUtils.log("【公会捐献】"+ args);
 			switch(args[0]) {
 				case ServiceConst.GUILD_DONATE:
 					

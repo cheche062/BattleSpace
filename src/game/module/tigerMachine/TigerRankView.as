@@ -1,6 +1,5 @@
 package game.module.tigerMachine
 {
-	import MornUI.tigerMachine.IntroduceViewUI;
 	import MornUI.tigerMachine.TigerRankViewUI;
 	
 	import game.common.XFacade;
@@ -12,6 +11,7 @@ package game.module.tigerMachine
 	import game.global.data.bag.ItemCell3;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.activity.ActivityMainView;
 	import game.net.socket.WebSocketNetService;
@@ -85,7 +85,7 @@ package game.module.tigerMachine
 			}
 			var rankConf:Object = dataFormTigerView[2];
 			var rewardStr:String;
-			trace("rankConf:"+JSON.stringify(rankConf));
+			TraceUtils.log("rankConf:"+JSON.stringify(rankConf));
 			for each(var confItem:Object in rankConf)
 			{
 //				trace("score:"+data["score"]);
@@ -98,10 +98,10 @@ package game.module.tigerMachine
 			}
 			if(!rewardStr)
 			{
-				trace("名次超出100，奖励不在配置里");
+				TraceUtils.log("名次超出100，奖励不在配置里");
 				return;
 			}
-			trace("rewardStr:"+rewardStr);
+			TraceUtils.log("rewardStr:"+rewardStr);
 			var reward:Array = rewardStr.split(";");
 			var box:Box = cell.getChildByName("ItemBox");
 			if(box)
@@ -172,7 +172,7 @@ package game.module.tigerMachine
 		   {
 			   curPage=20;
 		   }
-		   trace("curPage:"+curPage);
+		   TraceUtils.log("curPage:"+curPage);
 		   view.pageTxt.text = curPage + "/" + totalPage;
 		   WebSocketNetService.instance.sendData(ServiceConst.TIGER_RANK_PAGE,[ActivityMainView.CURRENT_ACT_ID,curPage,5]);//活动id 
 		   setTurnPageBtn();
@@ -189,7 +189,7 @@ package game.module.tigerMachine
 			{
 				curPage=1;
 			}
-			trace("curPage:"+curPage);
+			TraceUtils.log("curPage:"+curPage);
 			view.pageTxt.text = curPage + "/" + totalPage;
 			WebSocketNetService.instance.sendData(ServiceConst.TIGER_RANK_PAGE,[ActivityMainView.CURRENT_ACT_ID,curPage,5]);//活动id 
 			setTurnPageBtn();
@@ -207,7 +207,7 @@ package game.module.tigerMachine
 		override public function show(...args):void
 		{
 			super.show(args);
-			trace("打开排行榜数据:"+args[0]);
+			TraceUtils.log("打开排行榜数据:"+args[0]);
 			dataFormTigerView = args[0];
 			curPage = 1; 
 			WebSocketNetService.instance.sendData(ServiceConst.TIGER_RANK_PAGE,[ActivityMainView.CURRENT_ACT_ID,curPage,5]);//活动id 
@@ -219,7 +219,7 @@ package game.module.tigerMachine
 				//打开周卡 
 				case ServiceConst.TIGER_RANK_PAGE:
 				{
-					trace("单页排行数据:"+JSON.stringify(args));
+					TraceUtils.log("单页排行数据:"+JSON.stringify(args));
 					var dataList:Array = [];
 					for each(var itemData:Object in args[2])//{"746":{"uid":746,"times":200,"name":"Player746"}}
 					{
@@ -252,7 +252,7 @@ package game.module.tigerMachine
 				}
 				case ServiceConst.TIGER_RANK_GET_REWARD:
 				{
-					trace("排行榜领奖数据:"+JSON.stringify(args));
+					TraceUtils.log("排行榜领奖数据:"+JSON.stringify(args));
 					view.btn_get.disabled = true;
 //					dataFormTigerView[1] = 1;
 					var mainview:* = dataFormTigerView[4];
@@ -274,7 +274,7 @@ package game.module.tigerMachine
 						idata.inum = rArr[1];
 						propArr.push(idata);	
 					}
-					trace("显示的奖励数组:"+JSON.stringify(propArr));
+					TraceUtils.log("显示的奖励数组:"+JSON.stringify(propArr));
 					XFacade.instance.openModule(ModuleName.ShowRewardPanel, [propArr]);
 					break;
 				}

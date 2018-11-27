@@ -130,7 +130,6 @@ package game.module.fighting.panel
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy SaoDangView");
 			_rList = null;
 			vo = null;
 			adHander = null;

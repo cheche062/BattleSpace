@@ -1,22 +1,14 @@
 package game.module.MilitaryHouse 
 {
-	import game.common.ItemTips;
-	import game.common.UIRegisteredMgr;
-	import game.global.data.bag.BagManager;
-	import game.global.event.BagEvent;
-	import game.global.event.GuildEvent;
-	import game.module.alert.ItemAlertView;
-	import game.module.bingBook.ItemContainer;
 	import MornUI.militaryHouse.MilitaryHouseViewUI;
 	
-	import game.common.AlertManager;
-	import game.common.AlertType;
+	import game.common.ItemTips;
 	import game.common.LayerManager;
 	import game.common.ResourceManager;
 	import game.common.SoundMgr;
+	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.XTipManager;
 	import game.common.XUtils;
 	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
@@ -24,14 +16,17 @@ package game.module.MilitaryHouse
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.DBUnitStar;
+	import game.global.data.bag.BagManager;
+	import game.global.event.BagEvent;
+	import game.global.event.GuildEvent;
 	import game.global.event.MilitartHouseEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.militaryHouse.MilitaryHeroScore;
 	import game.global.vo.militaryHouse.MilitaryScore;
 	import game.global.vo.militaryHouse.MilitaryUnitScore;
 	import game.module.camp.CampData;
-	import game.module.military.MilitaryItem;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -148,8 +143,8 @@ package game.module.MilitaryHouse
 				SoundMgr.instance.playSound(ResourceManager.getSoundUrl("ui_common_click",'uiSound'));
 			}
 			var nowLv:int = _blockData[_selectType+1]["level"];
-			trace("lv:", nowLv);
-			trace("_selectType:", _selectType);
+			TraceUtils.log("lv:"+ nowLv);
+			TraceUtils.log("_selectType:"+ _selectType);
 			switch(_selectType)
 			{
 				case 0:
@@ -444,7 +439,7 @@ package game.module.MilitaryHouse
 				
 			}else
 			{
-				trace("config/unit_parameter.json未载入");
+				TraceUtils.log("config/unit_parameter.json未载入");
 			}
 			
 			while (scoreFormula.search("\\$param1") > 0)
@@ -543,7 +538,7 @@ package game.module.MilitaryHouse
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			trace("militaryHouserServiceData: ", args);
+			TraceUtils.log("militaryHouserServiceData: "+args);
 			var len:int = 0;
 			var i:int=0;
 			switch(cmd)

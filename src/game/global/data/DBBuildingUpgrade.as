@@ -2,6 +2,7 @@ package game.global.data
 {
 	import game.common.ResourceManager;
 	import game.global.data.bag.ItemData;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.User;
 	import game.global.vo.VoHasTool;
@@ -100,10 +101,10 @@ package game.global.data
 							//trace("后端建筑id:"+id);
 							var bid:String = sceneInfo.building[hid]["id"];
 							
-							trace("bid--------"+bid);
+							TraceUtils.log("bid--------"+bid);
 							if(bid=="1")
 							{
-								trace("大本营在建筑队列中");
+								TraceUtils.log("大本营在建筑队列中");
 								return false;
 							}
 						}

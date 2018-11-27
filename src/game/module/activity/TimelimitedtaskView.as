@@ -11,12 +11,11 @@ package game.module.activity
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
 	import laya.utils.Handler;
-	
-	import org.flexunit.internals.namespaces.classInternal;
 	
 	/**
 	 * 限时任务
@@ -56,7 +55,7 @@ package game.module.activity
 			}, function() {
 				view.dom_time.text = "";
 				clearTimerHandler = null;
-				trace('倒计时结束：：：');
+				TraceUtils.log('倒计时结束：：：');
 			}, false);
 		}
 		
@@ -81,14 +80,14 @@ package game.module.activity
 				item["index"] = index;
 			})
 			
-			trace(result);
+			TraceUtils.log(result);
 			view.dom_list.array = result;
 		}
 		
 		private function onResult(...args):void{
 			var cmd = args[0];
 			var server_data = args[1];
-			trace("限时任务", args[1]);
+			TraceUtils.log("限时任务"+ args[1]);
 			switch(cmd) {
 				case ServiceConst.TIME_LIMIT_TASK_OPEN:
 //					var arr = {

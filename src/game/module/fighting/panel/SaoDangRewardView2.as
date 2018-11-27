@@ -117,7 +117,6 @@ package game.module.fighting.panel
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy SaoDangRewardView2");
 			allItem = null;
 			
 			super.destroy(destroyChild);

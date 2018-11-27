@@ -145,7 +145,6 @@ package game.module.fighting.cell
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy FightResultsSoldierCell");
 			bgImg = null;
 			faceImg = null;
 			numLbl = null;

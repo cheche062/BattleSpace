@@ -1,8 +1,9 @@
 package game.common
 {
+	import game.global.util.TraceUtils;
+	
 	import laya.display.Node;
 	import laya.ui.Box;
-	import laya.ui.List;
 	
 	public class ListPanel extends Box
 	{
@@ -73,7 +74,6 @@ package game.common
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy ListPanel");
 			m_renderClass = null;
 			m_panelList = null;
 			super.destroy(destroyChild);

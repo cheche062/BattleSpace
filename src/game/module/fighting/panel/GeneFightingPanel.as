@@ -96,7 +96,6 @@ package game.module.fighting.panel
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy GeneFightingPanel");
 			_rList = null;
 			thisData = null;
 			super.destroy(destroyChild);

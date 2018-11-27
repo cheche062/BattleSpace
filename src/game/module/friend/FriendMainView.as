@@ -1,6 +1,5 @@
 package game.module.friend
 {
-	import game.global.GameSetting;
 	import MornUI.friend.FriendMainViewUI;
 	
 	import game.common.AlertManager;
@@ -11,10 +10,12 @@ package game.module.friend
 	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
+	import game.global.GameSetting;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.friend.ChatVo;
 	import game.global.vo.friend.FriendInfoVo;
@@ -67,7 +68,7 @@ package game.module.friend
 		override public function show(...args):void
 		{
 			
-			trace("好友界面UI：", args);
+			TraceUtils.log("好友界面UI："+ args);
 			
 			super.show(args);
 			AnimationUtil.flowIn(this);

@@ -9,6 +9,7 @@ package game.module.fortress
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	
@@ -115,7 +116,7 @@ package game.module.fortress
 			view.dom_page.text = current_page + '/' + total_page;
 			view.dom_list.array = result;
 			
-			trace("【堡垒排行】当前数据：", result);
+			TraceUtils.log("【堡垒排行】当前数据："+ result);
 		}
 		
 		/**
@@ -124,7 +125,7 @@ package game.module.fortress
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace("【堡垒排行】", args);
+			TraceUtils.log("【堡垒排行】"+ args);
 			
 			switch(args[0]){
 				//打开排行

@@ -1,24 +1,24 @@
 package game.module.chargeView 
 {
+	import MornUI.chargeView.ActChargeViewUI;
+	
 	import game.common.AnimationUtil;
-	import game.common.base.BaseDialog;
 	import game.common.GameLanguageMgr;
-	import game.common.ResourceManager;
 	import game.common.XTip;
-	import game.global.consts.ServiceConst;
-	import game.global.event.Signal;
-	import game.global.GameConfigManager;
+	import game.common.base.BaseDialog;
 	import game.global.GameLanguage;
 	import game.global.GameSetting;
 	import game.global.GlobalRoleDataManger;
+	import game.global.consts.ServiceConst;
+	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.facebookPay.CountriesVo;
 	import game.global.vo.facebookPay.FaceBookPayVo;
-	import game.global.vo.facebookPay.PackVo;
 	import game.global.vo.facebookPay.PayWayVo;
 	import game.net.socket.WebSocketNetService;
+	
 	import laya.events.Event;
 	import laya.utils.Handler;
-	import MornUI.chargeView.ActChargeViewUI;
 	
 	/**
 	 * ...
@@ -82,7 +82,7 @@ package game.module.chargeView
 		{
 			
 			super.show();
-			trace("打开活动支付界面：", args);
+			TraceUtils.log("打开活动支付界面："+ args);
 			m_canBuy = false;
 			switch(args[0][0])
 			{
@@ -121,8 +121,8 @@ package game.module.chargeView
 			back(data);*/
 			
 			function back(data){
-				trace("back::"+JSON.stringify(data))
-				trace("back::", data)
+				TraceUtils.log("back::"+JSON.stringify(data));
+				TraceUtils.log("back::"+data);
 				m_data = new FaceBookPayVo();
 				if(data.status==1)
 				{
@@ -239,8 +239,8 @@ package game.module.chargeView
 					break;
 				}
 			}
-			trace("物品关键词：", m_keyWord);
-			trace("购买的物品信息：", m_goodData);
+			TraceUtils.log("物品关键词："+ m_keyWord);
+			TraceUtils.log("购买的物品信息："+ m_goodData);
 			/*data.forEach(function(item, index){
 				// 给每个子项添加回调（由于子项有个单独的帮助小按钮所以需要分离）
 				item.onSelectChargeHandler = onSelectChargeHandler.bind(_this, index);
@@ -261,7 +261,7 @@ package game.module.chargeView
 				case ServiceConst.GET_WEBPAY_URL:
 				{
 					var url:String=args[1]["url"];
-					trace("打开支付页面：", url, m_goodData.name);
+					TraceUtils.log("打开支付页面："+ url+ m_goodData.name);
 					
 					var voName:String = m_goodData.name;
 					

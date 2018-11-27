@@ -43,11 +43,11 @@ package game.global.util
 //			trace("Browser.window.location.href:"+Browser.window.location.href);
 			if(url.indexOf("qa") != -1){
 				_loader.load("manifest.jpg?v="+Math.random(), Loader.BUFFER); 
-				trace("mmmmmmm");
-				trace("url:"+url);
+				TraceUtils.log("mmmmmmm");
+				TraceUtils.log("url:"+url);
 			}else{
 				_loader.load("manifest.jpg?v="+GameSetting.Version, Loader.BUFFER); 
-				trace("nnnnnnn");
+				TraceUtils.log("nnnnnnn");
 			}
 		}
 		
@@ -55,8 +55,8 @@ package game.global.util
 		public static function updateRes(comHandler:Handler, proHandler:Handler):void{
 			if(dccList && dccList.length > 0){
 				ResourceManager.instance.setResURLArr(dccList);
-				trace("updateRes------------------------")
-				trace(JSON.stringify(dccList));
+				TraceUtils.log("updateRes------------------------")
+				TraceUtils.log(JSON.stringify(dccList));
 				Laya.loader.load(dccList, Handler.create(null, done), proHandler);
 			}else{
 				dccList = null;

@@ -2,9 +2,9 @@ package game.module.fighting.cell
 {
 	import MornUI.fightingChapter.SaoDangRewardCellUI;
 	
-	import game.common.RewardList;
 	import game.global.StringUtil;
 	import game.global.data.bag.ItemCell;
+	import game.global.util.TraceUtils;
 	
 	import laya.ui.List;
 	
@@ -36,7 +36,7 @@ package game.module.fighting.cell
 			super.dataSource =  value;
 			if(thisData == value)
 			{
-				trace("thisData,",thisData);
+				TraceUtils.log("thisData,"+thisData);
 				return ;
 			}
 			thisData = value;
@@ -71,7 +71,6 @@ package game.module.fighting.cell
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy SaoDangRewardCell");
 			_rList = null;
 			thisData = null;
 			showAr = null;

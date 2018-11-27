@@ -3,14 +3,13 @@ package game.common.baseScene
 	import game.common.BufferView;
 	import game.common.LayerManager;
 	import game.common.ResourceManager;
-	import game.common.SceneManager;
 	import game.common.base.IBaseView;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Sprite;
 	import laya.events.Event;
 	import laya.maths.Rectangle;
 	import laya.resource.Texture;
-	import laya.utils.Browser;
 	import laya.utils.Handler;
 	
 	public class BaseScene extends Sprite implements IBaseView
@@ -110,10 +109,10 @@ package game.common.baseScene
 		 */
 		protected function onMapLoaded(_e:*=null):void{
 			if(isDispose){
-				trace("<<< BaseScene.onMapLoaded() className: " + this["constructor"].name + " ==== name: " + this.name );
+				TraceUtils.log("<<< BaseScene.onMapLoaded() className: " + this["constructor"].name + " ==== name: " + this.name );
 				return;
 			}
-			trace("<<< onMapLoaded" );
+			TraceUtils.log("<<< onMapLoaded" );
 			initMapPosition();
 			loadSceneResource(); 
 		}
@@ -129,7 +128,7 @@ package game.common.baseScene
 		 * 
 		 */
 		protected function loadSceneResource():void{
-			trace("m_SceneResource:"+m_SceneResource);
+			TraceUtils.log("m_SceneResource:"+m_SceneResource);
 			if(m_SceneResource){
 				BufferView.instance.show();
 				ResourceManager.instance.load(m_SceneResource,Handler.create(this,_onLoaded));
@@ -139,7 +138,7 @@ package game.common.baseScene
 		}
 		private function _onLoaded(_e:*=null):void{
 			if(isDispose){//界面销毁不再加载
-				trace("<<<< BaseScene._onLoaded() isDispose:true className: " + this["constructor"].name + " ==== name: " + this.name );
+				TraceUtils.log("<<<< BaseScene._onLoaded() isDispose:true className: " + this["constructor"].name + " ==== name: " + this.name );
 				return;
 			}
 //			trace("2222222222222222222");
@@ -221,7 +220,7 @@ package game.common.baseScene
 		
 		public function loadImgComplete():void{
 			if(isDispose){
-				trace("<<< BaseScene.loadImgComplete() className: " + this["constructor"].name + " ==== name: " + this.name );
+				TraceUtils.log("<<< BaseScene.loadImgComplete() className: " + this["constructor"].name + " ==== name: " + this.name );
 				return;
 			}
 			var texture:Texture = Laya.loader.getRes(changUrl);
@@ -274,7 +273,7 @@ package game.common.baseScene
 		 */		
 		public function dispose():void
 		{
-			trace("<<< BaseScene.dispose() className: " + this["constructor"].name + " ==== name: " + this.name );
+			TraceUtils.log("<<< BaseScene.dispose() className: " + this["constructor"].name + " ==== name: " + this.name );
 			isDispose = true;
 		//	SceneLoadMgr.instance.dispose();
 			this.m_sprMap.destroy(true);

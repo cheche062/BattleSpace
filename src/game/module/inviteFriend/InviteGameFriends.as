@@ -11,6 +11,7 @@ package game.module.inviteFriend
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	import laya.utils.Handler;
@@ -128,7 +129,7 @@ package game.module.inviteFriend
 				XTip.showTip(text);
 			}
 			
-			trace(index)
+			TraceUtils.log(index);
 		}
 		
 		/**
@@ -163,7 +164,7 @@ package game.module.inviteFriend
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace('【InviteGameFriends】', args)
+			TraceUtils.log('【InviteGameFriends】'+ args);
 			
 			// 测试数据
 //			args[1]["friend_list"] = [

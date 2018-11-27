@@ -63,7 +63,6 @@ package game.module.tips
 			Laya.timer.clear(this, close);
 			Laya.timer.once(CLOSE_TIME, this, close);
 			SoundMgr.instance.playSound(ResourceManager.getSoundUrl("br_upgrade_v2",'uiSound'));
-			trace("xxxxxxxxxxxxxxx")
 		}
 		
 		override public function close():void{

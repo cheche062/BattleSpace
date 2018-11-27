@@ -4,6 +4,7 @@ package game.module.fighting.mgr
 	import game.global.consts.ServiceConst;
 	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	
 	import laya.net.Loader;
@@ -61,7 +62,7 @@ package game.module.fighting.mgr
 			
 			if(isOpen)
 			{
-				trace("加载第一步 虚拟");
+				TraceUtils.log("加载第一步 虚拟");
 				pushBu();
 			}
 		}
@@ -76,7 +77,7 @@ package game.module.fighting.mgr
 				
 				if(buDataArr.length > buNum){
 					var erData:* = buDataArr[buNum];
-					trace("事件派发",NewerGuildeEvent.GUIDE_ATTACK_FINISH , erData);
+					TraceUtils.log("事件派发"+NewerGuildeEvent.GUIDE_ATTACK_FINISH+erData);
 					Signal.intance.event(NewerGuildeEvent.GUIDE_ATTACK_FINISH,erData);
 				}
 			}	

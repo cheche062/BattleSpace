@@ -8,6 +8,7 @@ package game.net.socket
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	
 	import laya.utils.Browser;
 	import laya.utils.Byte;
@@ -166,7 +167,7 @@ package game.net.socket
 			}
 			if(url.indexOf("10.8") != -1 || url.indexOf("qa") != -1 || url.indexOf("file") != -1){
 				if (_obj[0] != 10108 && _obj[0] != 36200 && _obj[0] != 35000) {
-					trace("data pack......:",JSON.stringify(_obj));
+					TraceUtils.log("data pack......:"+JSON.stringify(_obj));
 				}
 			}
 			

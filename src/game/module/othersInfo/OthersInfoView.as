@@ -11,6 +11,7 @@ package game.module.othersInfo
 	import game.global.consts.ServiceConst;
 	import game.global.data.DBUnitStar;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	
 	import laya.events.Event;
@@ -67,7 +68,7 @@ package game.module.othersInfo
 		/**请求回来的数据处理*/
 		private function onServerResult(...args):void {
 			var cmd = Number(args[0]);
-			trace('%c 【玩家信息】：', 'color: green', cmd, args);
+			TraceUtils.log('%c 【玩家信息】：'+ 'color: green'+ cmd+ args);
 			var result = args[1];
 			switch(cmd) {
 				case ServiceConst.PLAYER_INFO:

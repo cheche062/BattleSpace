@@ -12,6 +12,7 @@ package game.module.activity
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Sprite;
@@ -145,7 +146,7 @@ package game.module.activity
 		}
 		
 		private function onResult(...args):void{
-			trace("月签", args[1]);
+			TraceUtils.log("月签"+args[1]);
 			switch(args[0]) {
 				case ServiceConst.SIGNIN_OPEN:
 					serverdata = args[1];

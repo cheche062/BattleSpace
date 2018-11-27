@@ -1,7 +1,6 @@
 package game.global.data.formatData
 {
-	import laya.ui.Image;
-	import laya.ui.Tab;
+	import game.global.util.TraceUtils;
 
 	public class AttackFormatData
 	{
@@ -116,7 +115,7 @@ package game.global.data.formatData
 			
 			if(!obj.attack)
 			{
-			trace("错误断点");
+				TraceUtils.log("错误断点");
 			}
 			if(obj.attack && obj.attack.te)
 			{

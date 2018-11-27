@@ -3,14 +3,10 @@ package game.common
 	import game.common.base.BaseView;
 	import game.global.GameLanguage;
 	import game.global.data.DBItem;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
-	import game.global.vo.VoHasTool;
-	import game.module.mainui.MainView;
 	
-	import laya.display.Sprite;
 	import laya.display.Text;
-	import laya.net.Loader;
-	import laya.ui.AutoBitmap;
 	import laya.ui.Image;
 	import laya.utils.Ease;
 	import laya.utils.Handler;
@@ -87,7 +83,7 @@ package game.common
 			var itemId:Number = arr[0];
 			var itemNum:Number = arr[1];
 			var dataItem:ItemVo = DBItem.getItemData(itemId);
-			trace("收获:"+dataItem.name+"*"+itemNum);
+			TraceUtils.log("收获:"+dataItem.name+"*"+itemNum);
 			var view:* = Laya.stage;
 			var dom_text:Text = new Text();
 			dom_text.text = GameLanguage.getLangByKey(dataItem.name) + "  x  " + itemNum;

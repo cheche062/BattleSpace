@@ -5,7 +5,6 @@ package game.module.mainui
 	import game.common.LayerManager;
 	import game.common.ResourceManager;
 	import game.common.SceneManager;
-	import game.common.SoundMgr;
 	import game.common.ToolFunc;
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
@@ -24,6 +23,7 @@ package game.module.mainui
 	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
 	import game.global.util.PreloadUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.User;
 	import game.global.vo.reVo;
@@ -95,7 +95,7 @@ package game.module.mainui
 			this.canBuild = true;
 			this._data = args[0];
 			
-			trace("显示下方列表数据:", args);
+			TraceUtils.log("显示下方列表数据:"+ args);
 			showMenu(this._data[0]);
 			onStageResize();
 			/**
@@ -455,7 +455,7 @@ package game.module.mainui
 				//条件判定===
 				var buildLvVo:BuildingLevelVo = DBBuildingUpgrade.getBuildingLv(item.data.building_id, 1);
 				var canUp:Boolean = DBBuildingUpgrade.checkCanUp(parseInt(item.data.building_id), 0)
-				trace("canUp----------,",canUp,item.isMax);
+				TraceUtils.log("canUp----------,"+canUp+item.isMax);
 				if(canUp && !item.isMax){
 					Signal.intance.event(BuildEvent.BUILD_START, item.data);
 					this._data = item.data
@@ -746,7 +746,7 @@ package game.module.mainui
 			var data:ArticleData = this._data[1];
 			var id:String  = data.buildId;
 			id = id.replace("B","");
-			trace("buildingID: " + id);
+			TraceUtils.log("buildingID: " + id);
 			switch(id){
 				case DBBuilding.B_MINE:		
 					XFacade.instance.openModule("MineShopView");	
@@ -763,7 +763,7 @@ package game.module.mainui
 			var data:ArticleData = this._data[1];
 			var id:String  = data.buildId;
 			id = id.replace("B","");
-			trace("buildingID: " + id);
+			TraceUtils.log("buildingID: " + id);
 			switch(id){
 				case DBBuilding.B_TRAIN:
 					XFacade.instance.openModule("TrainView");

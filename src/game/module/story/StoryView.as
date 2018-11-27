@@ -1,8 +1,6 @@
 package game.module.story
 {
 	import MornUI.Story.StoryViewUI;
-	import MornUI.bingBook.BingBookShowInfoUI;
-	import MornUI.newerGuide.GuiderViewUI;
 	
 	import game.common.AndroidPlatform;
 	import game.common.LayerManager;
@@ -10,13 +8,11 @@ package game.module.story
 	import game.common.base.BaseView;
 	import game.global.GameLanguage;
 	import game.global.GameSetting;
-	import game.global.consts.ServiceConst;
-	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Sprite;
 	import laya.events.Event;
 	import laya.ui.Box;
-	import laya.utils.Browser;
 	import laya.utils.Tween;
 	
 	public class StoryView extends BaseView
@@ -60,7 +56,7 @@ package game.module.story
 			
 			setStory(curstoryId);
 		
-			trace("当前剧情id:"+curstoryId);
+			TraceUtils.log("当前剧情id:"+curstoryId);
 			ani(); 
 			Laya.timer.once(holdTime,this,canClick);
 			if(!this.bg.displayedInStage){
@@ -182,7 +178,7 @@ package game.module.story
 //				view.des1.scaleX=1;
 			}
 			view.des1.text	= GameLanguage.getLangByKey(la);
-			trace("bg.alpha:"+bg.alpha);
+			TraceUtils.log("bg.alpha:"+bg.alpha);
 		}
 		public function get view():StoryViewUI{
 			if(!_view)
@@ -236,9 +232,9 @@ package game.module.story
 //			trace("背景点击");
 			if(isFinish==1)
 			{
-				trace("剧情任务已经完成");
+				TraceUtils.log("剧情任务已经完成");
 				onClose();
-				trace("剧情结束时的剧情id"+curstoryId);
+				TraceUtils.log("剧情结束时的剧情id"+curstoryId);
 				this.bg.removeSelf();
 				StoryManager.intance.showStoryModule(StoryManager.TASK_PANNEL);
 				return;
@@ -248,7 +244,7 @@ package game.module.story
 			var tmp:Number = Number(curstoryId);
 			tmp++;
 			curstoryId = String(tmp);
-			trace(curstoryId);
+			TraceUtils.log(curstoryId);
 			setStory(curstoryId);
 			ani();
 		}

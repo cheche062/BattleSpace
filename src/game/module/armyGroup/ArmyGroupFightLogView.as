@@ -6,12 +6,11 @@ package game.module.armyGroup
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
 	import game.common.base.BaseDialog;
-	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
-	import game.global.event.ArmyGroupEvent;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.bingBook.ItemContainer;
 	import game.net.socket.WebSocketNetService;
@@ -112,7 +111,7 @@ package game.module.armyGroup
 					}
 					break;
 				case ServiceConst.ARMY_GROUP_NPC_INFO:
-					trace("npcInfo", args);
+					TraceUtils.log("npcInfo"+args);
 					_npcListArr = args[1].npc_info;
 					view.npcOver.visible = false;
 					view.titleBar.visible = true;

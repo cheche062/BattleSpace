@@ -8,11 +8,11 @@ package game.module.camp.avatar
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.module.camp.CampData;
 	import game.module.camp.CampView;
 	import game.module.camp.NewUnitInfoView;
 	import game.module.camp.UnitInfoView;
-	import game.module.camp.UnitSrcView;
 	import game.module.fighting.view.BaseChapetrView;
 	import game.net.socket.WebSocketNetService;
 	
@@ -51,7 +51,7 @@ package game.module.camp.avatar
 		public function format(uid:int):void{
 			var arr:Array = DBSkin.getSkinData(uid);
 			ui.list.array = arr;
-			trace("arr---------------"+arr);
+			TraceUtils.log("arr---------------"+arr);
 			
 			if(this.ui.list.selectedIndex < 0){
 				this.ui.list.selectedIndex = 0;
@@ -74,7 +74,7 @@ package game.module.camp.avatar
 		}
 		
 		private function onEquip(...args):void{
-			trace("onEquip::",args)
+			TraceUtils.log("onEquip::"+args);
 			var heroVo:Object = CampData.getUintById(args[1]);
 			if(heroVo){
 				heroVo.skin = args[2];
@@ -105,7 +105,7 @@ package game.module.camp.avatar
 		
 		private function onSelect(e:Event,index:int):void{
 			if(e.type == Event.CLICK){
-				trace("onSelect", index,ui.list.selectedIndex)
+				TraceUtils.log("onSelect"+index,ui.list.selectedIndex);
 				ui.list.refresh();
 				var cur:SkinVo= this.ui.list.selectedItem
 				var item:AvatarItem = ui.list.getCell(ui.list.selectedIndex);

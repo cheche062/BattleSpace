@@ -5,7 +5,6 @@ package game.module.mainui.upgradeViews
 	import game.common.AnimationUtil;
 	import game.common.DataLoading;
 	import game.common.XFacade;
-	import game.common.XTip;
 	import game.common.XTipManager;
 	import game.common.XUtils;
 	import game.common.base.BaseDialog;
@@ -19,9 +18,9 @@ package game.module.mainui.upgradeViews
 	import game.global.data.bag.ItemData;
 	import game.global.util.ItemUtil;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.User;
-	import game.module.alert.XAlert;
 	import game.module.mainScene.ArticleData;
 	import game.module.mainScene.HomeScene;
 	import game.module.mainui.SceneVo;
@@ -30,7 +29,6 @@ package game.module.mainui.upgradeViews
 	import laya.events.Event;
 	import laya.html.dom.HTMLDivElement;
 	import laya.maths.Rectangle;
-	import laya.ui.ProgressBar;
 	import laya.utils.Handler;
 	
 	/**
@@ -91,7 +89,7 @@ package game.module.mainui.upgradeViews
 								minQId = i;
 							}
 						}
-						trace("最短时间的队列id:"+minQId);
+						TraceUtils.log("最短时间的队列id:"+minQId);
 						cost = DBBuildingCD.cost(sceneVo.getQueueTime(minArtId));
 //						cost = DBBuildingCD.cost(sceneVo.getQueueTime("-1"));
 						if(cost > 0){
@@ -230,13 +228,13 @@ package game.module.mainui.upgradeViews
 						
 						if(bid=="1")
 						{
-							trace("大本营在建筑队列中");
+							TraceUtils.log("大本营在建筑队列中");
 							hqinQueue = true;
 						}
 					}
 				}
 				if(_nextLvData && _nextLvData.HQ_level > User.getInstance().sceneInfo.getBaseLv()){
-					trace("大本营等级不满足不能升级");
+					TraceUtils.log("大本营等级不满足不能升级");
 					ui.upBox.visible = false;
 					ui.tipBox.visible = true;
 					var str:String = GameLanguage.getLangByKey("L_A_11");
@@ -244,7 +242,7 @@ package game.module.mainui.upgradeViews
 					ui.tipTF.text = str;
 				}else if(_nextLvData&&_nextLvData.HQ_level == User.getInstance().sceneInfo.getBaseLv()&&hqinQueue)
 				{
-					trace("大本营等级刚满足但是大本营在建筑队列里，不能升级");
+					TraceUtils.log("大本营等级刚满足但是大本营在建筑队列里，不能升级");
 					ui.upBox.visible = false;
 					ui.tipBox.visible = true;
 					var str:String = GameLanguage.getLangByKey("L_A_11");

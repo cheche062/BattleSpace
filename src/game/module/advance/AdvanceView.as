@@ -12,6 +12,7 @@ package game.module.advance
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.BagManager;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.module.fighting.view.BaseChapetrView;
 	import game.net.socket.WebSocketNetService;
 	
@@ -198,7 +199,7 @@ package game.module.advance
 		{
 			var max:int = 0;
 			var _data = args[1];
-			trace("【战况升阶】: ", args[0], _data);
+			TraceUtils.log("【战况升阶】: "+args[0]+ _data);
 			switch(args[0])
 			{
 				case ServiceConst.ASCENDING_ONE_UPGRADE:

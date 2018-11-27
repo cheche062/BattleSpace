@@ -1,7 +1,6 @@
 package game.module.guild
 {
 	import MornUI.guild.AwakeningUI;
-	import MornUI.guild.TechnologyUI;
 	
 	import game.common.ResourceManager;
 	import game.common.base.BaseDialog;
@@ -12,6 +11,7 @@ package game.module.guild
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -302,7 +302,7 @@ package game.module.guild
 				donateRecoverTime = nowTime;
 				setLeftTime();
 			}	
-			trace("_timeCount:"+_timeCount);
+			TraceUtils.log("_timeCount:"+_timeCount);
 			var leftStr:String = TimeUtil.getTimeCountDownStr(_timeCount,false);
 			view.leftTime.text =  GameLanguage.getLangByKey("L_A_2644").replace("{0}",leftStr);
 			centerBom();
@@ -319,13 +319,13 @@ package game.module.guild
 			//				var nowTime:Number = TimeUtil.now;
 			
 			var times:int = Math.floor((nowTime-donateRecoverTime)/recoverTimes);
-							trace("now"+nowTime);
-							trace("donateRecoverTime"+donateRecoverTime);
-							trace("recoverTimes"+recoverTimes);
-							trace("times"+times);
+			TraceUtils.log("now"+nowTime);
+			TraceUtils.log("donateRecoverTime"+donateRecoverTime);
+			TraceUtils.log("recoverTimes"+recoverTimes);
+			TraceUtils.log("times"+times);
 			donateTimesleft+=times;
 			
-			trace("donateTimesleft:"+donateTimesleft);		
+			TraceUtils.log("donateTimesleft:"+donateTimesleft);		
 			if(parseInt(donateTimesleft)>=parseInt(totalTimes))
 			{
 				donateTimesleft = totalTimes;

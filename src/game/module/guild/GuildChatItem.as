@@ -1,11 +1,12 @@
 package game.module.guild
 {
 	import MornUI.guild.GuildTalkItemUI;
-
+	
 	import game.common.XFacade;
 	import game.global.ModuleName;
+	import game.global.util.TraceUtils;
 	import game.module.fighting.mgr.FightingManager;
-
+	
 	import laya.events.Event;
 	import laya.ui.Box;
 
@@ -46,7 +47,7 @@ package game.module.guild
 
 		private function gotoHelp():void
 		{
-			trace("前去帮忙" + data.params[0]);
+			TraceUtils.log("前去帮忙" + data.params[0]);
 			//FightingManager.intance.getSquad(112,好友ID,Handler); 
 			switch (data.type)
 			{
@@ -69,7 +70,7 @@ package game.module.guild
 		{
 
 			this._data=value;
-			trace("消息数据~~~~~~~~~~~~~~");
+			TraceUtils.log("消息数据~~~~~~~~~~~~~~");
 			if (!data)
 			{
 				return;

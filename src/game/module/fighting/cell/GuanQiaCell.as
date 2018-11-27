@@ -116,7 +116,6 @@ package game.module.fighting.cell
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy GuanQiaCell");
 			_starb = null;
 			_data = null;
 			

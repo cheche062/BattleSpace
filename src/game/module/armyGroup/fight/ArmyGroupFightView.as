@@ -20,6 +20,7 @@ package game.module.armyGroup.fight
 	import game.global.event.Signal;
 	import game.global.fighting.BaseUnit;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.armyGroup.ArmyGroupChatView;
 	import game.module.armyGroup.ArmyGroupMapView;
@@ -399,7 +400,7 @@ package game.module.armyGroup.fight
 		/**解析战报,数据从服务端接收*/
 		private function onFight(... args):void
 		{
-			trace("战斗数据更新：", args[1]);
+			TraceUtils.log("战斗数据更新："+args[1]);
 			
 			_fightOverCount = 900;
 			
@@ -575,7 +576,7 @@ package game.module.armyGroup.fight
 		
 		private function onMapUpdate(...args):void
 		{
-			trace("更新地图信息", args);
+			TraceUtils.log("更新地图信息"+ args);
 			if (_curTID != "" &&  _curTID == args[1].team_id)
 			{
 				_myArmyPos[_curTID] = args[1].map_pos;
@@ -931,7 +932,7 @@ package game.module.armyGroup.fight
 
 		private function onTeamUpdate(... args):void
 		{
-			trace("onTeamUpdate::", args)
+			TraceUtils.log("onTeamUpdate::"+ args)
 			//[35886,[8,"11-1512098113","1001",11258,"No.008",46,"FFF","2"],2]
 			//防守数据不一致，第三位不需要。修改数据源,
 			/*if (args[2] == 2)
@@ -1055,8 +1056,8 @@ package game.module.armyGroup.fight
 																	}]);
 					}
 					
-					trace("_curTID:", _curTID);
-					trace("_myArmyPos:", _myArmyPos[_curTID]);
+					TraceUtils.log("_curTID:"+ _curTID);
+					TraceUtils.log("_myArmyPos:"+ _myArmyPos[_curTID]);
 					view.escapeBtn.visible = false;
 					if ((_myArmyPos[_curTID] =="5_2"|| _myArmyPos[_curTID] =="5_34") && data.status != 2)
 					{

@@ -8,6 +8,7 @@ package game.module.grassShip
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	
 	import laya.events.Event;
@@ -109,7 +110,7 @@ package game.module.grassShip
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace("【草船借箭排行】", args);
+			TraceUtils.log("【草船借箭排行】"+ args);
 			
 			switch(args[0]){
 				//打开排行

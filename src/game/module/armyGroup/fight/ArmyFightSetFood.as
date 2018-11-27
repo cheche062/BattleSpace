@@ -1,19 +1,20 @@
 package game.module.armyGroup.fight 
 {
+	import MornUI.armyGroupFight.ArmyFightSetFoodUI;
+	
 	import game.common.AnimationUtil;
-	import game.common.base.BaseDialog;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.global.consts.ServiceConst;
-	import game.global.data.DBBuilding;
-	import game.global.event.Signal;
-	import game.global.GameConfigManager;
+	import game.common.base.BaseDialog;
 	import game.global.GameLanguage;
+	import game.global.consts.ServiceConst;
+	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
+	
 	import laya.events.Event;
 	import laya.utils.Handler;
-	import MornUI.armyGroupFight.ArmyFightSetFoodUI;
 	
 	/**
 	 * ...
@@ -56,7 +57,7 @@ package game.module.armyGroup.fight
 			switch (cmd)
 			{
 				case ServiceConst.ARMY_GROUP_SET_FOOD:
-					trace('保护粮草', args[1])
+					TraceUtils.log('保护粮草'+ args[1]);
 					
 					close();
 					break;

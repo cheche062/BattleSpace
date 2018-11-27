@@ -2,10 +2,10 @@ package game.global
 {
 	import game.common.AndroidPlatform;
 	import game.common.ResourceManager;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.net.LocalStorage;
-	import laya.renders.Render;
 	import laya.utils.Browser;
 	import laya.utils.Handler;
 
@@ -125,8 +125,8 @@ package game.global
 		private static var lanDic:Object = {en:"en-us", es:"es-es",de:"de-de", fr:"fr-fr",pt:"pt-pt"};
 		private static function onGetAppLan(p_str:String):void
 		{
-			trace("onGetAppLanxxxx:")
-			trace(p_str)
+			TraceUtils.log("onGetAppLanxxxx:")
+			TraceUtils.log(p_str);
 			/*英文	en	en-us
 			中文	zh	中文
 			西班牙	es	es-es

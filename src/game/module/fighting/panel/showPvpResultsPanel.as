@@ -108,7 +108,6 @@ package game.module.fighting.panel
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy showPvpResultsPanel");
 			_rList = null;
 			_callBackFun = null;
 			super.destroy(destroyChild);

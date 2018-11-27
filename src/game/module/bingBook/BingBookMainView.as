@@ -6,10 +6,8 @@ package game.module.bingBook
 	import game.common.AlertType;
 	import game.common.AnimationUtil;
 	import game.common.ResourceManager;
-	import game.common.RewardList;
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
-	import game.common.XTip;
 	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
@@ -18,28 +16,20 @@ package game.module.bingBook
 	import game.global.consts.ServiceConst;
 	import game.global.data.ConsumeHelp;
 	import game.global.data.DBItem;
-	import game.global.data.bag.ItemCell;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.fighting.BaseUnit;
+	import game.global.util.TraceUtils;
 	import game.global.vo.VIPVo;
-	import game.global.vo.VoHasTool;
-	import game.global.vo.guild.GuildItemVo;
 	import game.module.bag.mgr.ItemManager;
-	import game.module.fighting.mgr.FightingManager;
-	import game.module.mainui.BtnDecorate;
-	import game.module.relic.LevelUpView;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Animation;
-	import laya.display.Sprite;
 	import laya.events.Event;
 	import laya.maths.Point;
 	import laya.ui.Box;
 	import laya.ui.Image;
 	import laya.ui.Label;
-	import laya.ui.List;
-	import laya.ui.UIUtils;
 	import laya.utils.Handler;
 	import laya.utils.HitArea;
 	import laya.utils.Tween;
@@ -216,7 +206,7 @@ package game.module.bingBook
 			
 			UIRegisteredMgr.AddUI(view.fBtn, "BingBookFightBtn");
 			
-			trace("BingBookMainView createUI");		
+			TraceUtils.log("BingBookMainView createUI");		
 		}
 	
 		private function createReward():void
@@ -309,13 +299,13 @@ package game.module.bingBook
 //				ServiceConst.getServerEventKey(args[0]),
 //				this,getDataBack);
 //			return ;
-			trace("兵书副本返回:"+JSON.stringify(args));
+			TraceUtils.log("兵书副本返回:"+JSON.stringify(args));
 			var img:Image;
 			var ect:Animation;
 			sweepQuanTimes = args[1]["sweepTimes"];  
-			trace("用券扫荡次数:"+sweepQuanTimes);
+			TraceUtils.log("用券扫荡次数:"+sweepQuanTimes);
 			sweepWaterTimes = args[1]["buyTimes"];  
-			trace("用水扫荡次数:"+sweepWaterTimes);
+			TraceUtils.log("用水扫荡次数:"+sweepWaterTimes);
 			view.btn_openSweep.on(Event.CLICK,this,openSweepView);
 			var isRefresh = args[0] == ServiceConst.BINGBOOK_REFRESH;  
 			for each(img in xianDic)
@@ -393,9 +383,9 @@ package game.module.bingBook
 				}
 			
 			}
-			trace("ifSweep:"+ifSweep);
+			TraceUtils.log("ifSweep:"+ifSweep);
 			var jsonObj:Object = ResourceManager.instance.getResByURL("config/book_sweep.json");
-			trace("参数:"+JSON.stringify(jsonObj));
+			TraceUtils.log("参数:"+JSON.stringify(jsonObj));
 			var maxTimes:Number=0;
 			for each(var obj:Object in jsonObj)
 			{
@@ -641,7 +631,7 @@ package game.module.bingBook
 			view.backBtn.on(Event.CLICK,this,backFun);
 			view.rBtn.on(Event.CLICK,this,refreshFun);
 			view.fBtn.on(Event.CLICK,this,fightFun);
-			trace("BingBookMainView addEvent");
+			TraceUtils.log("BingBookMainView addEvent");
 			for (var i:int = 1; i <= radiuList.length * ringN; i++) 
 			{
 				var img:Image = view.lBox.getChildByName("d"+i);
@@ -653,7 +643,7 @@ package game.module.bingBook
 		private function openSweepView():void
 		{
 			var jsonObj:Object = ResourceManager.instance.getResByURL("config/book_sweep.json");
-			trace("参数:"+JSON.stringify(jsonObj));
+			TraceUtils.log("参数:"+JSON.stringify(jsonObj));
 			var maxTimes:Number=0;
 			for each(var obj:Object in jsonObj)
 			{
@@ -672,7 +662,7 @@ package game.module.bingBook
 			view.backBtn.off(Event.CLICK,this,backFun);
 			view.rBtn.off(Event.CLICK,this,refreshFun);
 			view.fBtn.off(Event.CLICK,this,fightFun);
-			trace("BingBookMainView removeEvent");
+			TraceUtils.log("BingBookMainView removeEvent");
 			for (var i:int = 1; i <= radiuList.length * ringN; i++) 
 			{
 				var img:Image = view.lBox.getChildByName("d"+i);
@@ -803,7 +793,6 @@ package game.module.bingBook
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BingBookMainView");
 			Signal.intance.off(
 								ServiceConst.getServerEventKey(ServiceConst.BINGBOOK_MAIN),
 								this,getDataBack);

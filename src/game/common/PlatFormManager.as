@@ -1,8 +1,8 @@
 package game.common
 {
 	import game.global.GameSetting;
-	import game.global.ModuleName;
 	import game.global.GameInterface.IGameDispose;
+	import game.global.util.TraceUtils;
 	
 	import laya.utils.Handler;
 
@@ -37,7 +37,7 @@ package game.common
 			}
 			var _currentLogin:Handler=new Handler(this,function(_str:String):void{
 				var _obj:Object=JSON.parse(_str);
-				trace("回调登录数据:"+_str);
+				TraceUtils.log("回调登录数据:"+_str);
 				//__JS__("alert(_str)");
 				alert(_str)
 				if(_obj.hasOwnProperty("type")){
@@ -64,7 +64,7 @@ package game.common
 		 */		
 		public function getUDID(_callBack:Handler=null):void{
 			var _currentLogin:Handler=new Handler(this,function(_str:String):void{
-				trace("getUDID Back:"+_str);
+				TraceUtils.log("getUDID Back:"+_str);
 				GameSetting.Login_UDID=_str;
 				if(_callBack){
 					_callBack.runWith(_str);

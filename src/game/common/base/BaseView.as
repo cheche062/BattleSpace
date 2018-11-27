@@ -5,6 +5,7 @@ package game.common.base
 	import game.common.ResourceManager;
 	import game.common.UnpackMgr;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.module.commonGuide.CommonGuideView;
 	import game.module.commonGuide.FunctionGuideView;
 	import game.module.mainui.MainMenuView;
@@ -203,7 +204,7 @@ package game.common.base
 		}
 		
 		public function logColor(data):void {
-			trace('%c 【数据】：', 'color: green', data);
+			TraceUtils.log('%c 【数据】：'+'color: green'+data);
 		}
 	}
 }

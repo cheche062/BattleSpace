@@ -1,5 +1,6 @@
 package game.module.fighting.cell
 {
+	import game.global.util.TraceUtils;
 	import game.module.camp.ProTipUtil;
 	
 	import laya.events.Event;
@@ -40,12 +41,11 @@ package game.module.fighting.cell
 				 var t:String = ar[0] == "1" ? "a":"b";
 				 var skinUrl:String = "common/icons/"+t+"_"+ar[1]+".png";
 				 img.skin = skinUrl;
-				 trace(skinUrl);
+				 TraceUtils.log(skinUrl);
 			}
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy TypeIconCell");
 			img.off(Event.CLICK,this,imgClick);
 			img = null;
 			

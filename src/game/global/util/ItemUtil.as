@@ -3,17 +3,13 @@ package game.global.util
 	import MornUI.componets.ItemIconUI;
 	
 	import game.global.GameConfigManager;
-	import game.global.data.DBItem;
 	import game.global.data.bag.ItemData;
 	import game.global.vo.ItemVo;
 	import game.module.invasion.ItemIcon;
 	
-	import laya.display.Node;
 	import laya.display.Sprite;
 	import laya.maths.Point;
 	import laya.ui.Image;
-	import laya.ui.Label;
-	import laya.ui.Tab;
 	import laya.utils.Handler;
 	import laya.utils.Pool;
 	import laya.utils.Tween;
@@ -68,7 +64,7 @@ package game.global.util
 			var tmp:Array = (mStr+"").split("=")
 			if(tmp.length > 1){
 				var url:String = GameConfigManager.getItemImgPath(tmp[0]);
-				trace("URL:::",url)
+				TraceUtils.log("URL:::"+url);
 				icon.skin = url;
 			}else{
 				icon.skin = "";

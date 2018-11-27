@@ -6,20 +6,12 @@ package game.global.data.bag
 	import game.common.XFacade;
 	import game.common.XUtils;
 	import game.global.GameConfigManager;
+	import game.global.util.TraceUtils;
 	import game.module.bag.cell.BaseItemCell;
-	import game.module.tips.itemTip.ItemTipManager;
-	import game.module.tips.itemTip.base.BaseItemTip;
 	
 	import laya.display.Animation;
-	import laya.display.Sprite;
-	import laya.display.Text;
-	import laya.events.Event;
-	import laya.filters.ColorFilter;
-	import laya.net.Loader;
-	import laya.ui.Box;
 	import laya.ui.Image;
 	import laya.ui.Label;
-	import laya.utils.Handler;
 	
 	public class ItemCell extends BaseItemCell
 	{
@@ -77,7 +69,7 @@ package game.global.data.bag
 			
 			if(this.data && !this.data.vo)
 			{
-				trace("找不到道具"+data.iid);
+				TraceUtils.log("找不到道具"+data.iid);
 				return ;
 			}
 			

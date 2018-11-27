@@ -1,15 +1,15 @@
 package game.module.invasion
 {
-	import game.global.vo.User;
 	import MornUI.invasion.InvasionSearchUI;
 	
 	import game.common.SceneManager;
 	import game.common.base.BaseDialog;
-	import game.common.base.BaseView;
 	import game.common.baseScene.SceneType;
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
+	import game.global.vo.User;
 	import game.module.alert.XAlert;
 	import game.net.socket.WebSocketNetService;
 	
@@ -96,7 +96,7 @@ package game.module.invasion
 		}
 		
 		private function onResult(cmd:String, ...args):void{
-			trace("Invasion onResult====>", args);
+			TraceUtils.log("Invasion onResult====>"+args);
 			switch(cmd){
 				case ServiceConst.IN_SEARCH:
 					if(args[1] == false){
@@ -111,7 +111,7 @@ package game.module.invasion
 		
 		//错误处理
 		private function onErr(...args):void{
-			trace("onErr==============================",args);
+			TraceUtils.log("onErr=============================="+args);
 			var cmd:Number = args[1];
 			var errStr:String = args[2]
 			switch(cmd){

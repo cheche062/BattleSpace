@@ -21,8 +21,8 @@ package game.module.login
 	import game.global.util.DCCUtil;
 	import game.global.util.PreloadUtil;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import game.module.activity.WelfareMainView;
 	import game.module.fighting.mgr.FightingManager;
 	import game.net.socket.WebSocketNetService;
 	
@@ -116,7 +116,7 @@ package game.module.login
 		
 		private function completeHandler(data:Object):void
 		{
-			trace("getip.php", data)
+			TraceUtils.log("getip.php"+ data);
 			id=data;
 			AndroidPlatform.instance.FGM_GetGameServiceList(GameSetting.ServerId,Handler.create(this,getGameServiceHandler));
 		}
@@ -127,7 +127,6 @@ package game.module.login
 		
 		private function getGameServiceHandler(p_str:String):void
 		{
-			trace("getGameServiceHandler-------------" + p_str);
 			// TODO Auto Generated method stub
 			var l_whiteArr:Array=new Array();
 			m_systemStr="web";
@@ -210,11 +209,11 @@ package game.module.login
 			{
 				if(GameSetting.isApp && Browser.onIOS)
 				{
-					trace("nopc-login");
+					TraceUtils.log("nopc-login");
 					AndroidPlatform.instance.FGM_GetFCMToken(Handler.create(null,callBack));
 				}else
 				{
-					trace("pc-login");
+					TraceUtils.log("pc-login");
 					GlobalRoleDataManger.instance.userLogin(loginArr,this,loginBack);
 				}
 			}
@@ -224,10 +223,10 @@ package game.module.login
 				if(str)
 				{
 					loginArr.push(GameSetting.FCM_Token);
-					trace("FCM_Token======================" + GameSetting.FCM_Token);
+					TraceUtils.log("FCM_Token======================" + GameSetting.FCM_Token);
 				}
-				trace("GetToken is:"+str);
-				trace("loginArr:"+JSON.stringify(loginArr));
+				TraceUtils.log("GetToken is:"+str);
+				TraceUtils.log("loginArr:"+JSON.stringify(loginArr));
 				GlobalRoleDataManger.instance.userLogin(loginArr,this,loginBack);
 			}
 		}
@@ -419,7 +418,7 @@ package game.module.login
 					key = "s0"
 				}else if(str.indexOf("10.8") != -1){//连局域网
 					key = "test";
-				}
+				} 
 				if(key){
 					for(var i:int=0; i<list.length; i++){
 						if(list[i].indexOf(key) != -1){
@@ -565,7 +564,7 @@ package game.module.login
 		private function onStarSdk(_str:String):void
 		{
 			var _obj:Object=JSON.parse(_str);
-			trace("回调登录数据:"+_str);
+			TraceUtils.log("回调登录数据:"+_str);
 			setLoginInfo(_obj);
 		}
 		
@@ -669,7 +668,7 @@ package game.module.login
 		{
 			setLog(5);
 			
-			trace("login seccess fcm token:"+fcmStr);
+			TraceUtils.log("login seccess fcm token:"+fcmStr);
 			GameSetting.isLogin=true;
 			_hasLogin = true;
 			this.view.btnLogin.visible = false;

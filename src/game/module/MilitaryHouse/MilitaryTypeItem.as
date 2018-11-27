@@ -1,20 +1,23 @@
 package game.module.MilitaryHouse 
 {
-	import game.common.base.BaseView;
+	import MornUI.militaryHouse.MilitaryTypeItemUI;
+	
 	import game.common.XUtils;
-	import game.global.data.DBUnitStar;
+	import game.common.base.BaseView;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
+	import game.global.data.DBUnitStar;
+	import game.global.util.TraceUtils;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.militaryHouse.MilitaryBlockVo;
 	import game.global.vo.militaryHouse.MilitaryHeroScore;
 	import game.global.vo.militaryHouse.MilitaryUnitScore;
 	import game.module.camp.CampData;
+	
 	import laya.display.Text;
 	import laya.events.Event;
 	import laya.ui.Image;
-	import laya.ui.View;
-	import MornUI.militaryHouse.MilitaryTypeItemUI;
+
 	/**
 	 * ...
 	 * @author ...
@@ -115,7 +118,7 @@ package game.module.MilitaryHouse
 				if (ta[0] == 256)
 				{
 					var hs:MilitaryHeroScore = GameConfigManager.intance.getHeroScoreVo(allScore);
-					trace("hs:", hs);
+					TraceUtils.log("hs:"+ hs);
 					if (!hs.lj)
 					{
 						hs.lj = 0;

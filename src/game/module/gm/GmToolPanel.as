@@ -3,34 +3,21 @@
  */
 package game.module.gm
 {
-	import MornUI.panels.BagViewUI;
 	import MornUI.panels.GmPanelUI;
 	
-	import game.common.AlertManager;
-	import game.common.AlertType;
 	import game.common.ResourceManager;
 	import game.common.SceneManager;
 	import game.common.XFacade;
 	import game.common.base.BaseDialog;
 	import game.common.baseScene.SceneType;
 	import game.global.ModuleName;
-	import game.global.data.DBItem;
 	import game.global.data.DBUintUpgradeExp;
-	import game.global.data.bag.ItemData;
 	import game.global.data.fightUnit.fightUnitData;
-	import game.global.event.GameEvent;
 	import game.global.event.Signal;
-	import game.global.util.ItemUtil;
-	import game.module.bag.BagPanel;
-	import game.module.bag.mgr.ItemManager;
-	import game.module.fighting.adata.FightingResultsData;
-	import game.module.fighting.adata.frSoldierData;
+	import game.global.util.TraceUtils;
 	import game.module.fighting.mgr.FightingManager;
 	
 	import laya.events.Event;
-	import laya.utils.Handler;
-	
-	import org.hamcrest.mxml.object.Null;
 	
 	public class GmToolPanel extends BaseDialog
 	{
@@ -129,13 +116,13 @@ package game.module.gm
 				case "#ebl":
 				{
 					var obj:Object = DBUintUpgradeExp.getLevelAndExpByAllExp(Number(gmAr[1]),DBUintUpgradeExp.TYPE_HERO,1);
-					trace("级别"+obj.level+"经验"+obj.exp+"当前级别需要升级经验"+obj.lexp);
+					TraceUtils.log("级别"+obj.level+"经验"+obj.exp+"当前级别需要升级经验"+obj.lexp);
 					break;
 				}
 				case "#lbe":
 				{
 					var all:Number = DBUintUpgradeExp.getAllExpByLevelAndExp(Number(gmAr[1]), Number(gmAr[2]),DBUintUpgradeExp.TYPE_HERO,1);
-					trace("换算经验："+all);
+					TraceUtils.log("换算经验："+all);
 					break;
 				}	
 				case "#showFR":

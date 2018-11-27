@@ -11,6 +11,7 @@ package game.module.pvp.views
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.PvpLevelVo;
 	import game.global.vo.PvpMathCostVo;
 	import game.global.vo.PvpRewardVo;
@@ -152,7 +153,7 @@ package game.module.pvp.views
 		
 		public function getPiPeiBack(... args):void
 		{
-			trace("getPiPeiBack::",args)
+			TraceUtils.log("getPiPeiBack::"+args);
 			
 			isRobot = args[3];
 			

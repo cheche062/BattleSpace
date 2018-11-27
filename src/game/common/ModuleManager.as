@@ -6,6 +6,7 @@ package game.common
 	import game.global.ModuleName;
 	import game.global.event.GameEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.module.mainScene.HomeScene;
 	import game.module.mainui.MainView;
 	
@@ -75,7 +76,7 @@ package game.common
 			if (compClass){
 				showModule(compClass,data);
 			}else{
-				trace("[error] Undefined class:", compClass);
+				TraceUtils.log("[error] Undefined class:"+ compClass);
 			}
 			
 			if(ModuleName.maxPanelNames.indexOf(className) != -1){
@@ -149,7 +150,7 @@ package game.common
 				if(tmp && tmp.view == view){
 					view.dispose();
 					//需要销毁加载资源========
-					trace("disposeModule::",view);
+					TraceUtils.log("disposeModule::"+view);
 					this.viewsInfo.splice(i,1);
 					break;
 				}
@@ -186,7 +187,7 @@ package game.common
 						if(view is HomeScene || view is MainView){//需要写个函数来支撑
 							//特例，不处理
 						}else{
-							trace("强制回收：：：：：：：：：：：：：：：：",view,"累计资源值:::::::::",laya.resource.ResourceManager.systemResourceManager.memorySize);
+							TraceUtils.log("强制回收：：：：：：：：：：：：：：：："+view+"累计资源值:::::::::"+laya.resource.ResourceManager.systemResourceManager.memorySize);
 							view.dispose();
 							this.viewsInfo.splice(i,1);
 							break;

@@ -4,9 +4,8 @@ package game.module.mainui.upgradeViews
 	
 	import game.common.XUtils;
 	import game.global.data.DBBuildingUpgrade;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
-	
-	import laya.ani.bone.Templet;
 
 	/**
 	 * ProtectBUview 基地互动
@@ -25,7 +24,7 @@ package game.module.mainui.upgradeViews
 		override protected function format():void{
 			super.format();
 			var tmp:Array = _lvData.buldng_capacty.split("|")
-				trace("_lvData--------->>",_lvData)
+			TraceUtils.log("_lvData--------->>"+_lvData)
 			var maxVo:BuildingLevelVo = DBBuildingUpgrade.getBuildingLv(_data.buildId, this._buildVo.level_limit);
 			
 			var nextVo:BuildingLevelVo = DBBuildingUpgrade.getBuildingLv(_data.buildId, _data.level+1);

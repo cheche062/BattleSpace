@@ -9,6 +9,7 @@ package game.module.armyGroup.newArmyGroup
 	import game.global.consts.ServiceConst;
 	import game.global.event.ArmyGroupEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.module.armyGroup.ArmyGroupMapView;
 	
 	import laya.events.Event;
@@ -51,13 +52,13 @@ package game.module.armyGroup.newArmyGroup
 		private function onServerResult(... args):void {
 			var cmd = args[0];
 			var server_data = args[1];
-			trace('%c 军团产出：：', 'color: green', cmd, server_data);
+			TraceUtils.log('%c 军团产出：：'+'color: green'+ cmd+server_data);
 			switch (cmd) {
 				case ServiceConst.ARMY_GROUP_OUTPUT_INFO:
 					var result:Array = [];
 					var _this = this;
 					var callBack = function(id) {
-						trace("跳城市", id)
+						TraceUtils.log("跳城市"+ id);
 						Signal.intance.event(ArmyGroupEvent.JUMP_PLANT, [id]);
 						_this.close();
 					}

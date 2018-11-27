@@ -1,6 +1,7 @@
 package game.global.data
 {
 	import game.common.ResourceManager;
+	import game.global.util.TraceUtils;
 
 	/**
 	 * DBGeneCD 基因CD
@@ -32,7 +33,7 @@ package game.global.data
 					break;
 				}
 			}
-			trace("cost====================================",time, sum);
+			TraceUtils.log("cost===================================="+time+"---"+sum);
 			return Math.ceil(sum);
 		}
 		

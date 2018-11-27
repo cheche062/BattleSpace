@@ -4,6 +4,7 @@ package game.module.fortress
 	
 	import game.common.AnimationUtil;
 	import game.common.base.BaseDialog;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	
@@ -22,7 +23,7 @@ package game.module.fortress
 			
 			view.dom_number.text = args[0];
 			
-			trace("【扫荡成功弹窗】", args);
+			TraceUtils.log("【扫荡成功弹窗】"+ args);
 			
 		}
 		

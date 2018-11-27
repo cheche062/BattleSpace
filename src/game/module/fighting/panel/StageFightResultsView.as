@@ -3,22 +3,19 @@
  */
 package game.module.fighting.panel
 {
-	import game.global.vo.User;
-	import MornUI.fightResults.OrdinaryResultsUI;
 	import MornUI.fightResults.StageFightResultsUIUI;
 	
 	import game.common.ResourceManager;
 	import game.common.RewardList;
 	import game.common.SoundMgr;
 	import game.global.GameConfigManager;
-	import game.global.GameLanguage;
-	import game.global.StringUtil;
 	import game.global.cond.ConditionsManger;
 	import game.global.data.bag.ItemCell;
 	import game.global.fighting.BaseUnit;
+	import game.global.util.TraceUtils;
 	import game.global.vo.StageLevelVo;
+	import game.global.vo.User;
 	import game.global.vo.requirementVo;
-	import game.module.bag.BagPanel;
 	import game.module.fighting.adata.FightingResultsData;
 	import game.module.fighting.cell.FightResultsSoldierCell;
 	import game.module.fighting.cell.RequirementCell;
@@ -27,10 +24,7 @@ package game.module.fighting.panel
 	import laya.display.Animation;
 	import laya.events.Event;
 	import laya.filters.ColorFilter;
-	import laya.net.Loader;
-	import laya.ui.Box;
 	import laya.ui.Image;
-	import laya.ui.Label;
 	import laya.ui.List;
 	import laya.ui.UIUtils;
 	import laya.utils.Handler;
@@ -177,7 +171,7 @@ package game.module.fighting.panel
 					{
 						if(!ConditionsManger.cond(c.condition))
 						{
-							trace("失败状态：", c);
+							TraceUtils.log("失败状态："+ c);
 							fAr.push(c);
 						}
 					}

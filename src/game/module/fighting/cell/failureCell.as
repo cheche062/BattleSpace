@@ -6,6 +6,7 @@ package game.module.fighting.cell
 	import game.common.XFacade;
 	import game.common.baseScene.SceneType;
 	import game.global.ModuleName;
+	import game.global.util.TraceUtils;
 	import game.module.fighting.panel.FightResultPanel;
 	
 	import laya.events.Event;
@@ -41,7 +42,7 @@ package game.module.fighting.cell
 		public function btnClick(e:Event):void{
 			if(!_data)
 			{
-				trace("failureCell _data null");
+				TraceUtils.log("failureCell _data null");
 				return ;
 			}
 			var aid:Number = Number(_data.id);
@@ -78,7 +79,6 @@ package game.module.fighting.cell
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy failureCell");
 			_data = null;
 			super.destroy(destroyChild);
 		}

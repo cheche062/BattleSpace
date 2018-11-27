@@ -1,20 +1,17 @@
 package game.module.mainui
 {
-	import game.common.GameLanguageMgr;
-	import game.global.consts.ServiceConst;
-	import game.global.GameConfigManager;
-	import game.global.GameSetting;
-	import game.net.socket.WebSocketNetService;
 	import MornUI.chargeView.ReItemUI;
 	
-	import game.common.AlertManager;
-	import game.common.XFacade;
 	import game.common.XTipManager;
 	import game.common.base.BaseView;
+	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
+	import game.global.GameSetting;
 	import game.global.GlobalRoleDataManger;
+	import game.global.consts.ServiceConst;
+	import game.global.util.TraceUtils;
 	import game.global.vo.reVo;
-	import game.module.chargeView.ChargeView;
+	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
 	
@@ -44,7 +41,7 @@ package game.module.mainui
 			{
 				return;
 			}
-			trace("dataDetail:", value);
+			TraceUtils.log("dataDetail:"+ value);
 			m_data = value;
 			
 			/*// 周卡特别处理(取消这个功能时把这行注释掉即可)

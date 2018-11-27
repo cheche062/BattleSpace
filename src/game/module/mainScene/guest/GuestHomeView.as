@@ -19,6 +19,7 @@ package game.module.mainScene.guest
 	import game.global.data.DBBuildingUpgrade;
 	import game.global.data.DBFog;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.module.mainScene.ArticleData;
 	import game.module.mainScene.BaseArticle;
@@ -332,7 +333,7 @@ package game.module.mainScene.guest
 		/**覆盖这个方法，达到重用的效果*/
 		override public function show(...args):void{
 			this._data = args[0];
-			trace("_data.......................",_data)
+			TraceUtils.log("_data......................."+_data);
 			if(!m_sprMap){
 				initScence();
 				this.loadMap();

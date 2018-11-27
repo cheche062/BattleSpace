@@ -35,7 +35,6 @@ package game.module.relic
 		
 		private function initUI():void
 		{
-			trace("ServiceConst.TRAN_GETTRANSPORTTYPE");
 			WebSocketNetService.instance.sendData(ServiceConst.TRAN_GETTRANSPORTTYPE,[]);
 		}
 		

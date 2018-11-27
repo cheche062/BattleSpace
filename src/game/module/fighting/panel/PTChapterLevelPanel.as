@@ -2,6 +2,7 @@ package game.module.fighting.panel
 {
 	import game.common.ResourceManager;
 	import game.common.XTip;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 
@@ -17,7 +18,7 @@ package game.module.fighting.panel
 		override protected function ackClick(e:Event):void
 		{
 			var stage_param_json:Object=ResourceManager.instance.getResByURL(url);
-			trace("普通购买参数表:"+JSON.stringify(stage_param_json));
+			TraceUtils.log("普通购买参数表:"+JSON.stringify(stage_param_json));
 			var upTimes:Number;
 			for each(var obj:Object in stage_param_json)
 			{
@@ -35,9 +36,9 @@ package game.module.fighting.panel
 		override protected function addClick(e:Event=null):void
 		{
 			var stage_param_json:Object=ResourceManager.instance.getResByURL(url);
-			trace("普通关卡购买参数表:"+JSON.stringify(stage_param_json));
+			TraceUtils.log("普通关卡购买参数表:"+JSON.stringify(stage_param_json));
 			var upTimes:Number;
-			trace("普通_购买次数:"+buyTimer);
+			TraceUtils.log("普通_购买次数:"+buyTimer);
 
 			for each(var obj:Object in stage_param_json)
 			{

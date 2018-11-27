@@ -3,10 +3,11 @@
  */
 package game.common
 {
+	import game.global.util.TraceUtils;
+	
 	import laya.events.Event;
 	import laya.ui.Button;
 	import laya.ui.TextInput;
-	import laya.utils.Handler;
 	import laya.utils.Timer;
 
 	/**
@@ -219,7 +220,7 @@ package game.common
 				else
 					addV = Math.floor(addV);
 				v += addV;
-				trace("vvvv"+v);
+				TraceUtils.log("vvvv"+v);
 			}else
 			{
 				v2 ++;

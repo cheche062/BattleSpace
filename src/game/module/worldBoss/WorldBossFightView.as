@@ -17,6 +17,7 @@ package game.module.worldBoss
 	import game.global.data.DBBuilding;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.armyGroup.ArmyGroupMapView;
 	import game.module.chatNew.LiaotianView;
@@ -203,7 +204,7 @@ package game.module.worldBoss
 					//进入战场
 					sendData(ServiceConst.BOSS_ENTER_BATTLE_FIELD);
 					clearTimerHandler = null;
-					trace('倒计时结束：：：');
+					TraceUtils.log('倒计时结束：：：');
 				}, false);
 				
 				isAlreadyPreseted(!!BOSSID);
@@ -1097,7 +1098,7 @@ package game.module.worldBoss
 		/**请求回来的数据处理*/
 		private function onServerResult(...args):void{
 			var cmd = args[0];
-			trace('%c 【boss数据】：', 'color: green', cmd, args);
+			TraceUtils.log('%c 【boss数据】：'+ 'color: green'+ cmd+ args);
 
 			switch(cmd) {
 				//国战BOSS倒计时
@@ -1126,7 +1127,7 @@ package game.module.worldBoss
 						view.img_boss_time.visible = false;
 						view.img_red_bg.visible = false;
 						clearTimerHandler_2 = null;
-						trace('倒计时结束：：：');
+						TraceUtils.log('倒计时结束：：：');
 					}, false);
 					break;
 				// 进入战场
@@ -1166,7 +1167,7 @@ package game.module.worldBoss
 					}, function() {
 						view.dom_endTime.text = "";
 						clearTimerHandler = null;
-						trace('倒计时结束：：：');
+						TraceUtils.log('倒计时结束：：：');
 					});
 					
 //					removeChangeHandler = ToolCtrl.visibleChangeListen(function(){
@@ -1646,7 +1647,7 @@ package game.module.worldBoss
 		private function onStageFocus():void
 		{
 			
-			trace("世界BOSS  获取焦点")
+			TraceUtils.log("世界BOSS  获取焦点");
 		}
 		
 		//多点问题

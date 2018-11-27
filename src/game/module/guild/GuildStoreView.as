@@ -10,6 +10,7 @@ package game.module.guild
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -58,7 +59,7 @@ package game.module.guild
 		/**获取服务器消息*/
 		private function serviceEventHandler(cmd:int, ...args):void
 		{
-			trace("【公会商店】", args);
+			TraceUtils.log("【公会商店】"+args);
 			// TODO Auto Generated method stub
 			switch(cmd)
 			{

@@ -2,8 +2,6 @@ package game.module.randomCondition
 {
 	import MornUI.randomCondition.RandomConditionViewUI;
 	
-	import game.common.AlertManager;
-	import game.common.AlertType;
 	import game.common.AnimationUtil;
 	import game.common.ResourceManager;
 	import game.common.SceneManager;
@@ -17,11 +15,10 @@ package game.module.randomCondition
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.ConsumeHelp;
-	import game.global.data.DBItem;
 	import game.global.data.bag.ItemCell3;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
-	import game.module.bag.mgr.ItemManager;
+	import game.global.util.TraceUtils;
 	import game.module.bingBook.BingBookMainView;
 	import game.module.fighting.mgr.FightingManager;
 	
@@ -99,7 +96,7 @@ package game.module.randomCondition
 		
 		private function refreshSend(passId:int):void
 		{
-			trace("关卡id:"+passId);
+			TraceUtils.log("关卡id:"+passId);
 			sendData(ServiceConst.RANDOM_CONDITION_REFRESH,[passId]);	
 		}
 		private function onResult(...args):void
@@ -109,8 +106,8 @@ package game.module.randomCondition
 				//打开周卡 
 				case ServiceConst.RANDOM_CONDITION_PANEL:
 				{
-					trace("打开随机条件面板");
-					trace("打开随机条件面板返回数据"+JSON.stringify(args[1]));
+					TraceUtils.log("打开随机条件面板");
+					TraceUtils.log("打开随机条件面板返回数据"+JSON.stringify(args[1]));
 					pannelData = args[1];
 					setResetBtn(args[1]["levels"]);
 					clearRight();
@@ -125,7 +122,7 @@ package game.module.randomCondition
 				}
 				case ServiceConst.RANDOM_CONDITION_REFRESH:
 				{
-					trace("刷新条件:"+JSON.stringify(args[1]));
+					TraceUtils.log("刷新条件:"+JSON.stringify(args[1]));
 					refreshCondition(args[2],args[3],args[1]);
 					curPassBox.dataSource["condition"] = args[2];
 					pannelData["refreshTimes"] = args[3];
@@ -164,7 +161,7 @@ package game.module.randomCondition
 		 
 		private function resetPrice(time:int):void
 		{
-			trace(time); 
+			TraceUtils.log(time); 
 			time = time+1;//根据已经重置的次数，计算将要重置次数（配置表是将要重置的次数）
 			var resetPriceObj:Object = ResourceManager.instance.getResByURL(JSON_RANDOM_RESET);
 //			trace("重置价格:"+JSON.stringify(resetPriceObj));
@@ -308,8 +305,8 @@ package game.module.randomCondition
 				box = view[ballName];
 				if(box.dataSource&&box.dataSource["pass"]==0)
 				{
-					trace("默认选中的关卡:"+ballName);
-					trace("默认选中的关卡数据box.dataSource[pass]:"+JSON.stringify(box.dataSource));
+					TraceUtils.log("默认选中的关卡:"+ballName);
+					TraceUtils.log("默认选中的关卡数据box.dataSource[pass]:"+JSON.stringify(box.dataSource));
 					allHited = false;
 					curPassBox = box;
 					setPass(curPassBox.dataSource);
@@ -378,7 +375,7 @@ package game.module.randomCondition
 		
 		private function setReward(rewards:String):void
 		{
-			trace("奖励字符串："+rewards);
+			TraceUtils.log("奖励字符串："+rewards);
 			view.rewardBox.removeChildren();
 			var strArr:Array = rewards.split(";");
 			var itemC:ItemCell3;
@@ -493,7 +490,7 @@ package game.module.randomCondition
 		
 		private function onFight():void
 		{
-			trace(curPassBox.dataSource["passId"]);
+			TraceUtils.log(curPassBox.dataSource["passId"]);
 			FightingManager.intance.getSquad(FightingManager.RANDOM_CONDITION,curPassBox.dataSource["passId"],Handler.create(this,fightOver));
 			XFacade.instance.closeModule(BingBookMainView);
 		}
