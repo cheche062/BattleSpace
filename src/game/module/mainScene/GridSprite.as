@@ -40,7 +40,7 @@ package game.module.mainScene
 		private function drawGrid(mapWidth:int, mapHeight:int,curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int,
 								 beginX:int = 0 , beginY:int = 0):void
 		{
-//			curW = curH = 100;
+			curW = curH = 100;
 			_curW = curW;
 			_curH = curH;
 			trace("------------------",mapWidth,mapHeight, curW, curH);
