@@ -15,6 +15,7 @@ package game.module.camp
 	import game.global.data.DBBuilding;
 	import game.global.data.DBUnit;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.User;
@@ -177,7 +178,7 @@ package game.module.camp
 					btn.skin = iconList[tList[i]];
 				}
 				
-				trace("选择列表类型：")
+				TraceUtils.log("选择列表类型：");
 				m_list.array = getUnitByType(t);
 				
 				bindAmData();
@@ -426,7 +427,7 @@ package game.module.camp
 					var ifBuilding:Boolean = vo.hasBuildingInQueue(DBBuilding.B_CAMP);
 					if(ifBuilding)
 					{
-						trace("兵营还在建造，不能进入");
+						TraceUtils.log("兵营还在建造，不能进入");
 						isNoBuild = true;
 					}
 				}

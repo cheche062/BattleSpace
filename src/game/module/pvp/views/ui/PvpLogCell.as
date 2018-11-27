@@ -64,7 +64,6 @@ package game.module.pvp.views.ui
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy PvpLogCell");
 			
 			_data = null;
 			this.rbtn.off(Event.CLICK,this,onReplayHandler);

@@ -62,7 +62,6 @@ package game.module.fighting.cell
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy chapterStarCell");
 			_starb = null;
 			dataVo = null;
 			super.destroy(destroyChild);

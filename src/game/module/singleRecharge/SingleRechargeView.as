@@ -13,8 +13,8 @@ package game.module.singleRecharge
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.module.activity.ActivityMainView;
-	import game.module.fighting.adata.ActionData;
 	
 	import laya.events.Event;
 	import laya.utils.Handler;
@@ -76,7 +76,7 @@ package game.module.singleRecharge
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace("【单笔充值】", args);
+			TraceUtils.log("【单笔充值】"+ args);
 			switch(args[0]){
 				// getInfo获取活动信息
 				case ServiceConst.SINGLE_CHARGE_INIT:
@@ -149,7 +149,7 @@ package game.module.singleRecharge
 				}, function() {
 					view.dom_remain.text = "0m 0s";
 					clearTimerHandler = null;
-					trace('倒计时结束：：：');
+					TraceUtils.log('倒计时结束：：：');
 				});
 			} else {
 				view.dom_remain.text = "0m 0s";
@@ -192,7 +192,7 @@ package game.module.singleRecharge
 		
 		/**发送领取命令*/
 		private function sendClaimHandler(data):void{
-			trace(data);
+			TraceUtils.log(data);
 			
 			// 领取
 			sendData(ServiceConst.SINGLE_CHARGE_REWARD, [ActivityMainView.CURRENT_ACT_ID, data]);

@@ -11,6 +11,7 @@ package game.module.mainui.upgradeViews
 	import game.global.GameLanguage;
 	import game.global.data.DBBuildingAttribute;
 	import game.global.data.DBBuildingUpgrade;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillVo;
 	import game.module.camp.ProTipUtil;
 	
@@ -79,7 +80,7 @@ package game.module.mainui.upgradeViews
 					this.view.skillTF.text = "";
 				}
 				
-				trace("vo........................................",vo);
+				TraceUtils.log("vo........................................"+vo);
 				//ProTipUtil.addTip(view.dataInfo, vo)
 			}
 		}

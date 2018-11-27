@@ -9,6 +9,7 @@ package game.module.kapai
 	import game.global.GameLanguage;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -123,7 +124,7 @@ package game.module.kapai
 			
 //			"buy_shard"
 			
-			trace(selected_card_id);
+			TraceUtils.log(selected_card_id);
 		}
 		
 		private function setChildView(index, bool):void {

@@ -1,8 +1,8 @@
 package game.module.bossFight
 {
 	import MornUI.bossFight.RankInfoCellUI;
-	import MornUI.bossFight.RankRewardInfoCellUI;
 	
+	import game.global.util.TraceUtils;
 	import game.global.vo.worldBoss.BossRankPlayerInfoVo;
 	
 	import laya.ui.Box;
@@ -52,7 +52,6 @@ package game.module.bossFight
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy RankInfoCell");
 			m_ui = null;
 			m_data = null;
 			

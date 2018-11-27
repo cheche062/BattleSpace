@@ -68,7 +68,6 @@ package game.module.fighting.cell
 			_data = null;
 			
 			super.destroy(destroyChild);
-			trace("SelectUnitItemCell ~~~~  destroy");
 			
 		}
 		

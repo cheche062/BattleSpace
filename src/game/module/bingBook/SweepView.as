@@ -5,7 +5,6 @@ package game.module.bingBook
 	import game.common.AnimationUtil;
 	import game.common.ResourceManager;
 	import game.common.XFacade;
-	import game.common.XTip;
 	import game.common.base.BaseDialog;
 	import game.global.GameLanguage;
 	import game.global.ModuleName;
@@ -13,6 +12,7 @@ package game.module.bingBook
 	import game.global.data.bag.ItemCell3;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
 	
@@ -54,13 +54,13 @@ package game.module.bingBook
 				case ServiceConst.RADER_SWEEP_PROP:
 				{
 					itemArr = [];
-					trace("扫荡结果:"+JSON.stringify(args));
+					TraceUtils.log("扫荡结果:"+JSON.stringify(args));
 					var propArr:Array = [];
 					var dataArr:Array = args[1];
-					trace(dataArr);
+					TraceUtils.log(dataArr);
 					for each(var value1:Array in dataArr)
 					{
-						trace("id"+value1[0]+"数量"+value1[1]);
+						TraceUtils.log("id"+value1[0]+"数量"+value1[1]);
 						var itemData:ItemData = new ItemData();
 						itemData.iid = value1[0];
 						itemData.inum = value1[1];
@@ -68,9 +68,9 @@ package game.module.bingBook
 					}	
 					
 					sweepQuanTimes = Number(args[2])+1;  
-					trace("当前用券进行的扫荡次数："+sweepQuanTimes);
+					TraceUtils.log("当前用券进行的扫荡次数："+sweepQuanTimes);
 					sweepWaterTimes = Number(args[3])+1;  
-					trace("当前用水进行的扫荡次数："+sweepWaterTimes);
+					TraceUtils.log("当前用水进行的扫荡次数："+sweepWaterTimes);
 					createItemData();//更新道具的个数显示
 					XFacade.instance.openModule(ModuleName.ShowRewardPanel, [propArr]);
 					WebSocketNetService.instance.sendData(ServiceConst.BINGBOOK_MAIN,[]);
@@ -81,7 +81,7 @@ package game.module.bingBook
 		override public function close():void
 		{
 			// TODO Auto Generated method stub
-			trace("close");
+			TraceUtils.log("close");
 			super.close();
 			AnimationUtil.flowOut(this, this.onClose);
 		}
@@ -100,9 +100,9 @@ package game.module.bingBook
 		{
 			// TODO Auto Generated method stub
 			sweepQuanTimes = args[0][0]; 
-			trace("传递的券扫荡次数："+args[0][0]);
+			TraceUtils.log("传递的券扫荡次数："+args[0][0]);
 			sweepWaterTimes = args[0][1];  
-			trace("传递的水扫荡次数："+args[0][1]);
+			TraceUtils.log("传递的水扫荡次数："+args[0][1]);
 //			trace("面板:"+JSON.stringify(args));
 		
 			super.show(args);
@@ -133,7 +133,7 @@ package game.module.bingBook
 //			itemArr.push(itemData);
 			
 			var jsonObj:Object = ResourceManager.instance.getResByURL("config/book_sweep.json");
-			trace("花费:"+JSON.stringify(jsonObj));
+			TraceUtils.log("花费:"+JSON.stringify(jsonObj));
 			var quanArr:Array = [];
 			var waterArr:Array = [];
 		
@@ -166,7 +166,7 @@ package game.module.bingBook
 			}
 			
 			var jsonObj:Object = ResourceManager.instance.getResByURL("config/book_canshu.json");
-			trace("参数:"+JSON.stringify(jsonObj));
+			TraceUtils.log("参数:"+JSON.stringify(jsonObj));
 			var maxTimes:int=0;
 			for each(var obj:Object in jsonObj)
 			{
@@ -191,10 +191,10 @@ package game.module.bingBook
 		{
 			var dataItem:ItemData = view.list.array[index];
 			var itemBox:ItemCell3 =cell.getChildByName("prop") as ItemCell3;
-			trace("刷新列表项");
+			TraceUtils.log("刷新列表项");
 			if(itemBox)
 			{ 
-				trace("列表项已存在");
+				TraceUtils.log("列表项已存在");
 				cell.removeChild(itemBox); 
 			}
 			itemBox = new ItemCell3();

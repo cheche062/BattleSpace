@@ -32,6 +32,7 @@ package game.module.mainui
 	import game.global.event.Signal;
 	import game.global.util.ItemUtil;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.User;
 	import game.global.vo.friend.FriendInfoVo;
@@ -40,24 +41,20 @@ package game.module.mainui
 	import game.module.camp.CampData;
 	import game.module.camp.CampView;
 	import game.module.chatNew.LiaotianView;
-	import game.module.mainScene.BaseArticle;
 	import game.module.mainScene.HomeData;
 	import game.module.mainScene.HomeScene;
 	import game.module.mainScene.HomeSceneUtil;
 	import game.module.tips.ResourceTip;
 	import game.net.socket.WebSocketNetService;
 	
-	import laya.debug.view.nodeInfo.ToolPanel;
 	import laya.display.Animation;
 	import laya.display.Node;
 	import laya.display.Sprite;
 	import laya.display.Text;
 	import laya.events.Event;
-	import laya.maths.Point;
 	import laya.maths.Rectangle;
 	import laya.net.URL;
 	import laya.ui.Box;
-	import laya.ui.Button;
 	import laya.ui.Image;
 	import laya.ui.Label;
 	import laya.ui.TextArea;
@@ -607,8 +604,8 @@ package game.module.mainui
 		private function onFocus(bid:String,id:String):void
 		{
 			// TODO Auto Generated method stub
-			trace("聚焦的建筑id:"+bid);
-			trace("聚焦的后端建筑id"+id);
+			TraceUtils.log("聚焦的建筑id:"+bid);
+			TraceUtils.log("聚焦的后端建筑id"+id);
 			var sp:Sprite=HomeScene(ModuleManager.intance.getModule(HomeScene)).focus(bid+"",id);
 //			HomeScene(ModuleManager.intance.getModule(HomeScene)).selectedBuilding = sp;
 			
@@ -617,7 +614,7 @@ package game.module.mainui
 		
 		private function onBuy():void
 		{
-			trace("购买队列");
+			TraceUtils.log("购买队列");
 			
 			var costObj:Object = GameConfigManager.buildingQueue_vos;
 			var costStr:String = costObj["2"]["queue_cost"];
@@ -649,7 +646,7 @@ package game.module.mainui
 
 		private function onClick(event:Event):void
 		{
-			trace("enter:" + event.target.name);
+			TraceUtils.log("enter:" + event.target.name);
 			switch (event.target)
 			{
 				// 打开更多小icon
@@ -745,7 +742,7 @@ package game.module.mainui
 					var ifIqueue:Boolean = vo.hasBuildingInQueue(Number(DBBuilding.B_PROTECT));
 					if(User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_PROTECT)==1&&ifIqueue)
 					{
-						trace("基地互动建筑在建造中");
+						TraceUtils.log("基地互动建筑在建造中");
 						XTipManager.showTip(GameLanguage.getLangByKey("L_A_152"));
 						return;
 					}
@@ -910,7 +907,7 @@ package game.module.mainui
 					info.name="L_A_420021"
 					info.des="L_A_420021"
 					info.max=view.breadBar.name;
-					trace("view.breadBar.name:"+view.breadBar.name);
+					TraceUtils.log("view.breadBar.name:"+view.breadBar.name);
 					info.icon="jczy6"
 					info.output=User.getInstance().sceneInfo.getOutPut(DBItem.BREAD);
 					XTipManager.showTip(info, ResourceTip);
@@ -987,7 +984,7 @@ package game.module.mainui
 		public function linkTo(id:*):void
 		{
 			var sp:Sprite;
-			trace("linkTo::",id)
+			TraceUtils.log("linkTo::"+id);
 			switch (id)
 				//switch("3")
 			{
@@ -1658,7 +1655,7 @@ package game.module.mainui
 
 			_curretMissionState=_mainMissionArr[0];
 			_curretMissionVo=GameConfigManager.missionInfo[_curretMissionState.id];
-			trace("_curretMissionVo:"+JSON.stringify(_curretMissionVo));
+			TraceUtils.log("_curretMissionVo:"+JSON.stringify(_curretMissionVo));
 			if (!_curretMissionVo)
 			{
 				view.missionDesTF.text = _curretMissionState.id;
@@ -1813,7 +1810,7 @@ package game.module.mainui
 		
 		private function onArticleTimeover():void
 		{
-			trace("更新建筑队列状态");
+			TraceUtils.log("更新建筑队列状态");
 			updateBuildArea();
 		}
 		

@@ -13,7 +13,7 @@ package game.module.chatNew
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
-	import game.global.vo.LangCigVo;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	import laya.utils.Browser;
@@ -94,10 +94,10 @@ package game.module.chatNew
 					var _this:SearchFriendsView = this;
 					if (!GameSetting.isApp) {
 						function initData(arr:Array = [] ):void {
-							trace("done==========")
-							trace("【facebook数据】",arr);
+							TraceUtils.log("done==========");
+							TraceUtils.log("【facebook数据】"+arr);
 							if (arr.length == 0) {
-								return trace("无好友");
+								return TraceUtils.log("无好友");
 							}
 							
 							// 截取10个 防止太多
@@ -136,7 +136,7 @@ package game.module.chatNew
 		 */
 		private function onServerResult(...args):void{
 			var cmd = Number(args[0]);
-			trace('%c 【搜索好友】：', 'color: green', cmd, args);
+			TraceUtils.log('%c 【搜索好友】：'+ 'color: green'+cmd+args);
 			var result = args[1];
 			
 			switch(cmd) {

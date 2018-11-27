@@ -3,8 +3,8 @@
  */
 package game.common
 {
+	import game.global.util.TraceUtils;
 	import game.module.fighting.mgr.FightingManager;
-	import game.module.fighting.mgr.SkillManager;
 	
 	import laya.display.Sprite;
 	import laya.maths.Point;
@@ -12,7 +12,6 @@ package game.common
 	import laya.resource.Texture;
 	import laya.utils.Handler;
 	import laya.utils.Pool;
-	import laya.utils.Timer;
 	import laya.utils.Tween;
 	
 	public class ImageFont
@@ -101,7 +100,7 @@ package game.common
 			var tx:Texture = Loader.getRes(fontS);
 			if(!tx)
 			{
-				trace("Imgfont 读图失败",fontS);
+				TraceUtils.log("Imgfont 读图失败",fontS);
 				return false;
 			}
 			var pX:Number = charSp.width;

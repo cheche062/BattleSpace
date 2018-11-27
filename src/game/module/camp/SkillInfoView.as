@@ -16,6 +16,7 @@ package game.module.camp
 	import game.global.data.DBSkill2;
 	import game.global.data.DBUnitStar;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillVo;
 	import game.global.vo.User;
 	
@@ -66,7 +67,7 @@ package game.module.camp
 			
 			var data = args[0];
 			updateView(data);
-			trace("data:::::"+JSON.stringify(data));
+			TraceUtils.log("data:::::"+JSON.stringify(data));
 			UIRegisteredMgr.AddUI(view.fArea,"SkillLvUp");
 		}
 		
@@ -190,7 +191,7 @@ package game.module.camp
 			var _conArr:Array = getConsumeInfo(args[0]);
 			// 已解锁
 			var isNotGray:Boolean = args[2];
-			trace("_conArr:"+_conArr);
+			TraceUtils.log("_conArr:"+_conArr);
 			var costid:Number = (_conArr[0].split("="))[0]; 
 			var costNum:Number = (_conArr[0].split("="))[1];
 			if(_conArr.length==1)

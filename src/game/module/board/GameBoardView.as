@@ -8,7 +8,7 @@ package game.module.board
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
-	import game.global.vo.User;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Graphics;
@@ -65,7 +65,7 @@ package game.module.board
 		override public function show(... args):void
 		{
 			super.show();
-			trace("args:", args);
+			TraceUtils.log("args:"+ args);
 			WebSocketNetService.instance.sendData(ServiceConst.GET_ACT_LIST);
 			if (args[0])
 			{
@@ -109,10 +109,10 @@ package game.module.board
 
 		/**直接进入对应活动*/
 		private function enterActivity():void {
-			trace(boradList[0].id);
+			TraceUtils.log(boradList[0].id);
 			var id = Number(boradList[0].id); 
 			var type:String = boradList[0].param1;//1,运营活动，2，福利活动,3首冲
-			trace("activityData111"+JSON.stringify(activityData));
+			TraceUtils.log("activityData111"+JSON.stringify(activityData));
 			if(type=="1")
 			{
 				if (activityData.activity1)
@@ -137,7 +137,7 @@ package game.module.board
 //								ThreeGiftView
 								if(obj["tid"]==13)
 								{
-									trace("活动id:"+obj["id"]);
+									TraceUtils.log("活动id:"+obj["id"]);
 									XFacade.instance.openModule(ModuleName.ThreeGiftView, obj["id"]);
 								}
 								

@@ -1,6 +1,7 @@
 package game.global.vo.Card
 {
 	import game.global.data.bag.BagManager;
+	import game.global.util.TraceUtils;
 	
 	public class CardCostVo
 	{
@@ -267,7 +268,7 @@ package game.global.vo.Card
 			var l_costArr:Array=new Array();
 			if(p_payType==1)
 			{
-				trace("p_type:"+p_type+"p_payType:"+p_payType+"l_str:"+l_str);
+				TraceUtils.log("p_type:"+p_type+"p_payType:"+p_payType+"l_str:"+l_str);
 				l_costArr=l_str.split("*");
 				l_arr=l_costArr[0].split("=");
 				l_num=BagManager.instance.getItemNumByID(l_arr[0]);

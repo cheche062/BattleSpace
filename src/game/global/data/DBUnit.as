@@ -2,11 +2,11 @@ package game.global.data
 {
 	import game.global.GameConfigManager;
 	import game.global.consts.ItemConst;
-	import game.global.consts.ServiceConst;
 	import game.global.data.bag.BagManager;
 	import game.global.data.bag.ItemData;
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.AwakenEqVo;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.User;
@@ -14,10 +14,6 @@ package game.global.data
 	import game.module.camp.CampData;
 	import game.module.camp.data.JueXingData;
 	import game.module.camp.data.JueXingMange;
-	import game.net.socket.WebSocketNetService;
-	
-	import laya.utils.Browser;
-	import laya.utils.Handler;
 
 	/**
 	 * DBUnit
@@ -72,7 +68,7 @@ package game.global.data
 				_jxd= JueXingMange.intance.getJueXingDataByUid(uid);
 				if(CampData.getUintById(uid) && _jxd.initData)
 				{
-					trace("uid:"+uid+"未能初始化");
+					TraceUtils.log("uid:"+uid+"未能初始化");
 					return 1;
 				}
 			}
@@ -88,7 +84,7 @@ package game.global.data
 			//兵营等级小于2级，觉醒没有开放
 			if(User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_CAMP) < 2)
 			{
-				trace("兵营等级小于2级");
+				TraceUtils.log("兵营等级小于2级");
 				return false;
 			}
 			var tmp:Object;
@@ -125,7 +121,7 @@ package game.global.data
 					var ifFull:Boolean = _jxd.isFull;
 					var ar:Array =  _jxd.eqList;
 					var vo:AwakenEqVo;
-					trace("ar:"+JSON.stringify(ar));
+					TraceUtils.log("ar:"+JSON.stringify(ar));
 					var curUitOk:Boolean = true;
 //					trace("uid:"+uid+"max:"+max);
 					var isExitNext = _jxd.awakenVo.costList;
@@ -189,7 +185,7 @@ package game.global.data
 			for(var i:String in GameConfigManager.unit_json){
 				tmp = GameConfigManager.unit_json[i];
 				if(typeList.indexOf(tmp.unit_type) != -1  && DBUnit.check(tmp.unit_id) > 1){
-					trace("可以升星");
+					TraceUtils.log("可以升星");
 					Signal.intance.event(CHANGE, true);
 					return true;
 				}

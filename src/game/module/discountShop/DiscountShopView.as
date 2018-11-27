@@ -12,14 +12,13 @@ package game.module.discountShop
 	import game.global.consts.ServiceConst;
 	import game.global.data.DBItem;
 	import game.global.data.ItemCell2;
-	import game.global.data.bag.ItemCell3;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
 	import game.module.activity.ActivityMainView;
-	import game.module.bag.cell.ItemCell4;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Text;
@@ -91,10 +90,10 @@ package game.module.discountShop
 			txt.visible = false;
 			var nameTxt:Text = cell.getChildByName("itemName") as Text;
 //			nameTxt.text = data["name"];
-			trace("data:"+JSON.stringify(data));
+			TraceUtils.log("data:"+JSON.stringify(data));
 			var propStr:String =  data["item_id"];
 			var propArr:Array = propStr.split("=");
-			trace("propArr"+propArr[0]);
+			TraceUtils.log("propArr"+propArr[0]);
 			var itData:ItemVo = DBItem.getItemData(propArr[0]);
 			nameTxt.text = itData.name; 
 			
@@ -172,7 +171,7 @@ package game.module.discountShop
 				{
 					var buyObj:Object = args[1];
 					var listArr:Array = args[2];
-					trace("listArr0:"+JSON.stringify(listArr));
+					TraceUtils.log("listArr0:"+JSON.stringify(listArr));
 					if(buyObj)
 					{
 						for(var i:int=0;i<listArr.length;i++)
@@ -186,7 +185,7 @@ package game.module.discountShop
 					}
 					view.list.array = listArr;
 					view.numTf.text = XUtils.formatResWith(User.getInstance().water);
-					trace("listArr:"+JSON.stringify(listArr));
+					TraceUtils.log("listArr:"+JSON.stringify(listArr));
 					break;
 				}	
 				case ServiceConst.DISCOUNT_BUY:

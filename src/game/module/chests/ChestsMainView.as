@@ -1,16 +1,11 @@
 package game.module.chests
 {
-	import MornUI.chests.ChestMainCardItemUI;
 	import MornUI.chests.ChestsMainViewUI;
 	
-	import game.common.AndroidPlatform;
 	import game.common.ItemTips;
 	import game.common.LayerManager;
-	import game.common.ResourceManager;
-	import game.common.SoundMgr;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.XTipManager;
 	import game.common.XUtils;
 	import game.common.base.BaseView;
 	import game.global.GameConfigManager;
@@ -27,32 +22,24 @@ package game.module.chests
 	import game.global.event.BagEvent;
 	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.DrawCardVo;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
 	import game.global.vo.Card.CardCostVo;
-	import game.global.vo.Card.CardFreeItemVo;
-	import game.global.vo.Card.CardPayItemVo;
 	import game.global.vo.Card.CardPvwVo;
-	import game.module.camp.CampData;
 	import game.module.camp.ProTipUtil;
 	import game.module.camp.UnitItem;
 	import game.module.camp.UnitItemVo;
-	import game.module.friend.MailCell;
-	import game.module.tips.SkillTip;
 	import game.module.train.TrainItem;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Animation;
 	import laya.events.Event;
-	import laya.maths.Rectangle;
 	import laya.ui.Image;
 	import laya.ui.List;
-	import laya.ui.UIUtils;
-	import laya.utils.Browser;
 	import laya.utils.Handler;
-	import laya.utils.Tween;
 	
 	public class ChestsMainView extends BaseView
 	{
@@ -1389,7 +1376,7 @@ package game.module.chests
 		/**兵种出现之后如果有了转换成碎片*/
 		public function setTransitionItemList():void
 		{
-			trace("setTransitionItemList");
+			TraceUtils.log("setTransitionItemList");
 			this.view.ShowPlayerBox.visible=false;
 			var l_str:String=m_drawInfo.display_rewards[m_index];
 			var l_arr:Array=l_str.split("=");

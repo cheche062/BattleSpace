@@ -1,6 +1,6 @@
 package game.common
 {
-	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	
 	import laya.utils.Browser;
 
@@ -51,13 +51,13 @@ package game.common
 				if (document[state] == hidden) {
 					timeStart = new Date().getTime();
 					
-					trace('隐藏页面');
+					TraceUtils.log('隐藏页面');
 				} else {
 					var diffTime = Math.floor((new Date().getTime() - timeStart) / 1000);
 					if (diffTime > time) {
 						timeOutCallBack();
 					}
-					trace('显示页面', diffTime);
+					TraceUtils.log('显示页面'+diffTime);
 				}
 			}
 			

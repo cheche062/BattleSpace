@@ -4,23 +4,21 @@ package game.module.TeamCopy
 	
 	import game.common.DataLoading;
 	import game.common.LayerManager;
-	import game.common.SceneManager;
 	import game.common.ToolFunc;
 	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.base.BaseView;
-	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.GameSetting;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.DBUnitStar;
-	import game.global.data.bag.ItemCell;
 	import game.global.data.bag.ItemCell3;
 	import game.global.event.Signal;
 	import game.global.event.TeamCopyEvent;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.User;
 	import game.global.vo.teamCopy.TeamCopyChatVo;
@@ -729,7 +727,7 @@ package game.module.TeamCopy
 				}
 				case ServiceConst.FIGHTING_ARMY_CD_CONST:
 				{
-					trace("FIGHTING_ARMY_CD_CONST");
+					TraceUtils.log("FIGHTING_ARMY_CD_CONST");
 					m_teamCopyUnitVo=m_teamCopyRoomVo.getTeamCopyUnitVo();
 					var levelVo:TeamFightLevelVo=m_teamCopyRoomVo.getLevelVo();
 					if(m_index==0)

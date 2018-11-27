@@ -4,19 +4,14 @@ package game.module.activity
 	
 	import game.common.ResourceManager;
 	import game.common.ToolFunc;
-	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.base.BaseView;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
-	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
-	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
-	import game.global.vo.VoHasTool;
-	import game.module.activity.ActivityMainView;
-	import game.module.bingBook.ItemContainer;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -165,7 +160,7 @@ package game.module.activity
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			trace("限时礼包：", args);
+			TraceUtils.log("限时礼包："+args);
 			var len:int = 0;
 			var i:int=0;
 			switch(cmd)
@@ -190,7 +185,7 @@ package game.module.activity
 						refTime = 0;
 						view.lbCountdown.text = "00:00:00";
 						clearTimerHandler = null;
-						trace('倒计时结束：：：');
+						TraceUtils.log('倒计时结束：：：');
 						//刷新抽卡
 						setBtnBuyType();
 					}, false);

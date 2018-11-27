@@ -1,5 +1,7 @@
 package game.common
 {
+	import game.global.util.TraceUtils;
+	
 	import laya.display.Sprite;
 	import laya.events.Event;
 	import laya.maths.Point;
@@ -106,7 +108,7 @@ package game.common
 			m_isAdd = !(idx1 > 2);
 			m_changeNum = m_isAdd ? 2 - idx1 : idx1 - 2;
 			if(m_changeNum) m_changeNum = 1;
-			trace(1,m_isAdd,m_changeNum);
+			TraceUtils.log(m_isAdd + m_changeNum);
 			openChange();
 		}
 		
@@ -216,7 +218,7 @@ package game.common
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy CircularTab");
+			TraceUtils.log("destroy CircularTab");
 			bg = null;
 			_leftBtn = null;
 			_rightBtn = null;

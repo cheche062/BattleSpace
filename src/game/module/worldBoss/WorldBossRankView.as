@@ -1,7 +1,5 @@
 package game.module.worldBoss
 {
-	import MornUI.worldBoss.WorldBossRankItem2UI;
-	import MornUI.worldBoss.WorldBossRankItemUI;
 	import MornUI.worldBoss.WorldBossRankUI;
 	
 	import game.common.AnimationUtil;
@@ -9,12 +7,11 @@ package game.module.worldBoss
 	import game.common.ResourceManager;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.XUtils;
 	import game.common.base.BaseDialog;
-	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
 	
@@ -121,7 +118,7 @@ package game.module.worldBoss
 		}
 		
 		private function serviceResultHandler(cmd:int,... args):void {
-			trace("serviceResultHandler::",cmd,args)
+			TraceUtils.log("serviceResultHandler::"+cmd+args);
 			//var cmd = args[0];
 			switch (cmd) {
 				case ServiceConst.BOSS_RANK_INFO:

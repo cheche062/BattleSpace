@@ -10,12 +10,12 @@ package game.module.camp.avatar
 	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillVo;
 	import game.module.camp.CampData;
 	import game.module.camp.CampView;
 	import game.module.camp.NewUnitInfoView;
 	import game.module.camp.UnitInfoView;
-	import game.module.camp.UnitSrcView;
 	import game.module.tips.SkillTip;
 	
 	import laya.events.Event;
@@ -144,7 +144,7 @@ package game.module.camp.avatar
 				skillId = (skillId+"").split("=")[1];
 				item.visible = true;
 				var vo:SkillVo = GameConfigManager.unit_skill_dic[skillId];
-				trace("vo::::::",vo)
+				TraceUtils.log("vo::::::"+vo);
 				item.skillBg.skin = "common/skill_bg.png";
 				item.lvBG.skin = "common/skill_bg_1.png";
 				item.lvTF.text = vo.skill_level+"";

@@ -16,6 +16,7 @@ package game.module.armyGroup
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.armyGroup.newArmyGroup.StarVo;
 	import game.net.socket.WebSocketNetService;
@@ -24,7 +25,6 @@ package game.module.armyGroup
 	import laya.events.Event;
 	import laya.ui.Button;
 	import laya.ui.Image;
-	import laya.display.Sprite;
 
 	/**
 	 * 星球信息弹层
@@ -265,7 +265,7 @@ package game.module.armyGroup
 
 		private function serviceResultHandler(... args):void
 		{
-			trace("【国战信息】", args[0], args[1]);
+			TraceUtils.log("【国战信息】"+ args[0]+ args[1]);
 			switch (args[0]) {
 				case ServiceConst.ARMY_GROUP_ENTER_CITY:
 					XFacade.instance.closeModule(ArmyGroupChatView);
@@ -389,7 +389,7 @@ package game.module.armyGroup
 			}, function() {
 				view.dom_viewstack.selectedIndex = -1;
 				clearTimerHandler = null;
-				trace('倒计时结束：：：');
+				TraceUtils.log('倒计时结束：：：');
 			}, false);
 		}
 		

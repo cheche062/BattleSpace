@@ -1,6 +1,5 @@
 package game.module.chargeView
 {
-	import laya.events.Event;
 	import MornUI.fackBookChange.FaceBookChargeViewUI;
 	
 	import game.common.AlertManager;
@@ -15,7 +14,7 @@ package game.module.chargeView
 	import game.global.consts.ServiceConst;
 	import game.global.data.DBBuilding;
 	import game.global.event.Signal;
-	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.VIPVo;
 	import game.global.vo.facebookPay.CountriesVo;
@@ -24,6 +23,7 @@ package game.module.chargeView
 	import game.global.vo.facebookPay.PayWayVo;
 	import game.net.socket.WebSocketNetService;
 	
+	import laya.events.Event;
 	import laya.utils.Handler;
 	
 	
@@ -253,8 +253,8 @@ package game.module.chargeView
 //			back(data);
 			
 			function back(data){
-				trace("back::"+JSON.stringify(data))
-				trace("back::", data)
+				TraceUtils.log("back::"+JSON.stringify(data));
+				TraceUtils.log("back::"+ data);
 				m_data = new FaceBookPayVo();
 				if(data.status==1)
 				{
@@ -274,12 +274,12 @@ package game.module.chargeView
 		
 		private function processHandler(data:Object):void
 		{
-			trace("process"+data);
+			TraceUtils.log("process"+data);
 		}
 		
 		private function errorHandler(e:Object):void
 		{
-			trace("errorHandler"+e);
+			TraceUtils.log("errorHandler"+e);
 			
 		}
 		
@@ -326,7 +326,7 @@ package game.module.chargeView
 				case ServiceConst.GET_WEBPAY_URL:
 				{
 					var url:String=args[1]["url"];
-					trace("打开支付页面：", url, m_packVo.name);
+					TraceUtils.log("打开支付页面："+ url+ m_packVo.name);
 					
 					var voName:String = m_packVo.name;
 					for (var i:int = 0; i < view.chargeList.array.length; i++)

@@ -4,11 +4,7 @@ package game.module.mainui.speedView
 	
 	import game.common.AnimationUtil;
 	import game.common.DataLoading;
-	import game.common.ItemTips;
-	import game.common.LayerManager;
-	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.XUtils;
 	import game.common.base.BaseDialog;
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
@@ -21,10 +17,8 @@ package game.module.mainui.speedView
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
-	import game.global.vo.BuildingLevelVo;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import game.module.mainScene.BaseArticle;
-	import game.module.mainui.MainMenuView;
 	import game.module.mainui.SceneVo;
 	import game.net.socket.WebSocketNetService;
 	
@@ -60,14 +54,14 @@ package game.module.mainui.speedView
 			}
 			var data:Object = args[0];
 			this._data = data;
-			trace(data);
+			TraceUtils.log(data);
 			
 			var db:* = DBBuilding.getBuildingById(data.buildId);
 			view.tfName.text = db.name;
 			view.tfLv.text = "Lv"+data.level;
 			view.tfName.x = (view.width - (view.tfName.textField.textWidth + view.tfLv.textField.textWidth + 10))/2;
 			view.tfLv.x = view.tfName.x+view.tfName.textField.textWidth + 10;
-			trace(db);
+			TraceUtils.log(db);
 			
 			updateTime();
 			Laya.timer.loop(1000, this,updateTime);
@@ -124,11 +118,11 @@ package game.module.mainui.speedView
 					if(e.target && e.target.parent){
 						pname = e.target.parent.name
 					}
-					trace(e.target.name);
+					TraceUtils.log(e.target.name);
 					if(e.target.name == "btnSpeed"){
 						speedUpByWater();
 					}else if(e.target.name == "btnContinue"){
-						trace("btnContinue",pname)
+						TraceUtils.log("btnContinue"+pname)
 						itemUseCom.show(_data, ITEMS[pname.split("_")[1]])
 					}else if(e.target.name == "btnUse"){
 						speedUpByItem(ITEMS[pname.split("_")[1]]);

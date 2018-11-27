@@ -9,11 +9,11 @@ package game.module.gameRankView
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
-	import laya.ui.Image;
 	
 	/**
 	 * ...
@@ -55,7 +55,7 @@ package game.module.gameRankView
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			trace("游戏排行榜数据:", args);
+			TraceUtils.log("游戏排行榜数据:"+ args);
 			var len:int = 0;
 			var i:int=0;
 			switch(cmd)

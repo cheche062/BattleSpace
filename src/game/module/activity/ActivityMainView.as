@@ -4,7 +4,6 @@ package game.module.activity
 	
 	import game.common.AnimationUtil;
 	import game.common.LayerManager;
-	import game.common.ToolFunc;
 	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.XTipManager;
@@ -14,9 +13,8 @@ package game.module.activity
 	import game.global.consts.ServiceConst;
 	import game.global.event.ActivityEvent;
 	import game.global.event.Signal;
-	import game.global.event.TrainBattleLogEvent;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import game.module.activity.GiftPackOneView;
 	import game.module.activity.SuperSaleOne.SuperSaleOneView;
 	import game.module.discountShop.DiscountShopView;
 	import game.module.fortress.FortressActivityView;
@@ -30,8 +28,6 @@ package game.module.activity
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
-	
-	import org.flexunit.runner.manipulation.ISort;
 	
 	/**
 	 * ...运营活动
@@ -83,13 +79,13 @@ package game.module.activity
 			//trace("activity: ", args);
 			var len:int = 0;
 			var i:int=0;
-			trace("【新活动列表】", args[1])
+			TraceUtils.log("【新活动列表】"+ args[1]);
 			switch(cmd)
 			{
 				case ServiceConst.GET_ACT_LIST:
 //					CURRENT_ACT_ID = "-1";
 					leftTime = args[1].dayEndSec; 
-					trace("刷新时间:"+leftTime);
+					TraceUtils.log("刷新时间:"+leftTime);
 					var activity_data = args[1].activity;
 					_actList = [];
 					for(var i = 0;i<activity_data.length;i++){
@@ -119,7 +115,7 @@ package game.module.activity
 						item.itemIndex = index;
 					}) 
 					//trace("dataSource:"+JSON.stringify(_actList));
-					trace("dataSource:",_actList);
+					TraceUtils.log("dataSource:"+_actList);
 					view.activityList.array = _actList;
 					while (view.viewContainer.numChildren > 0)
 					{
@@ -140,7 +136,7 @@ package game.module.activity
 							for(var i:int=0;i<view.activityList.array.length;i++)
 							{
 								var item:Object =  view.activityList.array[i];
-								trace("item.actID:"+item.id);
+								TraceUtils.log("item.actID:"+item.id);
 								if(item.id == index)
 								{
 									selectedActTypeItem = view.activityList.content.getChildAt(i);
@@ -261,7 +257,7 @@ package game.module.activity
 			switch(cmd)
 			{
 				case ActivityEvent.SELECT_ACTIVITY:
-					trace("Tab页选中返回数据:"+JSON.stringify(args));
+					TraceUtils.log("Tab页选中返回数据:"+JSON.stringify(args));
 					//设置选中tab
 					selectedActTypeItem = view.activityList.content.getChildAt(args[2]);
 					

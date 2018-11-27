@@ -6,6 +6,7 @@ package game.module.fighting.mgr
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.StageChapterVo;
 	import game.global.vo.StageLevelVo;
 	import game.global.vo.VIPVo;
@@ -154,9 +155,9 @@ package game.module.fighting.mgr
 			}
 			var vo:StageLevelVo = lvdic[lvId];//最大开启关卡对应最大章节
 			maxcId = vo.chapter_id;
-			trace("lvId:"+lvId); 
+			TraceUtils.log("lvId:"+lvId); 
 //			trace("lvdic:"+JSON.stringify(lvdic));
-			trace("cId:"+maxcId);
+			TraceUtils.log("cId:"+maxcId);
 			for (var i:int = 1; i <= maxcId; i++) 
 			{
 				var cVo:StageChapterVo = chapDic[i];
@@ -239,7 +240,7 @@ package game.module.fighting.mgr
 					}
 				}else
 				{
-					trace("未通关的章节:"+ scData.id);
+					TraceUtils.log("未通关的章节:"+ scData.id);
 				}
 			}
 			return 1;
@@ -367,7 +368,7 @@ package game.module.fighting.mgr
 		
 		private function levelChangeBack(... args):void
 		{
-			trace("星级更新");
+			TraceUtils.log("星级更新");
 			ifFirstCharge = false;
 			var changeValue:Array = [false,false,false];  //章节领奖状态变化， 关卡星级变化 ，新通关
 			
@@ -409,7 +410,7 @@ package game.module.fighting.mgr
 				{
 					if(slData.star==0)//代表第一次通关
 					{
-						trace("第一次通关:"+lid);
+						TraceUtils.log("第一次通关:"+lid);
 						if(lid==20)//通关4-1时候，提示首冲
 						{
 							ifFirstCharge = true;

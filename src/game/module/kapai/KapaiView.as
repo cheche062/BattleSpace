@@ -10,8 +10,8 @@ package game.module.kapai
 	import game.global.GameLanguage;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
-	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	import laya.utils.Handler;
@@ -43,7 +43,7 @@ package game.module.kapai
 		
 		private function resLoader(...args):void{
 			
-			trace("【卡牌大师 】", info.id, info);
+			TraceUtils.log("【卡牌大师 】"+ info.id+ info);
 			this.addChild(view);
 			
 			this.on(Event.ADDED, this, addToStageEvent);
@@ -76,7 +76,7 @@ package game.module.kapai
 		private function onResult(...args):void{
 			var cmd = args[0];
 			var result = args[1];
-			trace('%c 【卡牌大师】', 'color: green', cmd, result);
+			TraceUtils.log('%c 【卡牌大师】'+ 'color: green'+ cmd+ result);
 			switch(cmd){
 				// 打开
 				case ServiceConst.KAPAI_OPEN:
@@ -154,7 +154,7 @@ package game.module.kapai
 					break;
 			}
 			
-			trace('%c 【卡牌大师 state】', 'color: green', state);
+			TraceUtils.log('%c 【卡牌大师 state】'+ 'color: green'+ state);
 		}
 		
 		/**页签切换*/

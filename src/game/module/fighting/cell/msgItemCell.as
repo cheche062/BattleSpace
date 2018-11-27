@@ -47,7 +47,6 @@ package game.module.fighting.cell
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy msgItemCell");
 			_vo = null;
 			btn.off(Event.CLICK,this,btnclick);
 			

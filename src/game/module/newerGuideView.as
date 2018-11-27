@@ -16,6 +16,7 @@ package game.module
 	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
 	import game.global.util.ItemUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.camp.CampView;
 	import game.module.camp.UnitInfoView;
@@ -35,7 +36,6 @@ package game.module
 	import game.module.story.StoryManager;
 	import game.module.train.TrainView;
 	import game.net.socket.WebSocketNetService;
-	import game.module.bag.ShowRewardPanel;
 	
 	import laya.display.Animation;
 	import laya.display.Node;
@@ -107,7 +107,7 @@ package game.module
 		override public function show(...args):void{
 			super.show();
 			_tweenPlay = false;
-			trace("lastStep:", User.getInstance().guideStep);
+			TraceUtils.log("lastStep:"+ User.getInstance().guideStep);
 			User.getInstance().canAutoFight = false;
 			////from(view.introWithMan, { x: -980 },500);
 			
@@ -242,7 +242,7 @@ package game.module
 			view.des2.height = view.des2.textHeight = 30;
 			view.middleBg.height = 80;
 			
-			trace("++++++++++++++ guideStep: ", guideStep);
+			TraceUtils.log("++++++++++++++ guideStep: "+ guideStep);
 			
 			//新手引导的第一次战斗的六次点击需要上报
 			var obj = {
@@ -302,7 +302,7 @@ package game.module
 			}
 			var objNum = 1;
 			if(obj[guideStep]){
-				trace("埋点: ", guideStep,obj[guideStep]);
+				TraceUtils.log("埋点: ", guideStep,obj[guideStep]);
 				(XFacade.instance.getView(PreLoadingView) as PreLoadingView).setIndexLog(obj[guideStep]);
 			}	
 			
@@ -869,7 +869,7 @@ package game.module
 					break;
 				case 208:
 					
-					trace("**************************guideStep208**********************")
+					TraceUtils.log("**************************guideStep208**********************")
 					
 					this._guideBg.visible = true;
 					view.introWithMan.visible = true;
@@ -886,7 +886,7 @@ package game.module
 					//this.mouseThrough = view.mouseThrough  = true;
 					break;
 				case 209:
-					trace("**************************guideStep209**********************")
+					TraceUtils.log("**************************guideStep209**********************")
 					this._guideBg.visible = false;
 					view.normalDes.y = LayerManager.instence.stageHeight * 0.1;
 					AndroidPlatform.instance.FGM_CustumEvent("370_clk_atk");
@@ -1662,7 +1662,7 @@ package game.module
 					this._guideBg.visible = false;
 					this.mouseThrough = view.mouseThrough  = true;
 					
-					trace("修改  401")
+					TraceUtils.log("修改  401");
 					
 					
 					break;
@@ -1899,10 +1899,10 @@ package game.module
 					if(GameSetting.IsRelease)
 					{
 						view.arrowMotion.x *= 0.8;
-						trace("326发布版引导坐标："+view.arrowMotion.x);
+						TraceUtils.log("326发布版引导坐标："+view.arrowMotion.x);
 					}else
 					{
-						trace("326本地版引导坐标："+view.arrowMotion.x);
+						TraceUtils.log("326本地版引导坐标："+view.arrowMotion.x);
 					}
 					
 					
@@ -2061,10 +2061,10 @@ package game.module
 			var p:Point;
 			hideBlankArea();
 			view.arrowMotion.rotation = 0;
-			trace("misssGoBtn:", guideStep);
+			TraceUtils.log("misssGoBtn:"+ guideStep);
 			view.des2.height = view.des2.textHeight = 30;
 			view.middleBg.height = 80
-			trace("missonStepHandler:", cmd);
+			TraceUtils.log("missonStepHandler:"+ cmd);
 			_resetGuideId = "";
 			switch(guideStep)
 			{
@@ -2271,7 +2271,7 @@ package game.module
 		
 		public function guildeEventhandler(cmd:String,...args):void 
 		{
-			trace("新手引导事件:", cmd,"当前引导步骤：",guideStep);
+			TraceUtils.log("新手引导事件:"+ cmd+"当前引导步骤："+guideStep);
 			var p:Point;
 			if(cmd!= NewerGuildeEvent.CREATE_SOILDER)
 			{
@@ -2296,7 +2296,7 @@ package game.module
 						view.arrowMotion.visible = false;
 						return;
 					}
-					trace("============fightData:=============", fightData);
+					TraceUtils.log("============fightData:============="+ fightData);
 					if (guideStep > 0)
 					{
 						this.mouseThrough = view.mouseThrough  = false;

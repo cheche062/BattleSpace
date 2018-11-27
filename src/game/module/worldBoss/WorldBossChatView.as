@@ -7,6 +7,7 @@ package game.module.worldBoss
 	import game.common.base.BaseView;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	
 	import laya.display.Node;
@@ -117,7 +118,7 @@ package game.module.worldBoss
 				view.sendBtn.disabled = false;
 				view.sendBtn.label = "send";
 				clearTimerHandler = null;
-				trace('倒计时结束：：：');
+				TraceUtils.log('倒计时结束：：：');
 			});
 		}
 		
@@ -231,7 +232,7 @@ package game.module.worldBoss
 		/**请求回来的数据处理*/
 		private function onServerResult(...args):void{
 			var cmd = Number(args[0]);
-			trace('%c 【boss聊天】：', 'color: green', cmd, args);
+			TraceUtils.log('%c 【boss聊天】：'+ 'color: green'+ cmd+ args);
 			toggleRedot(!isShow);
 			
 			switch(cmd) {

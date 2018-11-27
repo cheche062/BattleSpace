@@ -3,7 +3,6 @@ package game.module.relic
 	import MornUI.relic.LevelUpViewUI;
 	
 	import game.common.AnimationUtil;
-	import game.common.ItemTips;
 	import game.common.ResourceManager;
 	import game.common.SceneManager;
 	import game.common.UIRegisteredMgr;
@@ -795,7 +794,6 @@ package game.module.relic
 		private function onCompleteHandler(...arg):void
 		{
 			// TODO Auto Generated method stub
-			trace("onCompleteHandler");
 			this.m_selectHero.removeChild(arg[0]);
 		}
 		
@@ -803,7 +801,6 @@ package game.module.relic
 		private function onCompleteEffectHandler(...arg):void
 		{
 			// TODO Auto Generated method stub
-			trace("onCompleteHandler");
 			this.view.removeChild(arg[0]);
 		}
 		

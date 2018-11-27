@@ -1,10 +1,7 @@
 package game.module.tips
 {
-	import game.global.event.GuildEvent;
-	import game.global.vo.User;
 	import MornUI.tips.GeneTipUI;
 	
-	import game.common.AnimationUtil;
 	import game.common.LayerManager;
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
@@ -19,12 +16,12 @@ package game.module.tips
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.util.ItemUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
-	import game.module.gene.GenEnhanceView;
+	import game.global.vo.User;
 	
 	import laya.display.Sprite;
 	import laya.events.Event;
-	import laya.html.dom.HTMLDivElement;
 	
 	/**
 	 * GeneTip
@@ -129,7 +126,7 @@ package game.module.tips
 				geneInfo = DBGeneList.getGeneInfoByItemId(_data.genenId,_data.level);
 				vo = GameConfigManager.items_dic[geneInfo.type]
 			}
-			trace("genInfo---------------------------------",geneInfo,vo);
+			TraceUtils.log("genInfo---------------------------------"+geneInfo,vo);
 			var itemVo:ItemVo = DBItem.getItemData(geneInfo.type);
 			if(itemVo){
 				view.iconBg.skin = "common/i"+(itemVo.quality-1)+".png"

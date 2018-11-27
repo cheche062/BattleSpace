@@ -20,6 +20,7 @@ package game.module.camp
 	import game.global.event.BagEvent;
 	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
 	
@@ -122,7 +123,7 @@ package game.module.camp
 		}
 		
 		private function onResult(cmd:int, ...args):void{
-			trace("C_OnResult",args);
+			TraceUtils.log("C_OnResult"+args);
 			switch(cmd){
 				case ServiceConst.C_INFO:
 					this._data = args[1];

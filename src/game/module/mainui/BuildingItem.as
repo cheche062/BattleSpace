@@ -9,6 +9,7 @@ package game.module.mainui
 	import game.global.data.DBBuildingUpgrade;
 	import game.global.util.ItemUtil;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.BuildingVo;
 	import game.global.vo.User;
@@ -100,7 +101,7 @@ package game.module.mainui
 						this._isMax = false;
 						if(buildInfo.param1 && buildInfo.param1.indexOf("=")!=-1 && data.building_id.replace("B","") == DBBuilding.B_GENE){
 							var tmp:Array = buildInfo.param1.split("=");
-							trace("DBBuilding.B_GENE-----------------------------------------------",tmp);
+							TraceUtils.log("DBBuilding.B_GENE-----------------------------------------------"+tmp);
 							if(tmp.length > 1){
 								if(sceInfo.getBuildingLv(tmp[0]) < parseInt(tmp[1])){//等级不足
 									this.buildSp.visible = false;

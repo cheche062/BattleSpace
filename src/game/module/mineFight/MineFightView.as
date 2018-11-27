@@ -16,6 +16,7 @@ package game.module.mineFight
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Sprite;
@@ -84,7 +85,7 @@ package game.module.mineFight
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			trace("mineResult: ", args);
+			TraceUtils.log("mineResult: "+ args);
 			var len:int = 0;
 			var i:int=0;
 			switch(cmd)

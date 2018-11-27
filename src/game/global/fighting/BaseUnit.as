@@ -14,6 +14,7 @@ package game.global.fighting
 	import game.global.GameConfigManager;
 	import game.global.data.fightUnit.fightUnitData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuffEffectVo;
 	import game.global.vo.HitAreaData;
 	import game.global.vo.SkillBuffVo;
@@ -399,7 +400,7 @@ package game.global.fighting
 			
 				campImg.skin = "common/icons/camp_"+_data.unitVo.camp+".png";
 			}
-			trace("set data >>>>>>>>>>>>", _data)
+			TraceUtils.log("set data >>>>>>>>>>>>"+ _data);
 		}
 		
 		
@@ -609,7 +610,7 @@ package game.global.fighting
 				return ;
 			if(!args[1])
 			{
-				trace(1,"模型加载失败",jsonStr);
+				TraceUtils.log("模型加载失败"+jsonStr);
 				if(_hander)
 				{
 					
@@ -845,7 +846,7 @@ package game.global.fighting
 		
 		private var isdestroy:Boolean;
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy baseUnit");
+			TraceUtils.log("destroy baseUnit");
 			isdestroy = true;
 			this.data = null;
 			this.timer.clearAll(this);

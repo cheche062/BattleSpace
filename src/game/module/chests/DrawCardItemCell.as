@@ -2,6 +2,7 @@ package game.module.chests
 {
 	import game.global.data.bag.ItemCell;
 	import game.global.data.bag.ItemData;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Animation;
 	import laya.utils.Tween;
@@ -49,7 +50,7 @@ package game.module.chests
 		private function onEffectHandler():void
 		{
 			// TODO Auto Generated method stub
-			trace("onEffectHandler");
+			TraceUtils.log("onEffectHandler");
 			m_drawCardEffect.visible=false;
 //			m_drawCardEffect.clear();
 		}		

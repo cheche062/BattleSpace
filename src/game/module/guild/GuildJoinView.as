@@ -13,6 +13,7 @@ package game.module.guild
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	
 	import laya.events.Event;
@@ -36,7 +37,7 @@ package game.module.guild
 		override public function createUI():void{
 			this.addChild(view);
 			
-			trace("【首次加入公会奖励】:   init~~~~");
+			TraceUtils.log("【首次加入公会奖励】:   init~~~~");
 		}
 		
 		override public function show(...args):void{
@@ -101,7 +102,7 @@ package game.module.guild
 		 * 
 		 */
 		private function onResult(...args):void{
-			trace("【首次加入公会奖励】", args);
+			TraceUtils.log("【首次加入公会奖励】"+ args);
 			switch(args[0]){
 				// 领取奖励
 				case ServiceConst.GET_GUILD_REWARD:

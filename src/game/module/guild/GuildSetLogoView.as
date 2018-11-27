@@ -11,6 +11,7 @@ package game.module.guild
 	import game.global.consts.ServiceConst;
 	import game.global.event.GuildEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Node;
@@ -62,7 +63,7 @@ package game.module.guild
 				colorsList.push(child.name.split("_")[1]);
 			}
 			
-			trace("colorsList", colorsList);
+			TraceUtils.log("colorsList"+ colorsList);
 		}
 		
 		override public function show(... args):void {
@@ -108,7 +109,7 @@ package game.module.guild
 			});
 			
 			view.dom_selected_color.pos(e.target.x - 7, e.target.y - 7 );
-			trace(color);
+			TraceUtils.log(color);
 			
 			setColor(COLOR_NAME_MAP[color]);
 		}
@@ -127,7 +128,7 @@ package game.module.guild
 			if (index == -1) return;
 			currentSetType = index;
 			
-			trace(currentSetType);
+			TraceUtils.log(currentSetType);
 			
 			view.dom_list.selectedIndex = -1;
 			updateList();
@@ -174,7 +175,7 @@ package game.module.guild
 			
 			renderLogo();
 			
-			trace(index);
+			TraceUtils.log(index);
 		}
 		
 		private function renderLogo():void {

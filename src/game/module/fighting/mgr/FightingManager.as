@@ -26,6 +26,7 @@ package game.module.fighting.mgr
 	import game.global.event.Signal;
 	import game.global.fighting.BaseUnit;
 	import game.global.fighting.manager.FightingShowFormatData;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillVo;
 	import game.global.vo.User;
 	import game.module.equipFight.EquipFightInfoView;
@@ -129,7 +130,7 @@ package game.module.fighting.mgr
 			_fightingType = type;
 			_data = d;
 			_backH = backH;
-			trace("设置战斗回调:"+_backH);
+			TraceUtils.log("设置战斗回调:"+_backH);
 			FightingView.showRKMaxNum = 0;
 			FightingView.showAutoBtn = showAutoBtn;
 			if(_fightingType == FIGHTINGTYPE_STAGE)
@@ -397,11 +398,11 @@ package game.module.fighting.mgr
 				Number(args[4]["bgsrc"]),
 				_backH
 			));
-			trace("开战协议:"+JSON.stringify(args[0]));
-			trace("战斗请求返回1:"+JSON.stringify(args[1]));
-			trace("战斗请求返回2:"+JSON.stringify(args[2]));
-			trace("战斗请求返回3:"+JSON.stringify(args[3]));
-			trace("战斗请求返回4:"+JSON.stringify(args[4]));
+			TraceUtils.log("开战协议:"+JSON.stringify(args[0]));
+			TraceUtils.log("战斗请求返回1:"+JSON.stringify(args[1]));
+			TraceUtils.log("战斗请求返回2:"+JSON.stringify(args[2]));
+			TraceUtils.log("战斗请求返回3:"+JSON.stringify(args[3]));
+			TraceUtils.log("战斗请求返回4:"+JSON.stringify(args[4]));
 			setMyArmy(args[3]);
 			
 			_scence = SceneManager.intance.m_sceneCurrent;
@@ -491,7 +492,7 @@ package game.module.fighting.mgr
 		{
 			//收到数据
 			_fData = fData;
-			trace("fData:::",fData)
+			TraceUtils.log("fData:::"+fData);
 			
 			_scence = scence;
 			_scence.bindNeedFood(_needFood, _unitFood);
@@ -524,7 +525,7 @@ package game.module.fighting.mgr
 				_scence.fightingView.rankData(moveFData.unitList);
 			}else
 			{
-				trace("没有初始顺序");
+				TraceUtils.log("没有初始顺序");
 				return ;
 			}
 //			return ;
@@ -619,7 +620,7 @@ package game.module.fighting.mgr
 		private function doubtful():Boolean{
 			if(!moveFData.leftArmy || !moveFData.rightArmy)
 			{
-				trace("阵容不全");
+				TraceUtils.log("阵容不全");
 				return false;
 			}
 			addArmy(moveFData.leftArmy);
@@ -953,17 +954,17 @@ package game.module.fighting.mgr
 			}else if(_fightingType == FIGHTINGTYPE_FORTRESS){
 				serverConst = ServiceConst.FORTRESS_START_CAMP;
 				data = data.concat(_data);
-				trace("堡垒战斗==》", data);
+				TraceUtils.log("堡垒战斗==》"+ data);
 			}else if(_fightingType == FIGHTINGTYPE_LONEHERO){
 				serverConst = ServiceConst.LONEHERO_ENTER_STAGE_FIGHT;
 			}else if(_fightingType == FIGHTINGTYPE_SHIPWAR){
 				serverConst = ServiceConst.CAOCHUAN_START_FIGHT;
 				data = _data.concat(data);
-				trace("草船战斗==》", data);
+				TraceUtils.log("草船战斗==》"+ data);
 			}
 			else if(_fightingType == FIGHTINGTYPE_PATA){
 				serverConst = ServiceConst.PATA_BATTLE;
-				trace("爬塔战斗==》", data);
+				TraceUtils.log("爬塔战斗==》"+ data);
 			}
 			else if(_fightingType == FIGHTINGTYPE_BAGUA){
 				serverConst = ServiceConst.BAGUA_START_FIGHT
@@ -976,7 +977,7 @@ package game.module.fighting.mgr
 			}else if(_fightingType == FIGHTINGTYPE_WORLD_BOSS){
 				serverConst = ServiceConst.BOSS_SAVE_PRESET;
 				(data as Array).unshift(this._data[0]);
-				trace("世界BOSS战==》", data);
+				TraceUtils.log("世界BOSS战==》"+data);
 				saveFormation();
 			}
 			else if(_fightingType == PEOPLE_FALL_OFF)
@@ -1051,12 +1052,12 @@ package game.module.fighting.mgr
 			{
 				copyAr.push(args[i]);
 			}
-			trace("开始战斗数据1:"+JSON.stringify(args[0]));
-			trace("开始战斗数据2:"+JSON.stringify(args[1]));
-			trace("开始战斗数据3:"+JSON.stringify(args[2]));
-			trace("开始战斗数据4:"+JSON.stringify(args[3]));
-			trace("开始战斗数据5:"+JSON.stringify(args[4]));
-			trace("开始战斗数据6:"+JSON.stringify(args[5]));
+			TraceUtils.log("开始战斗数据1:"+JSON.stringify(args[0]));
+			TraceUtils.log("开始战斗数据2:"+JSON.stringify(args[1]));
+			TraceUtils.log("开始战斗数据3:"+JSON.stringify(args[2]));
+			TraceUtils.log("开始战斗数据4:"+JSON.stringify(args[3]));
+			TraceUtils.log("开始战斗数据5:"+JSON.stringify(args[4]));
+			TraceUtils.log("开始战斗数据6:"+JSON.stringify(args[5]));
 			_scence.fightingView.gotoSendStartBackData(copyAr);
 		}
 		
@@ -1313,7 +1314,7 @@ package game.module.fighting.mgr
 		
 		private function serverBack(serverC:Number,isWin:Boolean = false,errorStr:String = null):void
 		{
-			trace("移除监听",serverC);
+			TraceUtils.log("移除监听"+serverC);
 			Signal.intance.off(
 				ServiceConst.getServerEventKey(serverC),
 				this,sendSquadBack);
@@ -1454,8 +1455,8 @@ package game.module.fighting.mgr
 		}
 		
 		public function autoFighting():void{
-			trace(1,"托管状态");
-			trace(1,Browser.now());
+			TraceUtils.log("托管状态");
+			TraceUtils.log(Browser.now());
 			if(!_scence || !_scence.fightingView || _overData)  //_overData 如果有介绍数据后，也不发送自动
 				return;
 			WebSocketNetService.instance.sendData(ServiceConst.FIGHTING_SUTOATTACK_CONST,[fightingServerID]);
@@ -1467,7 +1468,6 @@ package game.module.fighting.mgr
 		private function fightingResultBack(v:uint):void
 		{
 			if(!_scence) return ;
-			trace("_scence.completeHandler_________________",_scence.completeHandler)
 			if(v == AlertType.RETURN_YES)
 			{
 				_scence.playback(moveFData);
@@ -1551,7 +1551,7 @@ package game.module.fighting.mgr
 						_scence.fightingView.countdown(0,null);
 						return ;
 					}
-					trace(1,"选目标",uid,rightPos);
+					TraceUtils.log("选目标"+uid+rightPos);
 //					var d:Object = _scence.fightingView.leftRank[0];
 //					_scence.useUnit(d.pos,Number(d.unitId));
 					_scence.useUnit(rightPos);
@@ -1610,7 +1610,7 @@ package game.module.fighting.mgr
 					if(dataFlip)
 						argAr = flipData(argAr);
 					var rightPos:String = getRightAPos(argAr[1]);
-					trace(1,"下次手动出手位置是:",rightPos);
+					TraceUtils.log("下次手动出手位置是:"+rightPos);
 					parsingFun(argAr[1],argAr[2],argAr[3],rightPos );
 					
 					//特殊材处理草船
@@ -1679,7 +1679,7 @@ package game.module.fighting.mgr
 							tmpArr = arr[j];
 							if(tmpArr){
 								for(var k:int=0; k<tmpArr.length; k++){
-									trace("parseHp:::",parseHp(tmpArr[k]));
+									TraceUtils.log("parseHp:::"+parseHp(tmpArr[k]));
 									hp += parseHp(tmpArr[k])
 								}
 							}
@@ -1690,15 +1690,15 @@ package game.module.fighting.mgr
 					for(var ii:String in obj){
 						if(obj[ii] is Array){
 							tmpArr = obj[ii];//like skill2
-							trace("fe1::::",tmpArr)
+							TraceUtils.log("fe1::::"+tmpArr);
 							for(j=0; j<tmpArr.length; j++){
-								trace("fe2:::",tmpArr[j])
+								TraceUtils.log("fe2:::"+tmpArr[j]);
 								if(tmpArr[j].hasOwnProperty("te")){
 									arr = tmpArr[j]["te"];
-									trace("fe3:::",arr)
+									TraceUtils.log("fe3:::"+arr);
 									if(arr){
 										for(var k:int=0; k<arr.length; k++){
-											trace("fe:::",parseHp(arr[k]));
+											TraceUtils.log("fe:::"+parseHp(arr[k]));
 											hp += parseHp(arr[k])
 										}
 									}
@@ -1712,7 +1712,7 @@ package game.module.fighting.mgr
 				if(info && info.report && info.report.posHurt){
 					tmpArr = info.report.posHurt
 					for(var k:int=0; k<tmpArr.length; k++){
-						trace("posHurt:::",parseHp(tmpArr[k]));
+						TraceUtils.log("posHurt:::"+parseHp(tmpArr[k]));
 						hp += parseHp(tmpArr[k])
 					}
 				}

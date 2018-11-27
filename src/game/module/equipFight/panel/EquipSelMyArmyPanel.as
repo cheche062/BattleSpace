@@ -501,7 +501,6 @@ package game.module.equipFight.panel
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy EquipSelMyArmyPanel");
 			_rList = null;
 			infoData = null;
 			selectHero = null;

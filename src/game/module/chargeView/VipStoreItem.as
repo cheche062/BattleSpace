@@ -7,9 +7,9 @@ package game.module.chargeView
 	import game.global.GameConfigManager;
 	import game.global.ModuleName;
 	import game.global.data.DBItem;
-	import game.global.data.DBStore;
 	import game.global.event.Signal;
 	import game.global.util.ItemUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	
 	import laya.events.Event;
@@ -77,7 +77,7 @@ package game.module.chargeView
 					break;
 				case this.item:
 					var db:Object = GameConfigManager.items_dic[(data.item + "").split("=")[0]];
-					trace("db:", db);
+					TraceUtils.log("db:"+ db);
 					if(db){
 						ItemTips.showTip(db.id);
 					}

@@ -3,6 +3,7 @@ package game.module.worldBoss
 	import MornUI.worldBoss.chessItemUI;
 	
 	import game.global.fighting.BaseUnit;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Animation;
 	import laya.events.Event;
@@ -241,7 +242,7 @@ package game.module.worldBoss
 		
 		/**重置清除动画缓存*/
 		public static function clearLoadedAni():void {
-			trace('清除动画资源', loadedAniNameList);
+			TraceUtils.log('清除动画资源'+ loadedAniNameList);
 			loadedAniNameList.forEach(function(item:String) {
 //				Animation.clearCache(item);
 				// 需要清除资源

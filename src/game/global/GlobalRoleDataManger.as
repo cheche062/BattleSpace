@@ -10,24 +10,18 @@ package game.global
 	import game.global.event.GuildEvent;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.reVo;
 	import game.module.alert.XAlert;
 	import game.module.armyGroup.ArmyGroupChatItem;
-	import game.module.chests.ChestsMainView;
-	import game.module.fighting.mgr.FightingManager;
 	import game.module.guild.GuildChatItem;
 	import game.module.login.PreLoadingView;
 	import game.module.mainScene.HomeScene;
 	import game.module.mainui.MainView;
 	import game.net.socket.WebSocketNetService;
 	
-	import laya.events.Event;
-	import laya.net.HttpRequest;
-	import laya.net.Loader;
-	import laya.ui.ProgressBar;
 	import laya.utils.Browser;
-	import laya.utils.Dictionary;
 	import laya.utils.Handler;
 	import laya.utils.Timer;
 
@@ -156,7 +150,7 @@ package game.global
 					break;
 				case ServiceConst.PAY_SUCCESS:
 				{
-					trace("ServiceConst.PAY_SUCCESS",args);
+					TraceUtils.log("ServiceConst.PAY_SUCCESS"+args);
 					WebItemPayHandler(args);
 					break;
 				}
@@ -165,7 +159,7 @@ package game.global
 		
 		public function loginWin(... args):void
 		{
-			trace("loginWin", args);
+			TraceUtils.log("loginWin"+args);
 			if (!this.user)
 			{
 				this.user=User.getInstance();
@@ -173,8 +167,8 @@ package game.global
 			this.user.updateVo(args[1]);
 			TimeUtil.syncSrvTime(args[1].server_time);
 			//
-			trace("setLan------>")
-			trace(args[1].lang)
+			TraceUtils.log("setLan------>");
+			TraceUtils.log(args[1].lang);
 			
 			GameSetting.lang = args[1].lang || GameSetting.lang || "en-us";
 			
@@ -594,7 +588,7 @@ package game.global
 
 						chatData.type="sys";
 					}
-					trace("args[5]:", args[5]);
+					TraceUtils.log("args[5]:"+ args[5]);
 					_chatDate.setTime(parseInt(args[5]) * 1000);
 
 					//chatData.time=(_chatDate.getHours() < 10 ? "0" + _chatDate.getHours() : _chatDate.getHours()) + ":" + (_chatDate.getMinutes() < 10 ? "0" + _chatDate.getMinutes() : _chatDate.getMinutes())
@@ -715,7 +709,7 @@ package game.global
 			{
 				//title,description, img, url
 				//__JS__("share('mt','des','http://www.mutantbox.com','mutantbox.com')");
-				trace("请求书数据:", data);
+				TraceUtils.log("请求书数据:"+data);
 				//var str:String = 'fbShare("' + GameLanguage.getLangByKey(data.title) + '","' + GameLanguage.getLangByKey(data.content) + '","' + ResourceManager.instance.setResURL("appRes/shareImg/" + data.pic_id + ".jpg") + '","mutantbox.com")';
 				__JS__("fbShare( GameLanguage.getLangByKey(data.title), GameLanguage.getLangByKey(data.content) ,pic,url)");
 				//trace("拼合数据:", str);
@@ -727,7 +721,7 @@ package game.global
 		{
 			// TODO Auto Generated method stub
 			var _obj:Object=JSON.parse(p_str);
-			trace("回调登录数据:" + p_str);
+			TraceUtils.log("回调登录数据:" + p_str);
 			var l_suc:Boolean=_obj["isSuc"];
 			if (l_suc == true || Browser.onIOS)
 			{

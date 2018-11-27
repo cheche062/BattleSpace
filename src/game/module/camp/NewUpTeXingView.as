@@ -12,6 +12,7 @@ package game.module.camp
 	import game.global.StringUtil;
 	import game.global.data.ConsumeHelp;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.AwakenTypeVo;
 	import game.global.vo.User;
 	import game.module.bag.cell.needItemCell;
@@ -175,7 +176,7 @@ package game.module.camp
 		
 		/**数据升级回调*/
 		private function upgradeDataHandler(args):void{
-			trace('数据升级回调:', args)
+			TraceUtils.log('数据升级回调:'+ args);
 			// 重新赋值现在的等级
 			_state[0][2] = args[3];
 			

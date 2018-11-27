@@ -1,10 +1,9 @@
 package game.global.data
 {
-	import game.common.AlertManager;
-	import game.common.AlertType;
 	import game.common.XFacade;
 	import game.global.ModuleName;
 	import game.global.data.bag.ItemData;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	
 	import laya.utils.Handler;
@@ -21,7 +20,7 @@ package game.global.data
 			var water:Number = 0;
 //			XFacade.instance.openModule("ConsumeHelpPanel",[cAr,Math.ceil(maxPrice),handel]);
 //			return ;
-			trace("cAr", cAr);
+			TraceUtils.log("cAr"+ cAr);
 			var showAr:Array = [];
 			for (var i:int = 0; i < cAr.length; i++) 
 			{
@@ -29,7 +28,7 @@ package game.global.data
 				if(!item)
 					continue;
 				var itemPrice:Number = DBItem.getItemPrice(item.iid);
-				trace("itemPrice:"+itemPrice);
+				TraceUtils.log("itemPrice:"+itemPrice);
 				if(!itemPrice)
 					continue;
 				if(item.iid == DBItem.WATER)
@@ -39,7 +38,7 @@ package game.global.data
 				}
 				
 				var itemNum:Number = User.getInstance().getResNumByItem(item.iid+"");
-				trace("itemNum:"+itemNum);
+				TraceUtils.log("itemNum:"+itemNum);
 				if(itemNum < item.inum)
 				{
 					maxPrice += DBItem.caculatePrice(item.iid, item.inum - itemNum);
@@ -49,8 +48,8 @@ package game.global.data
 					showAr.push(i2);
 				}
 			}
-			trace("maxPrice:"+maxPrice);
-			trace("water:"+water);
+			TraceUtils.log("maxPrice:"+maxPrice);
+			TraceUtils.log("water:"+water);
 			if(maxPrice)
 			{
 				

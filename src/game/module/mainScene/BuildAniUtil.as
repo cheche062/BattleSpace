@@ -3,11 +3,11 @@ package game.module.mainScene
 	import MornUI.mainView.HarvestComUI;
 	
 	import game.common.ResourceManager;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Animation;
 	import laya.net.Loader;
 	import laya.utils.Pool;
-	import laya.utils.Tween;
 
 	/**
 	 * BuildAniUtil 建筑特效工具
@@ -167,7 +167,7 @@ package game.module.mainScene
 		private static function get posDic():Object{
 			if(!_posDic){
 				_posDic = ResourceManager.instance.getResByURL("staticConfig/buildAniPos.json"); 
-				trace("_posDic::::::::::",_posDic)
+				TraceUtils.log("_posDic::::::::::"+_posDic);
 				/*_posDic =  {
 					"2":[-250,-190,0.72],
 					"3":[-346,-266,1],

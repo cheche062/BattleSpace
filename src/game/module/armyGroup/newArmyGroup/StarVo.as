@@ -5,6 +5,7 @@ package game.module.armyGroup.newArmyGroup
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 
 	/**
@@ -105,7 +106,7 @@ package game.module.armyGroup.newArmyGroup
 			isMyGuilde_Atk = (!!data.declare_war_guild &&data.declare_war_guild == User.getInstance().guildID );
 			isBudui = data.guild_id.split("_")[0] == "budui";
 			if(isBudui){
-				trace('NPC占领');
+				TraceUtils.log('NPC占领');
 			}
 			if(data.declare_war_guild){
 				isBudui_Atk = data.declare_war_guild.split("_")[0] == "budui";

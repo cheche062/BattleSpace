@@ -4,6 +4,7 @@ package game.module.camp.avatar
 	
 	import game.global.GameLanguage;
 	import game.global.data.bag.BagManager;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	import game.module.camp.CampData;
 	
@@ -48,14 +49,14 @@ package game.module.camp.avatar
 			}
 			if(vo){
 				bg.skin = "common/bg6_"+(Math.max(vo.garde, 1))+".png";
-				trace("vo.ID============",vo)
+				TraceUtils.log("vo.ID============"+vo)
 				HeroImage.skin=UnitPicUtil.getUintPic(vo.unit,UnitPicUtil.PIC_HALF, vo.ID);
 				NameText.text = vo.name;
 				LevelText.text = GameLanguage.getLangByKey("L_A_73")+"0";
 				this.btnInfo.visible = vo.garde>0
 				
 				var heroVo:Object = CampData.getUintById(vo.unit);
-				trace("heroVo:"+JSON.stringify(heroVo));
+				TraceUtils.log("heroVo:"+JSON.stringify(heroVo));
 				if(heroVo){
 					if(vo.ID == heroVo.skin){
 						spState.visible = true;
@@ -72,7 +73,7 @@ package game.module.camp.avatar
 						//升级
 						var skinVo:SkinProVo = DBSkin.getSkinPro(lv, vo.node);
 						if(skinVo){
-							trace("skinVo:"+skinVo);
+							TraceUtils.log("skinVo:"+skinVo);
 							FightingText.text = skinVo.all_br+"";
 							itemInfo = vo.cost.split("=");
 							var itemNum:int = BagManager.instance.getItemNumByID(itemInfo[0]);
@@ -89,12 +90,12 @@ package game.module.camp.avatar
 							}
 						}
 					}else{
-						trace("dakdjll");
+						TraceUtils.log("dakdjll");
 						this.HeroImage.gray = true;
 						var skinVo:SkinProVo = DBSkin.getSkinPro(0, vo.node);
 						skinVo && (FightingText.text = skinVo.all_br+"");
 						//合成---------
-						trace("vo--------"+JSON.stringify(vo));
+						TraceUtils.log("vo--------"+JSON.stringify(vo));
 						var itemInfo:Array= vo.cost.split("=");
 						spState.visible = true;
 						itemNum = BagManager.instance.getItemNumByID(itemInfo[0]);

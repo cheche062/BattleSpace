@@ -27,12 +27,12 @@ package game.module.train
 	import game.global.event.Signal;
 	import game.global.util.PreloadUtil;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.SkillVo;
 	import game.global.vo.User;
 	import game.global.vo.VIPVo;
-	import game.module.alert.XAlert;
 	import game.module.camp.CampData;
 	import game.module.camp.ProTipUtil;
 	import game.module.camp.UnitItem;
@@ -41,12 +41,10 @@ package game.module.train
 	import game.module.tips.SkillTip;
 	import game.net.socket.WebSocketNetService;
 	
-	import laya.ani.bone.Templet;
 	import laya.events.Event;
 	import laya.html.dom.HTMLDivElement;
 	import laya.net.URL;
 	import laya.ui.Box;
-	import laya.ui.Clip;
 	import laya.utils.Handler;
 	
 	/**
@@ -399,7 +397,7 @@ package game.module.train
 				}else{
 					item.nameTF.text = "NoDataSource"
 				}
-				trace("vo-----------------------",starVo,starLv)
+				TraceUtils.log("vo-----------------------"+starVo+starLv);
 				if(!starVo || (starVo && starVo.star_level >= starLv)){
 					item.gray = false
 				}else{
@@ -411,7 +409,7 @@ package game.module.train
 		}
 		
 		private function onResult(cmd:int, ...args):void{
-			trace("T_OnResult",args);
+			TraceUtils.log("T_OnResult"+args);
 			switch(cmd){
 				case ServiceConst.T_INFO:
 					this._data = args[1];
@@ -442,7 +440,7 @@ package game.module.train
 					break
 				case ServiceConst.C_DISMISS:
 					var info:Object = CampData.getUintById(args[1][0]);
-					trace("info...............................",info);
+					TraceUtils.log("info..............................."+info);
 					if(info){
 						info.have_number = parseInt(info.have_number) - 1;
 						var db:Object = GameConfigManager.unit_dic[info.unitId];
@@ -480,7 +478,7 @@ package game.module.train
 			//同步数据员
 			CampData.update(info);
 			
-			trace("info::::::::::::::::::::::::::::::::::::::::",info);
+			TraceUtils.log("info::::::::::::::::::::::::::::::::::::::::"+info);
 			var arr:Array = []
 			var fvo:Object
 			var tmp:Array = [];

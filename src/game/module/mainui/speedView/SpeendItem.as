@@ -1,14 +1,12 @@
 package game.module.mainui.speedView
 {
-	import game.module.bingBook.ItemContainer;
 	import MornUI.homeScenceView.SpeedItemUI;
 	
-	import game.common.ItemTips;
 	import game.global.data.DBItem;
 	import game.global.data.bag.BagManager;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
-	import game.global.vo.User;
-	import game.module.invasion.ItemIcon;
+	import game.module.bingBook.ItemContainer;
 	
 	/**
 	 * SpeendItem
@@ -46,7 +44,7 @@ package game.module.mainui.speedView
 		}
 		
 		public function update():void{
-			trace("update.............");
+			TraceUtils.log("update.............");
 			var num:int = BagManager.instance.getItemNumByID(_itemId);
 			
 			_item.setData(_itemId,num)

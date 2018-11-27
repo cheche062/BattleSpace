@@ -1,6 +1,5 @@
 package game.module.guild
 {
-	import MornUI.StoryTask.StoryTaskViewUI;
 	import MornUI.guild.TechnologyGroupUI;
 	import MornUI.guild.TechnologyItemUI;
 	import MornUI.guild.TechnologyUI;
@@ -8,13 +7,12 @@ package game.module.guild
 	import game.common.ResourceManager;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.XUtils;
 	import game.common.base.BaseView;
-	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
 	
@@ -56,18 +54,18 @@ package game.module.guild
 				}
 			}
 			
-			trace("target.selected:"+target.selected);
+			TraceUtils.log("target.selected:"+target.selected);
 			if(target.selected)
 			{
 				target.selected = false;
 				setOptionUp(parseInt(target.name)); 
-				trace("收起");
+				TraceUtils.log("收起");
 			}else
 			{
 				target.selected = true;
 				curOption = parseInt(target.name);
 				setOptionDown(curOption); 
-				trace("展开");
+				TraceUtils.log("展开");
 			}
 			
 		}
@@ -143,7 +141,7 @@ package game.module.guild
 		
 		private function refrshDonate(left:int):void
 		{
-			trace("捐献刷新");
+			TraceUtils.log("捐献刷新");
 			view.num1.text = User.getInstance().contribution; 
 			view.num2.text = left+"/"+totolNum;
 		}
@@ -248,15 +246,15 @@ package game.module.guild
 			{
 				curCancel = cell;
 				var id:String = curCancel._get$P("id");
-				trace("取消的id:"+id);
+				TraceUtils.log("取消的id:"+id);
 				var idArr:Array = id.split("-");
 				WebSocketNetService.instance.sendData(ServiceConst.TECHNOLOGY_RECOMMOND,[idArr[0],idArr[1],kinds]);
 			}else if(kinds==1)
 			{
 				curCommand = cell;
 				var id:String = curCommand._get$P("id");
-				trace("推荐的id:"+id);
-				trace("推荐的name:"+curCommand.name);
+				TraceUtils.log("推荐的id:"+id);
+				TraceUtils.log("推荐的name:"+curCommand.name);
 				var idArr:Array = id.split("-");
 				WebSocketNetService.instance.sendData(ServiceConst.TECHNOLOGY_RECOMMOND,[idArr[0],idArr[1],kinds]);
 			}
@@ -291,7 +289,7 @@ package game.module.guild
 					
 					view.num1.text = User.getInstance().contribution; 
 					var storyObj:Object = ResourceManager.instance.getResByURL(GUILD_PARAM);
-					trace("参数表"+JSON.stringify(storyObj));
+					TraceUtils.log("参数表"+JSON.stringify(storyObj));
 					
 					for each(var obj:Object in storyObj)
 					{
@@ -306,7 +304,7 @@ package game.module.guild
 				case ServiceConst.TECHNOLOGY_RECOMMOND:
 					if(args[3]==0)
 					{
-						trace("取消推荐返回");
+						TraceUtils.log("取消推荐返回");
 //						curCancel.visible = false;
 						
 //						var id:String = curCancel.name;
@@ -348,7 +346,7 @@ package game.module.guild
 						setModel(1);
 					}else if(args[3]==1)
 					{
-						trace("推荐返回");
+						TraceUtils.log("推荐返回");
 						var item:TechnologyGroupUI = view.pan.getChildByName("recomand");
 						
 						var cell:TechnologyItemUI = new TechnologyItemUI();
@@ -394,7 +392,7 @@ package game.module.guild
 		 */
 		private function createCommandView(techData:Object):void
 		{
-			trace("techData:"+JSON.stringify(techData));
+			TraceUtils.log("techData:"+JSON.stringify(techData));
 			commandArr = [];
 			for(var key:String in techData)
 			{
@@ -455,7 +453,7 @@ package game.module.guild
 					{
 //						trace("storyObj:"+JSON.stringify(storyObj));
 					
-						trace("item.gName"+item.gName);
+						TraceUtils.log("item.gName"+item.gName);
 						cell.tName.text = GameLanguage.getLangByKey(obj["tpye2lan"])+ "  "+GameLanguage.getLangByKey("L_A_34071").replace("{0}",commandArr[i][1]);
 //						trace("参数2"+obj["param2"]);
 						cell.context.text = GameLanguage.getLangByKey(obj["des"]).replace("{0}", Number(obj["param2"]).toFixed(1));
@@ -517,9 +515,9 @@ package game.module.guild
 						if(obj["id"]==technologyId)
 						{
 							item.gName.text = GameLanguage.getLangByKey(obj["type1lan"]);
-							trace("item.gName"+item.gName);
+							TraceUtils.log("item.gName"+item.gName);
 							cell.tName.text = GameLanguage.getLangByKey(obj["tpye2lan"]) + "  "+GameLanguage.getLangByKey("L_A_34071").replace("{0}",lv);
-							trace("obj[param2]:"+obj["param2"]);
+							TraceUtils.log("obj[param2]:"+obj["param2"]);
 							cell.context.text = GameLanguage.getLangByKey(obj["des"]).replace("{0}", Number(obj["param2"]).toFixed(1));
 							cell.icon.skin = "appRes/icon/guildIcon/tec/"+GameLanguage.getLangByKey(obj["icon"])+".png";
 							cell.pro.value = pro/obj["need_exp"];

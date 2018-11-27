@@ -1,30 +1,28 @@
 package game.module.activity 
 {
-	import game.common.base.BaseView;
+	import MornUI.TurntableLottleOne.TurntableLottleOneUI;
+	
 	import game.common.ItemTips;
 	import game.common.ResourceManager;
 	import game.common.XFacade;
 	import game.common.XTip;
+	import game.common.base.BaseView;
+	import game.global.GameConfigManager;
+	import game.global.GameLanguage;
+	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.BagManager;
 	import game.global.data.bag.ItemData;
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
-	import game.global.GameConfigManager;
-	import game.global.GameLanguage;
-	import game.global.ModuleName;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.bingBook.ItemContainer;
 	import game.net.socket.WebSocketNetService;
-	import laya.display.Sprite;
-	import laya.display.Text;
+	
 	import laya.events.Event;
-	import laya.ui.Button;
-	import laya.utils.Ease;
 	import laya.utils.Handler;
-	import laya.utils.Tween;
-	import MornUI.TurntableLottleOne.TurntableLottleOneUI;
 	
 	/**
 	 * ...
@@ -241,7 +239,7 @@ package game.module.activity
 			{
 				return;
 			}
-			trace("lottle:", args);
+			TraceUtils.log("lottle:"+ args);
 			
 			var len:int = 0;
 			var i:int = 0;

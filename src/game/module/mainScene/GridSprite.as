@@ -1,6 +1,6 @@
 package game.module.mainScene
 {
-	import game.common.SceneManager;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Sprite;
 	import laya.maths.Point;
@@ -126,7 +126,7 @@ package game.module.mainScene
 			if(arr.length%2 != 0){
 				arr.push(maxY);
 			}
-			trace(x,"getYArr==============",maxY,arr);
+			TraceUtils.log(x+"getYArr=============="+maxY+arr);
 			return arr;
 		}
 		
@@ -170,7 +170,7 @@ package game.module.mainScene
 		
 		public function showGrid(v:Boolean):void{
 			// 暂时全显示
-//			v = true;
+			v = true;
 			if(v && _param){
 				this.drawGrid.apply(this,_param);
 				_param = null;

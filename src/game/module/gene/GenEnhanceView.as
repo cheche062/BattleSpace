@@ -2,9 +2,7 @@ package game.module.gene
 {
 	import MornUI.gene.GenenHanceUI;
 	
-	import game.common.ResourceManager;
 	import game.common.UIRegisteredMgr;
-	import game.common.UnpackMgr;
 	import game.common.XTipManager;
 	import game.common.XUtils;
 	import game.common.base.BaseDialog;
@@ -17,19 +15,17 @@ package game.module.gene
 	import game.global.data.bag.ItemData;
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
 	import game.module.tips.GeneTip;
 	import game.net.socket.WebSocketNetService;
 	
-	import laya.debug.tools.comps.Rect;
 	import laya.display.Animation;
-	import laya.display.Sprite;
 	import laya.events.Event;
 	import laya.maths.Rectangle;
 	import laya.net.Loader;
 	import laya.ui.Box;
-	import laya.ui.Image;
 	import laya.utils.Handler;
 	
 	/**
@@ -139,7 +135,7 @@ package game.module.gene
 		}
 		
 		private function onResult(cmd:int, ...args):void{
-			trace("G_Enhance_OnResult",args);
+			TraceUtils.log("G_Enhance_OnResult"+args);
 			switch(cmd){
 				case ServiceConst.G_ENHANCE:
 					_delLv = 1;
@@ -309,7 +305,7 @@ package game.module.gene
 				exp += parseInt(geneInfo.base_exp);
 			}
 			
-			trace("exp.......................",exp);
+			TraceUtils.log("exp......................."+exp);
 			
 			//=====================
 			var lv:Number;

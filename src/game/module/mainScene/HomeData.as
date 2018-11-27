@@ -4,6 +4,7 @@ package game.module.mainScene
 	 * 主场景数据
 	 */
 	import game.common.ResourceManager;
+	import game.global.util.TraceUtils;
 	
 	import laya.maths.Point;
 	import laya.maths.Rectangle;
@@ -233,7 +234,7 @@ package game.module.mainScene
 						mapTileData[key] = v;
 					}
 					if(v == -1){
-						trace(key,"---------------------------",mapTileData[key]);
+						TraceUtils.log(key+"---------------------------"+mapTileData[key]);
 					}
 					if(mapTileData[key] <= 0 ){
 						delete mapTileData[key]

@@ -7,7 +7,6 @@ package game.module.camp.avatar
 	import game.common.AnimationUtil;
 	import game.common.ItemTips;
 	import game.common.XFacade;
-	import game.common.XItemTip;
 	import game.common.XTip;
 	import game.common.XTipManager;
 	import game.common.XUtils;
@@ -15,21 +14,19 @@ package game.module.camp.avatar
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
-	import game.global.data.DBSkill2;
 	import game.global.data.bag.BagManager;
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
 	import game.global.util.ItemUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillVo;
 	import game.module.camp.CampData;
 	import game.module.camp.CampView;
 	import game.module.camp.NewUnitInfoView;
 	import game.module.camp.UnitInfoView;
-	import game.module.camp.UnitSrcView;
 	import game.module.tips.SkillTip;
 	import game.net.socket.WebSocketNetService;
 	
-	import laya.display.Sprite;
 	import laya.events.Event;
 	import laya.net.URL;
 	
@@ -160,7 +157,7 @@ package game.module.camp.avatar
 						view.pro.x = POS[1];
 						formatSkill(view.skillItem, nextPro.skill);
 					}
-					trace(pro, skinInfo)
+					TraceUtils.log(pro+skinInfo);
 					view.tfRate.text = Math.round((parseFloat(pro.rate) + skinInfo[1]*pro.chance)*100)+"%";
 					view.tfTip.text = "L_A_84566";
 				}else{//升级
@@ -180,7 +177,7 @@ package game.module.camp.avatar
 		}
 		
 		private function onStr(...args):void{
-			trace("onStr:::",args)
+			TraceUtils.log("onStr:::"+args);
 			var heroVo:Object = CampData.getUintById(_data.unit);
 			if(heroVo){
 				var arr:Array = heroVo.skins[args["2"]];
@@ -197,7 +194,7 @@ package game.module.camp.avatar
 		}
 		
 		private function onStrOnce(...args):void{
-			trace("onStrOnce:::",args)
+			TraceUtils.log("onStrOnce:::"+args);
 			var heroVo:Object = CampData.getUintById(_data.unit);
 			if(heroVo){
 				var arr:Array = heroVo.skins[args["2"]];

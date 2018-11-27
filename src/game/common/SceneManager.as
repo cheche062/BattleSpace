@@ -4,6 +4,7 @@ package game.common
 	import game.global.ModuleName;
 	import game.global.event.GameEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.module.arenaScence.ArenaScence;
 	import game.module.fighting.scene.FightingMapScene;
 	import game.module.fighting.scene.PveFightingScane;
@@ -48,7 +49,7 @@ package game.common
 			if(m_sceneCurrent)
 			{
 				fromScene = m_sceneCurrent.name; 
-				trace("fromSceneName: " + fromScene);
+				TraceUtils.log("fromSceneName: " + fromScene);
 				m_sceneCurrent.toScene = sceneType;
 				m_sceneCurrent.close();
 				m_sceneCurrent = null;

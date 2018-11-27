@@ -312,7 +312,6 @@ package game.module.equipFight
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy EquipFightSelectView");
 			
 			super.destroy(destroyChild);
 			_list = null;

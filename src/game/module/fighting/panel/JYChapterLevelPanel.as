@@ -2,15 +2,13 @@ package game.module.fighting.panel
 {
 	import game.common.ResourceManager;
 	import game.common.SceneManager;
-	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
 	import game.global.consts.ServiceConst;
-	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.StageLevelVo;
-	import game.global.vo.User;
 	import game.module.fighting.mgr.FightingManager;
 	import game.net.socket.WebSocketNetService;
 	
@@ -60,7 +58,7 @@ package game.module.fighting.panel
 		{
 			// TODO Auto Generated method stub
 			var stage_param_json:Object=ResourceManager.instance.getResByURL(url);
-			trace("精英购买参数表:"+JSON.stringify(stage_param_json));
+			TraceUtils.log("精英购买参数表:"+JSON.stringify(stage_param_json));
 			var upTimes:Number;
 			for each(var obj:Object in stage_param_json)
 			{
@@ -77,9 +75,9 @@ package game.module.fighting.panel
 		override protected function addClick(e:Event=null):void
 		{
 			var stage_param_json:Object=ResourceManager.instance.getResByURL(url);
-			trace("精英购买参数表:"+JSON.stringify(stage_param_json));
+			TraceUtils.log("精英购买参数表:"+JSON.stringify(stage_param_json));
 			var upTimes:Number;
-			trace("精英buyTimer:"+buyTimer);
+			TraceUtils.log("精英buyTimer:"+buyTimer);
 			for each(var obj:Object in stage_param_json)
 			{
 				upTimes = obj["up"];

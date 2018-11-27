@@ -1,25 +1,28 @@
 package game.module.threeGift 
 {
+	import MornUI.threeGift.ThreeGiftViewUI;
+	
 	import game.common.AnimationUtil;
-	import game.common.base.BaseDialog;
 	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.XTipManager;
-	import game.global.consts.ServiceConst;
-	import game.global.data.bag.ItemData;
-	import game.global.event.Signal;
+	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.GameSetting;
 	import game.global.GlobalRoleDataManger;
 	import game.global.ModuleName;
-	import game.global.vo.facebookPay.FaceBookPayVo;
+	import game.global.consts.ServiceConst;
+	import game.global.data.bag.ItemData;
+	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.reVo;
+	import game.global.vo.facebookPay.FaceBookPayVo;
 	import game.module.bingBook.ItemContainer;
 	import game.net.socket.WebSocketNetService;
+	
 	import laya.events.Event;
 	import laya.utils.Browser;
-	import MornUI.threeGift.ThreeGiftViewUI;
 	
 	/**
 	 * ...
@@ -142,7 +145,7 @@ package game.module.threeGift
 			back(data);*/
 			
 			function back(data){
-				trace("back::",JSON.stringify(data))
+				TraceUtils.log("back::"+JSON.stringify(data))
 				
 				m_FBdata = new FaceBookPayVo();
 				if(data.status==1)
@@ -172,7 +175,7 @@ package game.module.threeGift
 					}
 				}
 				
-				trace("礼包商品", m_targeData);
+				TraceUtils.log("礼包商品"+ m_targeData);
 				
 				WebSocketNetService.instance.sendData(ServiceConst.GET_WEBPAY_URL,["US",32,m_targeData.id,1,235,1,"facebok"]);
 				
@@ -231,7 +234,7 @@ package game.module.threeGift
 		private function onResult(cmd:int, ...args):void
 		{
 			// TODO Auto Generated method stub
-			trace("threegiftInfo:", args);
+			TraceUtils.log("threegiftInfo:"+args);
 			var len:int = 0;
 			var i:int = 0;
 			switch(cmd)
@@ -305,7 +308,7 @@ package game.module.threeGift
 					break;
 				case ServiceConst.GET_WEBPAY_URL:
 					var url:String=args[1]["url"];
-					trace("打开直购礼包页面：", url, m_targeData);
+					TraceUtils.log("打开直购礼包页面："+ url+ m_targeData);
 					
 					var voName:String = m_targeData.name;
 					

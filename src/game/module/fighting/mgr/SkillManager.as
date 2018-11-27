@@ -9,24 +9,21 @@ package game.module.fighting.mgr
 	import game.global.data.fightUnit.fightUnitData;
 	import game.global.data.formatData.AttackFormatData;
 	import game.global.data.formatData.AttackFormatTagetData;
-	import game.global.data.formatData.SubReportFormatData;
 	import game.global.fighting.BaseUnit;
 	import game.global.fighting.manager.FightingSceneManager;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillBuffVo;
 	import game.global.vo.SkillControlVo;
 	import game.global.vo.skillControlActionVos.effectSkillActionVo;
 	import game.global.vo.skillControlActionVos.modelSkllActionVo;
 	import game.global.vo.skillControlActionVos.musicSkillActionVo;
 	import game.module.fighting.adata.ActionData;
-	import game.module.fighting.adata.UnitActionData;
 	import game.module.fighting.cell.FightingTile;
 	import game.module.fighting.scene.FightingScene;
 	
 	import laya.maths.Point;
 	import laya.net.Loader;
-	import laya.ui.Panel;
 	import laya.utils.Handler;
-	import laya.utils.Timer;
 	import laya.utils.Tween;
 
 	public class SkillManager
@@ -284,7 +281,7 @@ package game.module.fighting.mgr
 				}else
 				{
 					delAction(_aData);
-					trace("找不到对象",_aData.data[0]);
+					TraceUtils.log("找不到对象"+_aData.data[0]);
 				}
 //				if(_pData)delAction(_pData);
 				return ;
@@ -349,7 +346,7 @@ package game.module.fighting.mgr
 					Laya.timer.once(_aData.endTimer,this,delAction,[_aData],false);
 				}else
 				{
-					trace(1,"没有UITEM");
+					TraceUtils.log("没有UITEM");
 					delAction(_aData);
 				}
 				delAction(_pData);

@@ -6,8 +6,6 @@ package game.module.bossFight
 	import game.common.SceneManager;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.XTipManager;
-	import game.common.XUtils;
 	import game.common.base.BaseDialog;
 	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
@@ -18,23 +16,18 @@ package game.module.bossFight
 	import game.global.data.bag.ItemCell;
 	import game.global.event.Signal;
 	import game.global.util.ItemUtil;
-	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
 	import game.global.vo.WorldBossBaseParamVo;
 	import game.global.vo.worldBoss.BossBuyVo;
 	import game.global.vo.worldBoss.BossFightInfoVo;
 	import game.global.vo.worldBoss.BossLevelVo;
-	import game.global.vo.worldBoss.BossSellItemVo;
-	import game.global.vo.worldBoss.RewardVo;
 	import game.module.camp.ProTipUtil;
 	import game.module.fighting.mgr.FightingManager;
 	import game.net.socket.WebSocketNetService;
 	
-	import laya.display.Text;
 	import laya.events.Event;
-	import laya.ui.Button;
-	import laya.ui.Image;
 	import laya.utils.Handler;
 	
 	public class DemonBandatView extends BaseDialog
@@ -370,7 +363,6 @@ package game.module.bossFight
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy DemonBandatView");
 			m_fightBoss = null;
 			m_worldBossBaseParamVo = null;
 			super.destroy(destroyChild);

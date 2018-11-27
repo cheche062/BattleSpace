@@ -3,15 +3,13 @@
  */
 package game.module.bag.alert
 {
-	import MornUI.baseAlert.BaseAlertViewUI;
 	import MornUI.panels.BagSellViewUI;
 	
 	import game.common.AlertType;
 	import game.common.BaseAlertView;
 	import game.common.InputSetCommon;
 	import game.global.data.bag.ItemData;
-	import game.global.event.Signal;
-	import game.global.vo.User;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Sprite;
 	import laya.events.Event;
@@ -90,7 +88,6 @@ package game.module.bag.alert
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BagSellAlert");
 			_inputSC.dispose();
 			_inputSC = null;
 			super.destroy(destroyChild);

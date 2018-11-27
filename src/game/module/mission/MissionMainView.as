@@ -1,24 +1,21 @@
 package game.module.mission 
 {
-	import game.common.XFacade;
-	import game.global.data.bag.ItemData;
-	import game.global.GameLanguage;
-	import game.global.ModuleName;
-	import game.global.vo.mission.DailyScoreVo;
-	import game.global.vo.relic.TransportBaseInfo;
-	import game.global.vo.User;
 	import MornUI.mission.MissionMainViewUI;
 	
 	import game.common.AnimationUtil;
-	import game.common.LayerManager;
+	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
+	import game.global.GameLanguage;
+	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
+	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
+	import game.global.vo.User;
+	import game.global.vo.mission.DailyScoreVo;
 	import game.global.vo.mission.MissionStateVo;
-	import game.global.vo.mission.MissionVo;
-	import game.module.guild.GuildListItem;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -135,7 +132,7 @@ package game.module.mission
 								
 								if (!GameConfigManager.missionInfo[md])
 								{
-									trace("更新任务失败:", md);
+									TraceUtils.log("更新任务失败:"+ md);
 									continue;
 								}
 								

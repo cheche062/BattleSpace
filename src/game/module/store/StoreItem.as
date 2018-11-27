@@ -4,23 +4,17 @@ package game.module.store
 	
 	import game.common.ItemTips;
 	import game.common.ResourceManager;
-	import game.common.SoundMgr;
 	import game.common.XFacade;
-	import game.common.XTipManager;
 	import game.global.GameConfigManager;
-	import game.global.GameLanguage;
-	import game.global.GameSetting;
 	import game.global.ModuleName;
-	import game.global.data.ConsumeHelp;
 	import game.global.data.DBItem;
 	import game.global.data.DBStore;
-	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.util.ItemUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	
 	import laya.events.Event;
-	import laya.utils.Handler;
 	
 	/**
 	 * StoreItem 商店单元条
@@ -67,7 +61,7 @@ package game.module.store
 					break;
 				case this.item:
 					var db:Object = GameConfigManager.items_dic[(data.item_id + "").split("=")[0]];
-					trace("db:", db);
+					TraceUtils.log("db:"+ db);
 					if(db){
 						ItemTips.showTip(db.id);
 					}

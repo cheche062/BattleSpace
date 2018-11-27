@@ -14,10 +14,10 @@ package game.module.lvFundation
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.reVo;
 	import game.global.vo.facebookPay.FaceBookPayVo;
 	import game.module.activity.WelfareMainView;
-	import game.module.chargeView.MobileChargeView;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -81,7 +81,7 @@ package game.module.lvFundation
 					if (GameSetting.isApp)
 					{
 						getMobileGoodData();
-						trace("m_data:", m_data);
+						TraceUtils.log("m_data:"+ m_data);
 						if (!m_data)
 						{
 							XTip.showTip("Item Missing");
@@ -137,7 +137,7 @@ package game.module.lvFundation
 			back(data);*/
 			
 			function back(data){
-				trace("back::",JSON.stringify(data))
+				TraceUtils.log("back::"+JSON.stringify(data));
 				
 				m_FBdata = new FaceBookPayVo();
 				if(data.status==1)
@@ -154,7 +154,7 @@ package game.module.lvFundation
 				
 				// FB没有选择国家 默认选择为美国 235 32
 				var data:Array = m_FBdata.getPackListByPayId(235, 32);
-				trace("fb商品列表：", JSON.stringify(data));
+				TraceUtils.log("fb商品列表："+ JSON.stringify(data));
 				var len:int = data.length;
 				
 				// 选择基金
@@ -167,7 +167,7 @@ package game.module.lvFundation
 					}
 				}
 				
-				trace("基金商品", m_targeData);
+				TraceUtils.log("基金商品"+ m_targeData);
 				
 				WebSocketNetService.instance.sendData(ServiceConst.GET_WEBPAY_URL,["US",32,m_targeData.id,1,235,1,"facebok"]);
 				
@@ -178,7 +178,7 @@ package game.module.lvFundation
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			trace("lvfundation:", args);
+			TraceUtils.log("lvfundation:"+ args);
 			var len:int = 0;
 			var i:int=0;
 			switch(cmd)
@@ -225,7 +225,7 @@ package game.module.lvFundation
 					break;
 				case ServiceConst.GET_WEBPAY_URL:
 					var url:String=args[1]["url"];
-					trace("打开基金支付页面：", url, m_targeData);
+					TraceUtils.log("打开基金支付页面："+ url+ m_targeData);
 					
 					var voName:String = m_targeData.name;
 					

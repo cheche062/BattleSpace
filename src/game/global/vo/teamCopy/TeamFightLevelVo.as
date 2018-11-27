@@ -1,6 +1,7 @@
 package game.global.vo.teamCopy
 {
 	import game.global.data.bag.ItemData;
+	import game.global.util.TraceUtils;
 
 	public class TeamFightLevelVo
 	{
@@ -22,7 +23,7 @@ package game.global.vo.teamCopy
 		public function getRewardList():Array
 		{
 			var l_arr:Array=zxjl.split(";");
-			trace("zxjl:"+zxjl);
+			TraceUtils.log("zxjl:"+zxjl);
 			var l_rewardList:Array=new Array();
 			
 			for (var i:int = 0; i < l_arr.length; i++) 
@@ -34,7 +35,7 @@ package game.global.vo.teamCopy
 				itemdata.inum=l_arr1[1];
 				l_rewardList.push(itemdata);
 			}
-			trace("l_rewardList.length:"+l_rewardList.length);
+			TraceUtils.log("l_rewardList.length:"+l_rewardList.length);
 			return l_rewardList;
 		}
 		

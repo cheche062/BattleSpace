@@ -1,9 +1,9 @@
 package game.module.armyGroup.fight
 {
 	import game.common.ImageFont;
-	import game.common.ResourceManager;
 	import game.common.XFacade;
 	import game.global.GameLanguage;
+	import game.global.util.TraceUtils;
 	import game.module.mainScene.HpCom;
 	
 	import laya.display.Animation;
@@ -118,7 +118,7 @@ package game.module.armyGroup.fight
 		public function out():void{
 			if(_data){
 				if(_data[0] == "0"){
-					trace("die-------------------------------------------")
+					TraceUtils.log("die-------------------------------------------");
 					showAction(DIE)
 				}else{
 					showAction(IDLE)

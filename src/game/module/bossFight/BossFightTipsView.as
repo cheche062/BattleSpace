@@ -2,21 +2,17 @@ package game.module.bossFight
 {
 	import MornUI.bossFight.BossFightTipsViewUI;
 	
-	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.GlobalRoleDataManger;
-	import game.global.consts.ServiceConst;
 	import game.global.data.bag.ItemCell;
 	import game.global.data.bag.ItemData;
-	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
 	import game.global.vo.worldBoss.BossBuyVo;
 	import game.global.vo.worldBoss.BossSellItemVo;
-	import game.net.socket.WebSocketNetService;
 	
-	import laya.events.Event;
 	import laya.ui.Box;
 	
 	public class BossFightTipsView extends Box
@@ -108,7 +104,6 @@ package game.module.bossFight
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BossFightTipsView");
 			m_ui = null;
 			m_data = null;
 			m_buyItem = null;

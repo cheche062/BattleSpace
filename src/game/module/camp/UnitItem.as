@@ -9,6 +9,7 @@ package game.module.camp
 	import game.global.data.DBUnitStar;
 	import game.global.data.bag.BagManager;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	import game.global.vo.AwakenEqVo;
 	import game.global.vo.User;
@@ -219,7 +220,7 @@ package game.module.camp
 //			var uid:Number = data.id;
 			if(User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_CAMP) < 2)
 			{
-				trace("兵营等级小于2级");
+				TraceUtils.log("兵营等级小于2级");
 				return false;
 			}
 			var _jxd:JueXingData;
@@ -233,7 +234,7 @@ package game.module.camp
 				var vo1:AwakenEqVo;
 //				trace("ar:"+JSON.stringify(ar));
 				var curUitOk:Boolean = true;
-				trace("uid:"+uid+"max:"+max);
+				TraceUtils.log("uid:"+uid+"max:"+max);
 				var isExitNext = _jxd.awakenVo.costList;
 				if (isExitNext) 
 				{

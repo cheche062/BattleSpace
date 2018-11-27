@@ -1,26 +1,29 @@
 package game.module.friendCode 
 {
+	import MornUI.friendCode.FriendCodeViewUI;
+	
 	import game.common.AlertManager;
 	import game.common.AlertType;
-	import game.common.base.BaseView;
 	import game.common.ResourceManager;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.global.consts.ServiceConst;
-	import game.global.data.bag.ItemData;
-	import game.global.event.Signal;
+	import game.common.base.BaseView;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.GlobalRoleDataManger;
 	import game.global.ModuleName;
 	import game.global.StringUtil;
+	import game.global.consts.ServiceConst;
+	import game.global.data.bag.ItemData;
+	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
+	
 	import laya.events.Event;
 	import laya.utils.Ease;
 	import laya.utils.Handler;
 	import laya.utils.Tween;
-	import MornUI.friendCode.FriendCodeViewUI;
 	
 	/**
 	 * ...
@@ -121,7 +124,7 @@ package game.module.friendCode
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			trace("friendCode: ", args);
+			TraceUtils.log("friendCode: "+ args);
 			var len:int = 0;
 			var i:int = 0;
 			var ar:Array;

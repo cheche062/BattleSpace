@@ -3,7 +3,6 @@ package game.module.gene
 	import MornUI.gene.GeneEquipViewUI;
 	
 	import game.common.AnimationUtil;
-	import game.common.DataLoading;
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
 	import game.common.XGroup;
@@ -20,13 +19,13 @@ package game.module.gene
 	import game.global.data.DBGeneRequire;
 	import game.global.data.DBGeneSuit;
 	import game.global.data.DBItem;
-	import game.global.data.DBUintUpgradeExp;
 	import game.global.data.DBUnitStar;
 	import game.global.data.bag.BagManager;
 	import game.global.data.bag.ItemCell;
 	import game.global.data.bag.ItemData;
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
@@ -77,7 +76,7 @@ package game.module.gene
 		}
 		
 		private function onResult(cmd:int, ...args):void{
-			trace("G_E_OnResult",args);
+			TraceUtils.log("G_E_OnResult"+args);
 			switch(cmd){
 				case ServiceConst.G_EQ_INFO:
 					this._geneInfo = (args[1]||{});
@@ -218,7 +217,7 @@ package game.module.gene
 			var proInfo:Object;
 			var totalPro:Object;
 			var suitList:Array = [];
-			trace(".................__",_geneInfo);
+			TraceUtils.log(".................__"+_geneInfo);
 			for(var i:uint=0; i< 3; i++){
 				info = _geneInfo[i+1];
 				view["icon_"+i].graphics.clear();
@@ -273,7 +272,7 @@ package game.module.gene
 			//属性显示===============================================
 			var str:String
 			for(var m:String in totalPro){
-				trace("m------------------------------",m)
+				TraceUtils.log("m------------------------------"+m)
 				var sign:String = "+";
 				if(totalPro[m] < 0){
 					sign = "-"
@@ -307,7 +306,7 @@ package game.module.gene
 		private function onItemClick(e:Event, index:Number):void{
 			if(e.type == Event.CLICK){
 				var data:Object = view.itemList.getItem(index);
-				trace("data======================>>",data);
+				TraceUtils.log("data======================>>"+data);
 				nowItem = view.itemList.getCell(index) as ItemCell
 				if(data){
 					XTipManager.showTip([data], GeneTip, false);

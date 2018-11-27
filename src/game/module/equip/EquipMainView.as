@@ -2,11 +2,9 @@ package game.module.equip
 {
 	import MornUI.equip.EquipCellUI;
 	import MornUI.equip.EquipMainViewUI;
-	import MornUI.relic.EscortMainViewUI;
 	
 	import game.common.AlertManager;
 	import game.common.AlertType;
-	import game.common.AndroidPlatform;
 	import game.common.AnimationUtil;
 	import game.common.DataLoading;
 	import game.common.ItemTips;
@@ -25,6 +23,7 @@ package game.module.equip
 	import game.global.event.BagEvent;
 	import game.global.event.EquipEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
@@ -214,7 +213,7 @@ package game.module.equip
 		
 		private function createHeroList():void
 		{
-			trace("createHeroList");
+			TraceUtils.log("createHeroList");
 			this.view.HeroList.itemRender = TrainItem;
 			this.view.HeroList.hScrollBarSkin="";
 			this.view.HeroList.selectEnable = true;

@@ -1,6 +1,5 @@
 package game.module.relic
 {
-	import MornUI.relic.EscortMainViewUI;
 	import MornUI.relic.EscortSelectViewUI;
 	import MornUI.relic.TransportMainViewUI;
 	
@@ -8,19 +7,17 @@ package game.module.relic
 	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
-	import game.global.GameSetting;
 	import game.global.GlobalRoleDataManger;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.ConsumeHelp;
-	import game.global.data.bag.BagManager;
 	import game.global.data.bag.ItemData;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
-	import laya.ui.Box;
 	import laya.utils.Handler;
 	
 	public class TransportMainView extends BaseDialog
@@ -84,7 +81,7 @@ package game.module.relic
 			}
 			else if(m_type==4)
 			{
-				trace("m_data:::___",m_data);
+				TraceUtils.log("m_data:::___"+m_data);
 				view.LabelText.text=GameLanguage.getLangByKey("L_A_34031");
 				view.BuyBtn.text.text=m_data.getPrice();
 				var itemId:int=m_data.getItemId();

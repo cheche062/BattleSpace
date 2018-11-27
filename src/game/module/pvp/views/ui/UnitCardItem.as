@@ -28,8 +28,6 @@ package game.module.pvp.views.ui
 			
 			var fvo:FightUnitVo = GameConfigManager.unit_dic[dataSource];
 			_ui.img.skin = UnitPicUtil.getUintPic(fvo.model,UnitPicUtil.ICON_SKEW);
-		
-			trace("_ui.img.width:" + _ui.img.width + "height:" + _ui.img.height + "x:" + _ui.img.x + "y:" + _ui.img.y);
 		}
 		
 		override public function dispose():void

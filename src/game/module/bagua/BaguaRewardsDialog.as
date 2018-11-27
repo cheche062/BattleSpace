@@ -9,6 +9,7 @@ package game.module.bagua
 	import game.common.base.BaseDialog;
 	import game.global.GameLanguage;
 	import game.global.data.DBFightEffect;
+	import game.global.util.TraceUtils;
 	import game.module.bingBook.ItemContainer;
 	
 	import laya.events.Event;
@@ -34,7 +35,7 @@ package game.module.bagua
 			view.btn_close.label = _bool? "CONFIRM" : "CLAIM";
 			closeOnBlank = _bool;
 			
-			trace("【领取弹窗】", args);
+			TraceUtils.log("【领取弹窗】"+ args);
 		}
 		
 		private function createRewards(str:String):void{

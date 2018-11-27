@@ -1,13 +1,11 @@
 package game.module.login
 {
-	import MornUI.equip.EquipMainViewUI;
 	import MornUI.login.LoginSwitchViewUI;
 	
 	import game.common.AndroidPlatform;
-	import game.common.XFacade;
 	import game.common.base.BaseDialog;
 	import game.global.GameSetting;
-	import game.global.ModuleName;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	import laya.utils.Handler;
@@ -117,7 +115,7 @@ package game.module.login
 		private function onStarSdk(_str:String):void
 		{
 			var _obj:Object=JSON.parse(_str);
-			trace("回调登录数据:"+_str);
+			TraceUtils.log("回调登录数据:"+_str);
 			//__JS__("alert(_str)");
 			alert(_str)
 			var l_suc:Boolean=_obj["isSuc"];

@@ -2,9 +2,9 @@ package game.module.armyGroup.fight
 {
 	import MornUI.armyGroupFight.ArmyFightReportItemUI;
 	
-	import game.common.XUtils;
 	import game.global.GameLanguage;
 	import game.global.data.DBItem;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
 	
 	/**
@@ -51,7 +51,7 @@ package game.module.armyGroup.fight
 				//道具
 				var itemList:Array;
 				itemList = (value[4]+"").split(";");
-				trace("value[4]:",itemList)
+				TraceUtils.log("value[4]:"+itemList);
 				var tmp:Array;
 				var db:ItemVo;
 				var itemStr:String = "";
@@ -62,7 +62,7 @@ package game.module.armyGroup.fight
 						itemStr+= GameLanguage.getLangByKey(db.name) + "x"+tmp[1]+";"
 					}
 				}
-				trace("itemStr::",itemStr)
+				TraceUtils.log("itemStr::"+itemStr);
 				var str:String = GameLanguage.getLangByKey(lan)+itemStr;
 				
 				str = str.replace(/{(\d+)}/, GameLanguage.getLangByKey(value[3]));

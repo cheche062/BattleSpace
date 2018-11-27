@@ -6,6 +6,7 @@ package game.module.bag.alert
 	import game.common.RewardList;
 	import game.common.base.BaseDialog;
 	import game.global.data.ConsumeHelp;
+	import game.global.util.TraceUtils;
 	import game.module.bag.cell.CurrencyCell;
 	
 	import laya.events.Event;
@@ -85,7 +86,6 @@ package game.module.bag.alert
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy ConsumeHelpPanel");
 			_rList = null;
 			_handler = null;
 			

@@ -1,7 +1,5 @@
 package game.module.invasion
 {
-	import mx.events.ModuleEvent;
-	
 	import MornUI.invasion.InvasionMenuUI;
 	
 	import game.common.DataLoading;
@@ -13,7 +11,6 @@ package game.module.invasion
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.data.ConsumeHelp;
-	import game.global.data.DBBuilding;
 	import game.global.data.DBInvasion;
 	import game.global.data.DBItem;
 	import game.global.data.DBMilitary;
@@ -21,6 +18,7 @@ package game.module.invasion
 	import game.global.event.Signal;
 	import game.global.util.ItemUtil;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.mainui.BtnDecorate;
 	import game.module.military.MilitaryVo;
@@ -135,7 +133,7 @@ package game.module.invasion
 		
 		/**处理网络请求i结果*/
 		private function onResult(cmdStr:Number,... args):void{
-			trace("onResult>>>>>>>>>>>>>",args);
+			TraceUtils.log("onResult>>>>>>>>>>>>>"+args);
 			DataLoading.instance.close();
 			switch(cmdStr){
 				case ServiceConst.IN_C_TARGET:

@@ -1,16 +1,19 @@
 package game.module.activity 
 {
-	import game.common.AnimationUtil;
-	import game.common.base.BaseDialog;
-	import game.common.XTip;
-	import game.global.consts.ServiceConst;
-	import game.global.event.Signal;
-	import game.global.GameLanguage;
-	import game.global.vo.User;
-	import game.net.socket.WebSocketNetService;
-	import laya.events.Event;
 	import MornUI.TurntableLottleOne.TurnTableOneRankItemUI;
 	import MornUI.TurntableLottleOne.TurntableOneRankViewUI;
+	
+	import game.common.AnimationUtil;
+	import game.common.XTip;
+	import game.common.base.BaseDialog;
+	import game.global.GameLanguage;
+	import game.global.consts.ServiceConst;
+	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
+	import game.global.vo.worldBoss.RewardVo;
+	import game.net.socket.WebSocketNetService;
+	
+	import laya.events.Event;
 	
 	/**
 	 * ...
@@ -98,7 +101,7 @@ package game.module.activity
 			switch(cmd)
 			{
 				case ServiceConst.TURNTABLE_ONE_RANK:
-					trace("rank:", args);
+					TraceUtils.log("rank:"+args);
 					view.pRank.text = args[0].myrank;
 					rankArr = args[0].list;
 					refreshData();
@@ -125,7 +128,7 @@ package game.module.activity
 			
 			
 			var ar:Array = args[0][1];
-			trace("ar:", ar);
+			TraceUtils.log("ar:"+ ar);
 			var len:int = ar.length;
 			for (var i:int = 0; i < len; i++) 
 			{

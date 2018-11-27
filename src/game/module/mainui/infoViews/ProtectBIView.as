@@ -4,6 +4,7 @@ package game.module.mainui.infoViews
 	
 	import game.common.XUtils;
 	import game.global.data.DBBuildingUpgrade;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.module.mainui.upgradeViews.BaseBUpView;
 	
@@ -28,7 +29,7 @@ package game.module.mainui.infoViews
 			this.view.infoTF.text = _buildVo.dec+"";
 			
 			var tmp:Array = _lvData.buldng_capacty.split("|")
-			trace("_lvData--------->>",_lvData)
+			TraceUtils.log("_lvData--------->>"+_lvData)
 			var maxVo:BuildingLevelVo = DBBuildingUpgrade.getBuildingLv(_data.buildId, this._buildVo.level_limit);
 			
 			this.view.vTF_0.innerHTML = XUtils.toFixed(parseFloat(_lvData.param1)*100)+"%";

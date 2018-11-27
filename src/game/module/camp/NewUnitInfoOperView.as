@@ -22,6 +22,7 @@ package game.module.camp
 	import game.global.data.bag.ItemData;
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillVo;
 	import game.global.vo.User;
 	import game.module.fighting.adata.ArmyData;
@@ -234,7 +235,7 @@ package game.module.camp
 		
 //			trace("unit_parameter_json:"+JSON.stringify(unit_parameter_json));
 			var value:String = unit_parameter_json["skillup_open"]["value"];
-            trace("value:"+value);
+			TraceUtils.log("value:"+value);
 	        var aid:String = value.split("=")[0];
 			var anum:Number = Number(value.split("=")[1]);
 			var info:Object = DBBuilding.getBuildingById(aid);
@@ -270,13 +271,13 @@ package game.module.camp
 					
 					if (!ifLvUp) return XTip.showTip(str);
 					XFacade.instance.openModule(ModuleName.SkillInfoView, [ToolFunc.extendDeep(data), i, selectAmData.unitId, false]);
-					trace(i, skillId);
+					TraceUtils.log(i+ skillId);
 				}, [index, item[0]]);
 				
 				_child.dataSource = _source;
 				if(index==0)
 				{
-					trace("添加技能UI");
+					TraceUtils.log("添加技能UI");
 					UIRegisteredMgr.AddUI(_child,"Skill1Btn");
 				}
 				muUi.dom_skill_box.addChild(_child);
@@ -299,9 +300,9 @@ package game.module.camp
 		
 		/**技能升级对应的兵等级限制   [是否足够， 需要的兵等级]*/
 		private function isUniteLevelEnough(skillId):Array {
-			trace("skillId:"+skillId);
+			TraceUtils.log("skillId:"+skillId);
 			var vo:SkillVo = GameConfigManager.unit_skill_dic[skillId] || DBSkill2.getSkillInfo(skillId);
-			trace("vo:"+JSON.stringify(vo));
+			TraceUtils.log("vo:"+JSON.stringify(vo));
 			var _level:int = Number(vo.skill_restrict);
 			if (selectAmData.serverData && selectAmData.serverData.level >= _level) {
 				return [true, _level];

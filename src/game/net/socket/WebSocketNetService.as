@@ -5,8 +5,7 @@ package game.net.socket
 	import game.global.GameLanguage;
 	import game.global.GameSetting;
 	import game.global.GameInterface.IGameDispose;
-	import game.global.consts.ServiceConst;
-	import game.module.login.PreLoadingView;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	import laya.net.HttpRequest;
@@ -86,7 +85,7 @@ package game.net.socket
 		public var isClose:Boolean = false;
 		private function socketConnetHandler(e:*=null):void{
 			//trace("socket  connet  succese!");
-			trace("=======socket connet succese:::::"+SOCKET_HOST);
+			TraceUtils.log("=======socket connet succese:::::"+SOCKET_HOST);
 //			alert("socket  connet  succese!");
 			_isOpen = true;
 			while(msgAr.length){
@@ -100,7 +99,7 @@ package game.net.socket
 		 * 
 		 */		
 		private function socketCloseHandler(e:*=null):void{
-			trace("socket  connet  close!");
+			TraceUtils.log("socket  connet  close!");
 			_isOpen = false;
 			isClose = true;
 			
@@ -194,7 +193,7 @@ package game.net.socket
 			}
 			if(url.indexOf("10.8") != -1 || url.indexOf("qa") != -1 || url.indexOf("file") != -1){
 				if (_commandId != 10108 && _commandId != 36200 && _commandId != 35000) {
-					trace("send data:"+JSON.stringify(_arr));
+					TraceUtils.log("send data:"+JSON.stringify(_arr));
 				}
 			}
 			
@@ -213,7 +212,7 @@ package game.net.socket
 			var k:String = hashServerKey(_commandId);
 			if( keyCache.hasOwnProperty(k))
 			{
-				trace("移除请求缓存",k);
+				TraceUtils.log("移除请求缓存",k);
 				delete keyCache[k];
 			}
 		}

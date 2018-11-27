@@ -11,6 +11,7 @@ package game.module.tips
 	import game.global.GameLanguage;
 	import game.global.data.DBSkill2;
 	import game.global.data.DBUnitStar;
+	import game.global.util.TraceUtils;
 	import game.global.vo.SkillVo;
 	import game.module.camp.CampData;
 	
@@ -95,7 +96,7 @@ package game.module.tips
 					view.skillBG.gray = true;
 					view.nameTf.innerHTML = GameLanguage.getLangByKey(vo.skill_name)+"<font color='#ff0000'>"+str+"</font>";
 				}
-				trace("str----------------------------------->>",acted,str)
+				TraceUtils.log("str----------------------------------->>"+acted+str)
 			}else{
 				view.line.visible = true;
 				view.attLabel.visible = true;

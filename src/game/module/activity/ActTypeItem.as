@@ -6,6 +6,7 @@ package game.module.activity
 	import game.global.GameLanguage;
 	import game.global.event.ActivityEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.activity.ActivityListVo;
 	
 	import laya.events.Event;
@@ -44,14 +45,14 @@ package game.module.activity
 		{
 			itemMC.tipsImg.visible = false;
 			LocalStorage.setItem(actID,1);
-			trace("actData:"+JSON.stringify(actData));
+			TraceUtils.log("actData:"+JSON.stringify(actData));
 			Signal.intance.event(ActivityEvent.SELECT_ACTIVITY, [actID, actData.tid, itemIndex]);
 		}
 		
 		/**@inheritDoc */
 		override public function set dataSource(value:*):void
 		{
-			trace("value:"+JSON.stringify(value));
+			TraceUtils.log("value:"+JSON.stringify(value));
 			if(!value)
 			{
 				return;
@@ -63,10 +64,10 @@ package game.module.activity
 			{
 				itemMC.tipsImg.visible = true;
 			}
-			trace("value.tid:"+value.tid);
+			TraceUtils.log("value.tid:"+value.tid);
 		
 			actData = GameConfigManager.activiey_list_vec[value.tid];
-			trace("actData111:"+actData);
+			TraceUtils.log("actData111:"+actData);
 			if (!actData)
 			{
 				itemMC.actName.text = "noExcelData";

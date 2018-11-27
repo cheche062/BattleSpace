@@ -58,7 +58,6 @@ package game.module.gameSet
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy selLangCell");
 			_vo = null;
 			this.btn.off(Event.CLICK,this,thisBtnFun);
 			

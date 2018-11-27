@@ -4,10 +4,11 @@ package game.module.armyGroup
 	
 	import game.common.ToolFunc;
 	import game.global.GameConfigManager;
+	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.BagManager;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
-	import game.global.GameLanguage;
 	
 	import laya.events.Event;
 	
@@ -58,7 +59,7 @@ package game.module.armyGroup
 		}
 		
 		private function clickHandler(id):void {
-			trace(id)
+			TraceUtils.log(id);
 			WebSocketNetService.instance.sendData(ServiceConst.ARMY_GROUP_GET_STORE_BUY, [id]);
 		}
 		

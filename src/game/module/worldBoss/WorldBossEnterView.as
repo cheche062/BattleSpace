@@ -11,6 +11,7 @@ package game.module.worldBoss
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	
@@ -105,7 +106,7 @@ package game.module.worldBoss
 			var cmd = args[0];
 			var result = args[1];
 //			result = {"bossId":"4_1","boss_status":1,"start_time":1524198838,"end_time":1524160800};
-			trace('%c boss数据：：', 'color: green', cmd, result);
+			TraceUtils.log('%c boss数据：：'+ 'color: green'+ cmd+result);
 //			boss_status: //0未开放     1已开放未开始      2已开始       3已结束
 			
 			state = Number(result["boss_status"]);
@@ -115,7 +116,7 @@ package game.module.worldBoss
 			var kill = result["kill"] || "0";
 			foodProtection = Number(result["foodProtection"]) || 0;
 			
-			trace('【结束计时器：】', endTime)
+			TraceUtils.log('【结束计时器：】'+ endTime);
 			switch (cmd) {
 				//打开界面
 				case ServiceConst.BOSS_OPEN_VIEW:

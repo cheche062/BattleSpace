@@ -1,12 +1,13 @@
 package game.module.guild
 {
-	import game.global.consts.ServiceConst;
-	import game.global.event.GuildEvent;
-	import game.global.event.Signal;
-	import game.net.socket.WebSocketNetService;
 	import MornUI.guild.GuildApplicationViewUI;
 	
 	import game.common.base.BaseView;
+	import game.global.consts.ServiceConst;
+	import game.global.event.GuildEvent;
+	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
+	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
 	
@@ -81,7 +82,7 @@ package game.module.guild
 			switch(cmd)
 			{
 				case ServiceConst.GUILD_GET_ALL_APPLICATION:
-					trace("aaaaaaa:", args);
+					TraceUtils.log("aaaaaaa:"+ args);
 					_applyList = [];
 					len = args[1].length;
 					for (i = 0; i < len; i++) 

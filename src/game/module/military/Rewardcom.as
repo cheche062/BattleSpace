@@ -2,8 +2,8 @@ package game.module.military
 {
 	import MornUI.military.MilitaryViewUI;
 	
-	import game.common.XGroup;
 	import game.global.data.DBMilitary;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 
 	/**
@@ -38,7 +38,7 @@ package game.module.military
 			var data:Object;
 			for(var i:int=0; i<arr.length; i++){
 				data = arr[i];
-				trace("data-------------------------------",data,recordArr);
+				TraceUtils.log("data-------------------------------"+data+recordArr);
 				if(User.getInstance().cup >= data.down){
 					if(recordArr.indexOf(data.ID) != -1){
 						continue;

@@ -75,7 +75,6 @@ package game.module.fighting.panel
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy FightReportOverView");
 			han1 = null;
 			
 			super.destroy(destroyChild);

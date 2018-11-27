@@ -11,6 +11,7 @@ package game.module.commonGuide
 	import game.global.GameLanguage;
 	import game.global.event.GuildEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.CommonGuideVo;
 	import game.global.vo.User;
 	import game.module.fighting.scene.FightingMapScene;
@@ -104,8 +105,8 @@ package game.module.commonGuide
 			if(_guideInfo == null || _guideInfo == undefined) return;
 			
 			
-			trace("_guideIndex: ", _guideIndex);
-			trace("_guideInfo: ", _guideInfo);
+			TraceUtils.log("_guideIndex: "+ _guideIndex);
+			TraceUtils.log("_guideInfo: "+ _guideInfo);
 			resetState();
 			guideBg.visible = true;
 			_isMaskGuide = false;
@@ -194,7 +195,7 @@ package game.module.commonGuide
 			
 			if (_guideInfo.targe && _guideInfo.targe != "" && !_guideInfo.buildID)
 			{
-				trace("tn:", _guideInfo.targe);
+				TraceUtils.log("tn:"+ _guideInfo.targe);
 				
 				if (_guideInfo.targe.split("|").length == 1)
 				{
@@ -313,7 +314,7 @@ package game.module.commonGuide
 				view.arrowMotion.y = tp.y - view.arrowMotion.height;
 				view.arrowMotion.visible = true;
 				
-				trace("x:", view.arrowMotion.x, "y:", view.arrowMotion.y);
+				TraceUtils.log("x:"+view.arrowMotion.x+ "y:"+view.arrowMotion.y);
 				if (_guideInfo.targe == "MilitaryCloseBtn" || 
 					_guideInfo.targe == "UnitInfoClose" ||
 					_guideInfo.targe == "CampCloseBtn" ||
@@ -580,7 +581,7 @@ package game.module.commonGuide
 			//trace("ssssttttoooopppp: ", stopAll);
 			if (stopAll)
 			{
-				trace("stopAll! stopAll! stopAll! ");
+				TraceUtils.log("stopAll! stopAll! stopAll! ");
 				return;
 			}
 			this.hitArea = null;
@@ -595,11 +596,11 @@ package game.module.commonGuide
 				User.getInstance().forbidBlankClose = true;
 			}
 			
-			trace("点击引导层:",tagetSprite);
-			trace("_guideInfo.targe:"+_guideInfo.targe);
+			TraceUtils.log("点击引导层:",tagetSprite);
+			TraceUtils.log("_guideInfo.targe:"+_guideInfo.targe);
 			if(_guideInfo.targe == "SweepFiveBtn")
 			{
-				trace("发送扫荡事件");
+				TraceUtils.log("发送扫荡事件");
 				Signal.intance.event("SweepFiveBtn",tagetSprite);
 			}
 			

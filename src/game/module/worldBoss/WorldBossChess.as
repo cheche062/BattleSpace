@@ -5,6 +5,7 @@ package game.module.worldBoss
 	import game.common.ResourceManager;
 	import game.common.ToolFunc;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	
 	import laya.display.Animation;
 	import laya.display.Graphics;
@@ -223,7 +224,7 @@ package game.module.worldBoss
 				var isEnemy:Boolean = (pieceType === 'NPC' || pieceType === 'BOSS');
 				Signal.intance.event(WorldBossFightView.CHANGE_INDEX, [_pieceIndex, isEnemy]);
 				
-				trace("WorldBossChess 飞机池", peoplePlanePool.length);
+				TraceUtils.log("WorldBossChess 飞机池"+ peoplePlanePool.length);
 			}
 		}
 		

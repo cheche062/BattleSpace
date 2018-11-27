@@ -10,6 +10,7 @@ package game.module.liangjiu
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.module.techTree.TechTreeMainView;
 	
 	import laya.events.Event;
@@ -107,7 +108,7 @@ package game.module.liangjiu
 		private function onResult(...args):void{
 			var cmd = args[0];
 			var result = args[1];
-			trace('%c 【酿酒】', 'color: green', cmd, result);
+			TraceUtils.log('%c 【酿酒】'+ 'color: green'+ cmd+ result);
 			switch(cmd){
 				// 打开
 				case ServiceConst.NIANGJIU_OPEN:

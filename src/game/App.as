@@ -15,6 +15,7 @@ package game
 	import game.global.event.GameEvent;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.camp.CampData;
 	import game.module.login.PreLoadingView;
@@ -124,7 +125,7 @@ package game
 
 		private function onNewFunOpen(... args):void
 		{
-			trace("功能推送: ", args);
+			TraceUtils.log("功能推送: "+ args);
 			User.getInstance().curGuideArr.push(args[1][0]);
 			
 			/**
@@ -285,7 +286,7 @@ package game
 			}
 
 			XFacade.instance.openModule(ModuleName.GameBoardView, args[1]);
-			trace("GameBoardView数据:"+JSON.stringify(args));
+			TraceUtils.log("GameBoardView数据:"+JSON.stringify(args));
 		/*var testArr = [ { "id":"3", "UI_type":"1", "order":"300", "select":"", "url":"1", "title":"", "des":"", "icon":"", "param1":"", "param2":"", "param3":"", "param4":"" },
 		 { "id":"3", "UI_type":"1", "order":"300", "select":"", "url":"2", "title":"", "des":"", "icon":"", "param1":"", "param2":"", "param3":"", "param4":"" } ,
 		  { "id":"3", "UI_type":"1", "order":"300", "select":"", "url":"3", "title":"", "des":"", "icon":"", "param1":"", "param2":"", "param3":"", "param4":"" } ];
@@ -298,7 +299,7 @@ package game
 			
 			User.getInstance().guildID = ToolFunc.isArray(guildData)? guildData[0] : guildData;
 			
-			trace("getJoinGuildOK: ", User.getInstance().guildID);
+			TraceUtils.log("getJoinGuildOK: "+User.getInstance().guildID);
 			
 		}
 	}

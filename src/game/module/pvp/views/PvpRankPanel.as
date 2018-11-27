@@ -218,7 +218,6 @@ package game.module.pvp.views
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy pvpRankPanel");
 //			myRank = null;
 			_model.isGetRank = false;
 			_model = null;

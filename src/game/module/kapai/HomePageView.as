@@ -8,6 +8,7 @@ package game.module.kapai
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.module.bingBook.ItemContainer;
 	import game.net.socket.WebSocketNetService;
 	
@@ -213,7 +214,7 @@ package game.module.kapai
 					var result = TimeUtil.toDetailTime(time);
 					_this.dom_time.text = TimeUtil.timeToText(result);
 					clearTimerHandler = null;
-					trace('倒计时结束：：：');
+					TraceUtils.log('倒计时结束：：：');
 				});
 			} else {
 				_this.dom_time.text = "00:00:00";

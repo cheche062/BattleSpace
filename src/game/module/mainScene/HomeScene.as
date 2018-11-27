@@ -7,14 +7,12 @@ package game.module.mainScene
 	import game.common.LayerManager;
 	import game.common.ModuleManager;
 	import game.common.ResourceManager;
-	import game.common.SceneManager;
 	import game.common.SoundMgr;
 	import game.common.ToolFunc;
 	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.XUtils;
 	import game.common.baseScene.BaseScene;
-	import game.common.baseScene.SceneType;
 	import game.global.GameLanguage;
 	import game.global.GameSetting;
 	import game.global.ModuleName;
@@ -33,10 +31,10 @@ package game.module.mainScene
 	import game.global.event.TrainBattleLogEvent;
 	import game.global.util.ItemUtil;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
-	import game.module.activity.ActivityMainView;
 	import game.module.alert.XAlert;
 	import game.module.login.PreLoadingView;
 	import game.module.mainui.BuildEvent;
@@ -46,7 +44,6 @@ package game.module.mainScene
 	import game.module.mainui.speedView.SpeedView;
 	import game.module.military.MilitaryView;
 	import game.module.monterRiot.MonsterRiotView;
-	import game.module.story.StoryManager;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Sprite;
@@ -248,7 +245,7 @@ package game.module.mainScene
 						viewMain.view.lb_boss_time.text = '';
 						viewMain.view.lb_boss_time.visible = false;
 						clearTimerHandler = null;
-						trace('倒计时结束：：：');
+						TraceUtils.log('倒计时结束：：：');
 					}, false);
 					break;
 				//占矿状态判断
@@ -271,7 +268,7 @@ package game.module.mainScene
 				case ServiceConst.GET_ACT_LIST:
 				{
 					//trace("actList:"+JSON.stringify(args));
-					trace("actList:",args);
+					TraceUtils.log("actList:"+args);
 					var activityData = args[0].activity; 
 					for(var i = 0;i<activityData.length;i++){
 						if(activityData[i].tid == 19){
@@ -291,7 +288,7 @@ package game.module.mainScene
 				}	
 				case ServiceConst.B_INFO:
 					HomeData.intance.resetMapData();
-					trace("buildInfo:",JSON.stringify(args[1]));
+					TraceUtils.log("buildInfo:"+JSON.stringify(args[1]));
 					//国战数据相关
 					legionwar_state = args[1].legionwar_state;
 					boss_state = args[1].boss_state;
@@ -429,7 +426,7 @@ package game.module.mainScene
 					}
 					//数据维护
 					_vo.queue = args[1][2];
-					trace("_vo.queue:"+JSON.stringify(args[1][2]));
+					TraceUtils.log("_vo.queue:"+JSON.stringify(args[1][2]));
 					Signal.intance.event(HomeScene.ARTICLE_UPDATE);
 					this.updateBuildingTime();
 					//重新设定菜单
@@ -599,7 +596,7 @@ package game.module.mainScene
 				var itemId:Number = arr[0];
 				var itemNum:Number = arr[1];
 				var dataItem:ItemVo = DBItem.getItemData(itemId);
-				trace("收获:"+dataItem.name+"*"+itemNum);
+				TraceUtils.log("收获:"+dataItem.name+"*"+itemNum);
 				var view:* = ModuleManager.intance.getModule(MainView);
 				var txt:Text = new Text();
 				txt.text = GameLanguage.getLangByKey(dataItem.name)+"  x  "+itemNum;
@@ -871,7 +868,7 @@ package game.module.mainScene
 		//根据信息生成建筑数据
 		public function createBuilding(id:Number, lv:Number, bid:String = "-1", infoArr:Object=null):BaseArticle{
 			var bitem:BaseArticle = getBuild(bid);//
-			trace("bitem:"+bitem);
+			TraceUtils.log("bitem:"+bitem);
 			var bdData:ArticleData;
 			if(!bitem){
 				bitem = new BaseArticle();
@@ -915,7 +912,7 @@ package game.module.mainScene
 				bitem.on(Event.MOUSE_DOWN, this, this.onItemMD);
 			}else
 			{
-				trace("没有可以建造的位置");
+				TraceUtils.log("没有可以建造的位置");
 			}
 		}
 		
@@ -1279,7 +1276,7 @@ package game.module.mainScene
 								minQId = i;
 							}
 						}
-						trace("最短时间的队列id:"+minQId);
+						TraceUtils.log("最短时间的队列id:"+minQId);
 						cost = DBBuildingCD.cost(_vo.getQueueTime(minArtId));
 						if(cost > 0){
 							
@@ -1674,7 +1671,7 @@ package game.module.mainScene
 						}
 						
 						if(building||this.selectedBuilding.isFull){
-							trace("仓库已满或者正在建造不能收获");
+							TraceUtils.log("仓库已满或者正在建造不能收获");
 							BuildAniUtil.flashHarvest(this.selectedBuilding.harvestIcon);
 							
 						}else{
@@ -1957,7 +1954,7 @@ package game.module.mainScene
 			build = getBuildByBid(DBBuilding.B_RADIO);
 			if(!build)
 			{
-				trace("雷达建筑不存在");
+				TraceUtils.log("雷达建筑不存在");
 				return;
 			}
 			var build:BaseArticle;

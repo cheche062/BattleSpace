@@ -11,15 +11,12 @@ package game.module.mainui
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import game.global.vo.mission.MissionStateVo;
-	import game.module.klotski.KlotskiView;
 	import game.module.story.StoryManager;
-	import game.module.story.StoryView;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
-	import laya.ui.Box;
 	import laya.ui.Button;
 	import laya.utils.Ease;
 	import laya.utils.Handler;
@@ -260,8 +257,8 @@ package game.module.mainui
 				// 获取当前活动列表
 				case ServiceConst.GET_ACT_LIST:
 					//trace("actList:"+JSON.stringify(args));
-					trace("actList:",args);
-					trace("args[1]:",args[1]);
+					TraceUtils.log("actList:"+args);
+					TraceUtils.log("args[1]:"+args[1]);
 					activityData = args[1].activity; 
 					_timeCount = args[1].dayEndSec;
 					

@@ -2,14 +2,13 @@ package game.module.chargeView
 {
 	import MornUI.chargeView.VipShopUI;
 	
-	import game.common.DataLoading;
 	import game.common.XItemTip;
 	import game.common.base.BaseView;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.VIPVo;
-	import game.module.store.StoreItem;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -43,7 +42,7 @@ package game.module.chargeView
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			trace("args::",args)
+			TraceUtils.log("args::"+args);
 			switch(cmd)
 			{
 				case ServiceConst.GET_VIP_SHOP:

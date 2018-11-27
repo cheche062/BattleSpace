@@ -15,13 +15,13 @@ package game.module.fighting.panel
 	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
 	import game.global.util.PreloadUtil;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.fighting.adata.FightingResultsData;
 	import game.module.fighting.mgr.FightingManager;
 	
 	import laya.display.Sprite;
 	import laya.events.Event;
-	import laya.maths.Arith;
 	import laya.utils.Handler;
 	
 	
@@ -99,7 +99,7 @@ package game.module.fighting.panel
 					obj.hasOwnProperty("special") &&
 					obj.special == "waitFight")
 				{
-					trace("guidID: ", User.getInstance().curGuideArr[0].g_id);
+					TraceUtils.log("guidID: "+ User.getInstance().curGuideArr[0].g_id);
 					XFacade.instance.openModule(ModuleName.FunctionGuideView,GameConfigManager.fun_open_vec[User.getInstance().curGuideArr[0]].g_id);
 				}
 			}
@@ -194,7 +194,6 @@ package game.module.fighting.panel
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy FightResultPanel");
 			if(_frview)
 			{
 				_frview.closeBtn.off(Event.CLICK,this,closeClickFun);

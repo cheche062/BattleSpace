@@ -45,7 +45,6 @@ package game.module.tips.itemTip
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy ItemTipComponent");
 			ItemTipManager.itemTipCom = null;
 			super.destroy(destroyChild);
 		}

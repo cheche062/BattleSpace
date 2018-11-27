@@ -70,7 +70,6 @@ package game.module.fighting.view
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BaseChapetrView");
 			removeEvent();
 			bgImg = null;
 			bgBox = null;

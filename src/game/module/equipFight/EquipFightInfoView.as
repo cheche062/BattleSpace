@@ -118,7 +118,6 @@ package game.module.equipFight
 			showHangXing(Number(backObj.chapter));
 		}
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy EquipFightInfoView");
 			tabPanelList = null;
 			
 			super.destroy(destroyChild);

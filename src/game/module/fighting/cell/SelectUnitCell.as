@@ -5,35 +5,23 @@ package game.module.fighting.cell
 {
 	import MornUI.fightingView.SelectUnitCellUIUI;
 	
-	import game.common.AlertManager;
-	import game.common.AlertType;
 	import game.common.CountdownLabel;
-	import game.common.FilterTool;
-	import game.common.MaskProgressBar;
-	import game.common.SceneManager;
 	import game.common.XFacade;
 	import game.common.XTip;
-	import game.common.baseScene.SceneType;
 	import game.global.GameConfigManager;
-	import game.global.GameLanguage;
-	import game.global.StringUtil;
 	import game.global.util.TimeUtil;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
-	import game.global.vo.FightUnitVo;
 	import game.global.vo.User;
 	import game.module.fighting.adata.ArmyData;
 	import game.module.fighting.mgr.FightingManager;
 	
-	import laya.display.Sprite;
-	import laya.display.Stage;
 	import laya.events.Event;
-	import laya.filters.ColorFilter;
 	import laya.ui.Box;
 	import laya.ui.Image;
 	import laya.ui.Label;
 	import laya.ui.ProgressBar;
 	import laya.ui.UIUtils;
-	import laya.webgl.canvas.BlendMode;
 	
 	public class SelectUnitCell extends Box implements ISelectUnitCell
 	{
@@ -236,7 +224,7 @@ package game.module.fighting.cell
 						stateText.text = "L_A_911";
 						timerText.timerValue = n;
 					}else{
-						trace("data.state",data.state,data.state2);
+						TraceUtils.log("data.state"+data.state+data.state2);
 						var _state:Number = data.state ? data.state : data.state2;
 						if(_state == ArmyData.STATE_NOT_NUMBER)
 						{
@@ -279,7 +267,6 @@ package game.module.fighting.cell
 			
 			
 			super.destroy(destroyChild);
-			trace("SelectUnitCell ~~~~  destroy");
 			
 		}
 	

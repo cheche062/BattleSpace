@@ -3,14 +3,11 @@
  */
 package game.global.vo
 {
-	import mx.utils.object_proxy;
-	
 	import game.global.GameConfigManager;
 	import game.global.data.formatData.AttackFormatData;
 	import game.global.data.formatData.AttackFormatTagetData;
-	import game.global.data.formatData.SubReportFormatData;
 	import game.global.fighting.BaseUnit;
-	import game.global.fighting.manager.FightingSceneManager;
+	import game.global.util.TraceUtils;
 	import game.global.vo.skillControlActionVos.ChangeAttSkillActionVo;
 	import game.global.vo.skillControlActionVos.alphaSkillActionVo;
 	import game.global.vo.skillControlActionVos.baseSkillActionVo;
@@ -20,12 +17,7 @@ package game.global.vo
 	import game.global.vo.skillControlActionVos.spotlightSkillActionVo;
 	import game.global.vo.skillControlActionVos.vibrationSkillActionVo;
 	import game.module.fighting.adata.ActionData;
-	import game.module.fighting.adata.UnitActionData;
 	import game.module.fighting.scene.FightingScene;
-	
-	import laya.utils.Handler;
-	
-	import org.hamcrest.collection.array;
 
 	public class SkillControlVo
 	{
@@ -167,7 +159,7 @@ package game.global.vo
 			var bitem:BaseUnit = scene.getUnitByPoint(atd.tagetPos,true);
 			if(!bitem)
 			{
-				trace("getActionHsData bitem is  null", atd.tagetPos);
+				TraceUtils.log("getActionHsData bitem is  null"+ atd.tagetPos);
 				 return ar;
 			}
 			
@@ -454,7 +446,7 @@ package game.global.vo
 			var bitem:BaseUnit = scene.getUnitByPoint(nextPos,true);
 			if(!bitem)
 			{
-				trace("getChangeData unit null ",nextPos)
+				TraceUtils.log("getChangeData unit null "+nextPos);
 				return ar;
 			}
 			

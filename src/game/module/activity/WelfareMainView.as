@@ -14,11 +14,9 @@ package game.module.activity
 	import game.global.consts.ServiceConst;
 	import game.global.event.ActivityEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.module.friendCode.FriendCodeView;
-	import game.module.levelGift.LevelGiftView;
-	import game.module.lvFundation.LvFundationView;
-	import game.module.weekCardCom.WeekCardView;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
@@ -151,7 +149,7 @@ package game.module.activity
 			switch(args[0])
 			{
 				case ServiceConst.WELFARE_ACT_LIST:
-					trace("福利活动列表数据：", args[1])
+					TraceUtils.log("福利活动列表数据："+ args[1])
 					_actList = [];
 					var actInfo:Object = args[1];
 					var stateInfo:Object = args[1].status;

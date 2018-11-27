@@ -14,6 +14,7 @@ package game.module.fighting.view
 	import game.global.event.NewerGuildeEvent;
 	import game.global.event.Signal;
 	import game.global.fighting.BaseUnit;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	import game.global.vo.StageChapterVo;
 	import game.global.vo.StageLevelVo;
@@ -72,7 +73,7 @@ package game.module.fighting.view
 		/**设定数据源*/
 		public function set pArgs(value:Array):void
 		{
-			trace(1,"设置pArgs",value);
+			TraceUtils.log("设置pArgs"+value);
 			if(_pArgs != value)
 			{
 				_pArgs = value;
@@ -192,7 +193,7 @@ package game.module.fighting.view
 		{
 			if(_dataIndex != idx)
 			{
-				trace(1,"设置设置"+idx);
+				TraceUtils.log("设置设置"+idx);
 				_dataIndex = idx;
 				if(_dataIndex == -1) return ;
 				_data =  stageChapterArr[_dataIndex];
@@ -356,8 +357,8 @@ package game.module.fighting.view
 			SoundMgr.instance.playSound(mp3Url);
 			var scData:stageChapetrData = FightingStageManger.intance.getChapetrData(_data.chapter_id,isJy);
 			var openName:String = isJy ? ModuleName.JYChapterLevelPanel : ModuleName.PTChapterLevelPanel;
-			trace("打开关卡面板_data========================:",_data);
-			trace("打开关卡面板scData========================:",scData);
+			TraceUtils.log("打开关卡面板_data========================:"+_data);
+			TraceUtils.log("打开关卡面板scData========================:"+scData);
 			
 			XFacade.instance.openModule(openName,
 				[

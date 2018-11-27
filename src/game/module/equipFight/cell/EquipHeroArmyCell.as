@@ -2,7 +2,7 @@ package game.module.equipFight.cell
 {
 	import MornUI.equipFight.heroArmyCellBoxUI;
 	
-	import game.common.ResourceManager;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	import game.module.fighting.adata.ArmyData;
 	
@@ -43,7 +43,6 @@ package game.module.equipFight.cell
 		} 
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy EquipHeroArmyCell");
 			data = null;
 			super.destroy(destroyChild);
 		}

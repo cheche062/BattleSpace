@@ -10,6 +10,7 @@ package game.module.armyGroup
 	import game.global.GameLanguage;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	
@@ -40,7 +41,7 @@ package game.module.armyGroup
 		/**获取服务器消息*/
 		private function serviceResultHandler(...args):void
 		{
-			trace("【国战商店】", args[0], args[1]);
+			TraceUtils.log("【国战商店】"+ args[0]+args[1]);
 			switch(args[0]) {
 				case ServiceConst.ARMY_GROUP_GET_MILITARY_INFO:
 					level = Number(args[1]["military_id"]);

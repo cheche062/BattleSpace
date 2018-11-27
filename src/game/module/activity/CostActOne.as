@@ -1,17 +1,20 @@
 package game.module.activity 
 {
-	import game.common.base.BaseView;
+	import MornUI.acitivity.CostActOneUI;
+	
 	import game.common.XFacade;
 	import game.common.XTip;
+	import game.common.base.BaseView;
+	import game.global.GameLanguage;
+	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
-	import game.global.GameLanguage;
-	import game.global.ModuleName;
+	import game.global.util.TraceUtils;
 	import game.module.bingBook.ItemContainer;
 	import game.net.socket.WebSocketNetService;
+	
 	import laya.events.Event;
-	import MornUI.acitivity.CostActOneUI;
 	
 	/**
 	 * ...
@@ -133,7 +136,6 @@ package game.module.activity
 		/**获取服务器消息*/
 		private function serviceResultHandler(cmd:int, ...args):void
 		{
-			trace("cost:", args);
 			var len:int = 0;
 			var i:int=0;
 			switch(cmd)

@@ -1,11 +1,10 @@
 package game.module.bossFight
 {
 	import MornUI.bossFight.BossFightBossDropCellUI;
-	import MornUI.bossFight.RankInfoCellUI;
 	
 	import game.common.RewardList;
+	import game.global.util.TraceUtils;
 	import game.global.vo.worldBoss.BossLevelVo;
-	import game.global.vo.worldBoss.BossRankPlayerInfoVo;
 	import game.module.bag.cell.RewardCellMin;
 	
 	import laya.ui.Box;
@@ -71,7 +70,6 @@ package game.module.bossFight
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BossFightBossDropCell");
 			m_ui = null;
 			m_data = null;
 			_rList = null;

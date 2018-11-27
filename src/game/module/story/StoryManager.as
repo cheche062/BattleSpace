@@ -1,13 +1,11 @@
 package game.module.story
 {
 	import game.common.ResourceManager;
-	import game.common.SceneManager;
 	import game.common.XFacade;
-	import game.common.baseScene.SceneType;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
-	import game.global.data.DBBuilding;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
 
@@ -39,15 +37,15 @@ package game.module.story
 		public function activeStory():void
 		{
 			var storyObj:Object = ResourceManager.instance.getResByURL(STORY_STAGE);
-			trace("剧情表："+ JSON.stringify(storyObj));
+			TraceUtils.log("剧情表："+ JSON.stringify(storyObj));
 			for each(var con:Object in storyObj) 
 			{
 				var condition:String = con["condition"];
-				trace("condition:"+condition);
+				TraceUtils.log("condition:"+condition);
 				var cid:String = condition.split("=")[0];
 				var clv:String =  condition.split("=")[1];
 				var _nowLv:Number = User.getInstance().sceneInfo.getBuildingLv(cid);
-				trace("当前建筑等级"+_nowLv);
+				TraceUtils.log("当前建筑等级"+_nowLv);
 				if(_nowLv == Number(clv))
 				{
 					showStoryModule(STORY_PANNEL);
@@ -68,7 +66,7 @@ package game.module.story
 //					args[2] = "1000";//假数据
 					if(args[1] == false)
 					{
-						trace("所有剧情任务已经完成");
+						TraceUtils.log("所有剧情任务已经完成");
 						return;
 					}
 					if(storyModule == StoryManager.STORY_PANNEL)

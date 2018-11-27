@@ -22,12 +22,12 @@ package game.module.bag
 	import game.global.data.bag.ItemData;
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.ItemVo;
 	import game.module.bag.cell.ItemCell4;
 	import game.module.mission.MissionItem;
 	
 	import laya.events.Event;
-	import laya.html.dom.HTMLDivElement;
 	import laya.ui.List;
 	import laya.utils.Handler;
 	
@@ -111,7 +111,7 @@ package game.module.bag
 			this.addChild(view);
 			
 			var tabjson:Object = ResourceManager.instance.getResByURL("config/bagTabList.json");
-			trace("背包标签配置:"+JSON.stringify(tabjson));
+			TraceUtils.log("背包标签配置:"+JSON.stringify(tabjson));
 			var labels:Array = [];
 			if(tabjson)
 			{
@@ -164,8 +164,8 @@ package game.module.bag
 			view.itemPi.removeSelf();
 			selItemC.visible = false;
 //			this.closeOnBlank = true;
-			trace("view.x+"+view.x);
-			trace("view.y+"+view.y);
+			TraceUtils.log("view.x+"+view.x);
+			TraceUtils.log("view.y+"+view.y);
 			onStageResize();
 		}
 		
@@ -199,7 +199,7 @@ package game.module.bag
 		
 		private function itemDel(key:String):void
 		{
-			trace(1,"delete item",key);
+			TraceUtils.log("delete item"+key);
 			if(_selectData && _selectData.key == key)
 			{
 				selectIData(null);
@@ -255,7 +255,7 @@ package game.module.bag
 						{
 //							MissionItem.functionLink(_selectData.vo.useMsg[0],_selectData.vo.useMsg[1]);
 							MissionItem.functionLink.apply(this,_selectData.vo.useMsgPs);
-							trace("物品使用",_selectData.vo.useMsgPs);
+							TraceUtils.log("物品使用"+_selectData.vo.useMsgPs);
 							return ;
 						}
 					}
@@ -332,7 +332,7 @@ package game.module.bag
 			if(_leftSelectIndex == index && !mandatory)
 				return ;
 			_leftSelectIndex = index;
-			trace("选中标签"+index);
+			TraceUtils.log("选中标签"+index);
 			if(!tabDataList || index >= tabDataList.length)
 				return ;
 			
@@ -372,7 +372,7 @@ package game.module.bag
 			}
 			
 			m_list.array = finishingListData(itemDataList);
-			trace("当前页签下背包数据:"+itemDataList);
+			TraceUtils.log("当前页签下背包数据:"+itemDataList);
 		}
 		
 	
@@ -394,7 +394,6 @@ package game.module.bag
 		
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy BagPanel");
 			_tab = null;
 			m_list = null;
 			tabDataList = null;

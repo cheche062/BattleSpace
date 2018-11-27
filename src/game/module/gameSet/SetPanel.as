@@ -1,24 +1,25 @@
 package game.module.gameSet
 {
-	import game.common.AlertManager;
-	import game.common.AlertType;
-	import game.common.XFacade;
-	import game.global.consts.ServiceConst;
-	import game.global.data.bag.ItemData;
-	import game.global.event.Signal;
-	import game.global.ModuleName;
-	import game.net.socket.WebSocketNetService;
 	import MornUI.panels.SetPanelUI;
 	
+	import game.common.AlertManager;
+	import game.common.AlertType;
 	import game.common.AndroidPlatform;
 	import game.common.FilterTool;
 	import game.common.SoundMgr;
+	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.base.BaseDialog;
 	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.GameSetting;
+	import game.global.ModuleName;
 	import game.global.StringUtil;
+	import game.global.consts.ServiceConst;
+	import game.global.data.bag.ItemData;
+	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
+	import game.net.socket.WebSocketNetService;
 	
 	import laya.debug.tools.DTrace;
 	import laya.events.Event;
@@ -546,7 +547,7 @@ package game.module.gameSet
 		
 		private function codeExchange(e:Event):void		
 		{
-			if (view.inputTxt.text == "" || view.inputTxt.length == 0)
+			if (view.inputTxt.text == "" || view.inputTxt.text.length == 0)
 			{
 				AlertManager.instance().AlertByType(AlertType.BASEALERTVIEW, GameLanguage.getLangByKey("L_A_80736"),AlertType.YES);
 				return;
@@ -612,8 +613,8 @@ package game.module.gameSet
 		
 		private function bindMusicData():void
 		{
-			trace("SoundMgr.instance.m_bPlayMusic:",SoundMgr.instance.m_bPlayMusic)
-			trace("SoundMgr.instance.m_bPlayeSound:",SoundMgr.instance.m_bPlayeSound)
+			TraceUtils.log("SoundMgr.instance.m_bPlayMusic:"+SoundMgr.instance.m_bPlayMusic)
+			TraceUtils.log("SoundMgr.instance.m_bPlayeSound:"+SoundMgr.instance.m_bPlayeSound)
 			view.mkgBg.filters = SoundMgr.instance.m_bPlayMusic ? null:[game.common.FilterTool.grayscaleFilter];
 			view.mkgImg.x =  SoundMgr.instance.m_bPlayMusic ? 90 : 4;
 			
@@ -622,7 +623,6 @@ package game.module.gameSet
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy SetPanel");
 			
 			super.destroy(destroyChild);
 		}

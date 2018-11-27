@@ -1,13 +1,11 @@
 package game.module.levelGift
 {
-	import game.common.base.BaseView;
-	import game.net.socket.WebSocketNetService;
 	import MornUI.LevelGift.LevelupViewUI;
 	
 	import game.common.AnimationUtil;
 	import game.common.ResourceManager;
 	import game.common.XFacade;
-	import game.common.base.BaseDialog;
+	import game.common.base.BaseView;
 	import game.global.GameLanguage;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
@@ -15,8 +13,9 @@ package game.module.levelGift
 	import game.global.data.bag.ItemCell3;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
-	import game.global.vo.LangCigVo;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
+	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Text;
 	import laya.events.Event;
@@ -168,7 +167,7 @@ package game.module.levelGift
 			}
 			box.x = (cell.width/2-box.width/2);
 //			box.y = cell.height/2-box.height/2;
-			trace("box.y"+box.y);
+			TraceUtils.log("box.y"+box.y);
 		}
 		
 		private function pickup(e:Event):void
@@ -186,7 +185,7 @@ package game.module.levelGift
 				{
 					var pay_card_data:Object = ResourceManager.instance.getResByURL(JSON_PAY_CARD);
 					var severData:Object = args[1];//后端只发已经领取的奖励   
-					trace(pay_card_data);
+					TraceUtils.log(pay_card_data);
 					//trace(pay_card_data["3"]);
 					//对解析的配置数据增加状态字段，凑成实际需要的数据,status 0:不能领,1:可以领，2:已经领
 					dataList = [];
@@ -222,7 +221,7 @@ package game.module.levelGift
 //					trace("道具数组"+dataArr);
 					for each(var value1:Object in dataArr)
 					{
-						trace("id"+value1[0]+"数量"+value1[1]);
+						TraceUtils.log("id"+value1[0]+"数量"+value1[1]);
 						var itemData:ItemData = new ItemData();
 						itemData.iid = value1[0];
 						itemData.inum = value1[1];

@@ -1,18 +1,16 @@
 package game.module.guild
 {
+	import MornUI.guild.BossRankItemUI;
+	
 	import game.common.ItemTips;
 	import game.global.GameConfigManager;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import laya.ui.Image;
-	import laya.ui.TextArea;
-	import MornUI.guild.BossRankItemUI;
-	import MornUI.guild.GuildBossItemUI;
-	
-	import game.common.XFacade;
-	import game.global.ModuleName;
 	
 	import laya.events.Event;
 	import laya.ui.Box;
+	import laya.ui.Image;
+	import laya.ui.TextArea;
 	
 	public class BossRankItem extends Box
 	{
@@ -150,7 +148,7 @@ package game.module.guild
 		private function showItemTips(e:Event):void 
 		{
 			
-			trace("  asdfas:" + e.currentTarget.name);
+			TraceUtils.log("  asdfas:" + e.currentTarget.name);
 			if (rewardArr[e.currentTarget.name]);
 			{
 				ItemTips.showTip(rewardArr[e.currentTarget.name].split("=")[0]);

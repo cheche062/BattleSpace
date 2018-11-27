@@ -32,6 +32,7 @@ package game.module.fighting.view
 	import game.global.event.Signal;
 	import game.global.fighting.BaseUnit;
 	import game.global.fighting.manager.FightingSceneManager;
+	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.FightUnitVo;
 	import game.global.vo.SkillVo;
@@ -261,7 +262,7 @@ package game.module.fighting.view
 		public function showItem(n:int):void{
 			//ceil(\$damage/(5+\$level*2))
 			_hurtNum += n;
-			trace("showItem::::::::::::::::",n)
+			TraceUtils.log("showItem::::::::::::::::"+n)
 			this.leftTopView.tfNum.text = Math.ceil(_hurtNum/(5+User.getInstance().level*2))+"";
 		}
 		
@@ -373,7 +374,7 @@ package game.module.fighting.view
 		}
 		
 		public function gotoSendStart():void{
-			trace("gotoSendStart================")
+			TraceUtils.log("gotoSendStart================");
 			if(foodType == DBItem.ARMY_GROUP_FOOD){//消耗军粮
 				if(User.getInstance().getResNumByItem(DBItem.ARMY_GROUP_FOOD) < allFood){
 					AlertManager.instance().AlertByType(AlertType.BASEALERTVIEW,"L_A_20921",0,function(v:uint):void{
@@ -402,7 +403,7 @@ package game.module.fighting.view
 			if(FightingManager.intance.fightingType == FightingManager.FIGHTINGTYPE_PVP)
 			{
 				var robotTime:int = Math.ceil(Math.random()*14+6);
-				trace("robotTime========>>",robotTime)
+				TraceUtils.log("robotTime========>>"+robotTime);
 				var time:Number = robotTime - PvpManager.curTime;
 				if(PvpManager.isRobot && time > 0){
 					Laya.timer.once(time * 1000,FightingManager.intance, FightingManager.intance.sendStart);
@@ -470,7 +471,7 @@ package game.module.fighting.view
 			var cell:ISelectUnitCell = selectUnitView.m_list.getCell(index);
 			if(cell && cell.data.num)
 			{
-				trace("listDown");
+				TraceUtils.log("listDown");
 				if(!cell.getEnabled())return ;
 				if(cell.data)
 				{
@@ -794,7 +795,7 @@ package game.module.fighting.view
 		{
 			if(scence && scence.useFightingUnit)
 			{
-				trace("绑定兵种:",scence.useFightingUnit.data);
+				TraceUtils.log("绑定兵种:"+scence.useFightingUnit.data);
 				rightBottomView.AttackBox1.visible = scence.useFightingUnit.data.skillVos.length > 1;
 				rightBottomView.AttackBox2.visible = scence.useFightingUnit.data.skillVos.length > 2;
 				var obj:Object = leftRank[0];
@@ -813,7 +814,7 @@ package game.module.fighting.view
 						rightBottomView.skillIMG.graphics.clear();
 						rightBottomView.skillIMG.loadImage(skill.iconUrl);
 						cdN = getSkillCd(skill.skill_id,obj);
-						trace("skill1:::",skill.iconUrl)
+						TraceUtils.log("skill1:::"+skill.iconUrl);
 						rightBottomView.AttackBtn.disabled = cdN;
 						rightBottomView.cdLbl.text = cdN ? cdN.toString() : "";
 					}
@@ -826,7 +827,7 @@ package game.module.fighting.view
 						rightBottomView.skillIMG1.graphics.clear();
 						rightBottomView.skillIMG1.loadImage(skill.iconUrl);
 						cdN = getSkillCd(skill.skill_id,obj);
-						trace("skill2:::",skill.iconUrl)
+						TraceUtils.log("skill2:::"+skill.iconUrl);
 						rightBottomView.AttackBtn1.disabled = cdN;
 						rightBottomView.cdLbl1.text = cdN ? cdN.toString() : "";
 					}
@@ -861,7 +862,7 @@ package game.module.fighting.view
 					{
 						rightBottomView.skillIMG2.graphics.clear();
 						rightBottomView.skillIMG2.loadImage(skill.iconUrl);
-						trace("skill3:::",skill.iconUrl)
+						TraceUtils.log("skill3:::"+skill.iconUrl);
 						cdN = getSkillCd(skill.skill_id,obj);
 						rightBottomView.AttackBtn2.disabled = cdN;
 						rightBottomView.cdLbl2.text = cdN ? cdN.toString() : "";
@@ -985,11 +986,11 @@ package game.module.fighting.view
 				evalStr2 = parameterJson[key]["value"];
 			}else
 			{
-				trace("config/unit_parameter.json未载入");
+				TraceUtils.log("config/unit_parameter.json未载入");
 			}
 			
 			var kpi:int = 0;
-			trace("绑定选择:"+scence.mySelectUnitIds);
+			TraceUtils.log("绑定选择:"+scence.mySelectUnitIds);
 			for (var z:int = 0; z < scence.mySelectUnitIds.length; z++) 
 			{
 				var ssss:String  =scence.mySelectUnitIds[z];
@@ -1243,7 +1244,7 @@ package game.module.fighting.view
 			var h:Handler = selectUnitView.m_list.mouseHandler;
 			if(h)
 			{
-				trace("list mouseHandler not null");
+				TraceUtils.log("list mouseHandler not null");
 				h.recover();
 			}
 			selectUnitView.m_list.mouseHandler = null;
@@ -1332,10 +1333,10 @@ package game.module.fighting.view
 			if(!isFightStart){
 				return;
 			}
-			trace("rankData=====",v)
+			TraceUtils.log("rankData====="+v)
 			if(!v)
 			{
-			   trace("行动队列为空");
+				TraceUtils.log("行动队列为空");
 			}
 			leftRank = v;
 			

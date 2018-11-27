@@ -18,6 +18,7 @@ package game.module.peopleFallOff
 	import game.global.data.bag.ItemCell3;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.util.UnitPicUtil;
 	import game.module.fighting.mgr.FightingManager;
 	
@@ -108,8 +109,8 @@ package game.module.peopleFallOff
 			{
 				case ServiceConst.PEOPLE_FALL_OFF_PANNEL:
 				{
-					trace("打开人数衰减面板：");
-					trace("面板数据预览:"+JSON.stringify(args[1]));
+					TraceUtils.log("打开人数衰减面板：");
+					TraceUtils.log("面板数据预览:"+JSON.stringify(args[1]));
 					var curPass:int = args[1]["level"];
 					curFinish = args[1]["finished"]==0?false:true;
 //					curRate = args[1]["rewardRate"];
@@ -287,7 +288,7 @@ package game.module.peopleFallOff
 		}
 		private function setRate(rate:String,refreshTime:String,pannel:Boolean):void
 		{
-			trace("是否是panel:"+pannel);
+			TraceUtils.log("是否是panel:"+pannel);
 //			view.btn_mask.visible = false;
 //			view.btn_random.disabled = false;
 //			switch(rate.toString())
@@ -325,7 +326,7 @@ package game.module.peopleFallOff
 			if(pannel)
 			{
 				setRateTxt(rate);
-				trace("面板倍率："+rate);
+				TraceUtils.log("面板倍率："+rate);
 			}else
 			{
 				playRateMotion(rate);
@@ -388,7 +389,7 @@ package game.module.peopleFallOff
 		}
 		private function setReward(rewards:String):void
 		{ 
-			trace("奖励字符串："+rewards);   
+			TraceUtils.log("奖励字符串："+rewards);   
 			view.rewardBox.removeChildren();
 			var strArr:Array = rewards.split(";");
 			var itemC:ItemCell3;

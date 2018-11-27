@@ -3,7 +3,6 @@
  */
 package game.global.data.bag
 {
-	import game.common.ToolFunc;
 	import game.common.XFacade;
 	import game.global.ModuleName;
 	import game.global.consts.ItemConst;
@@ -11,8 +10,8 @@ package game.global.data.bag
 	import game.global.data.DBUnit;
 	import game.global.event.BagEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.global.vo.User;
-	import game.module.bag.mgr.ItemManager;
 	import game.net.socket.WebSocketNetService;
 	
 	public class BagManager
@@ -99,7 +98,7 @@ package game.global.data.bag
 			{
 				var idata:ItemData = itemList[i];
 				if(!idata.vo)
-					trace("没有实体"+idata.iid);
+					TraceUtils.log("没有实体"+idata.iid);
 //				if(idata.vo.type==undefined)
 //				{
 //					trace("type undefined"+idata.iid);
@@ -213,7 +212,7 @@ package game.global.data.bag
 		
 		
 		public function initBagData():void{
-			trace(1,"initBagData");
+			TraceUtils.log("initBagData");
 			WebSocketNetService.instance.sendData(ServiceConst.BAG_INFO_DATA_CONST,[]);
 			Signal.intance.on(
 				ServiceConst.getServerEventKey(ServiceConst.BAG_INFO_DATA_CONST),

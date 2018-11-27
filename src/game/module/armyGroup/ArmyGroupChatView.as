@@ -1,7 +1,7 @@
 package game.module.armyGroup
 {
 	import MornUI.armyGroup.ArmyGroupChatViewUI;
-
+	
 	import game.common.LayerManager;
 	import game.common.XFacade;
 	import game.common.XTip;
@@ -12,8 +12,9 @@ package game.module.armyGroup
 	import game.global.event.ArmyGroupEvent;
 	import game.global.event.GuildEvent;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	import game.net.socket.WebSocketNetService;
-
+	
 	import laya.events.Event;
 	import laya.ui.Button;
 	import laya.ui.Image;
@@ -273,7 +274,7 @@ package game.module.armyGroup
 		 */
 		private function initChatHandler():void
 		{
-			trace("initChat");
+			TraceUtils.log("initChat");
 			// 清空消息面板
 			while (view.chatContainer.numChildren)
 				view.chatContainer.removeChildAt(0);

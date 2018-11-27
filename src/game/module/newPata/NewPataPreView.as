@@ -9,10 +9,10 @@ package game.module.newPata
 	import game.common.base.BaseDialog;
 	import game.global.GameLanguage;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	
 	import laya.events.Event;
 	import laya.ui.Box;
-	import laya.ui.Image;
 	
 	public class NewPataPreView extends BaseDialog
 	{
@@ -61,10 +61,10 @@ package game.module.newPata
 		{
 			// TODO Auto Generated method stub
 			super.show(args);
-			trace("args:"+JSON.stringify(args));
+			TraceUtils.log("args:"+JSON.stringify(args));
 			curId = args[0][0]; 
 			battleGroup = args[0][1];
-			trace("curId:"+curId);
+			TraceUtils.log("curId:"+curId);
 			setBattleGroup(battleGroup); 
 			UIRegisteredMgr.AddUI(view.guide1,"EnterPaTaFightBtn");
 			UIRegisteredMgr.AddUI(view.btn_close,"ClosePreViewBtn");
@@ -92,7 +92,7 @@ package game.module.newPata
 					view.br.text =  levelObj[key]["recommand_br"];
 				}
 			}
-			trace("groupArr:"+groupArr);
+			TraceUtils.log("groupArr:"+groupArr);
 			
 			var groupObj:Object = ResourceManager.instance.getResByURL(PATA_GROUP_CONFIG);
 			var groupSourceArr:Array = [];
@@ -109,7 +109,7 @@ package game.module.newPata
 					}
 				}
 			}
-			trace("groupSourceArr:"+groupSourceArr);
+			TraceUtils.log("groupSourceArr:"+groupSourceArr);
 			var box:Box = view.getChildByName("sp") as Box;
 			if(!box)
 			{

@@ -91,7 +91,6 @@ package game.module.pvp.views.ui
 		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
-			trace(1,"destroy PvpRankCell");
 			
 			_data = null;
 			_model = null;

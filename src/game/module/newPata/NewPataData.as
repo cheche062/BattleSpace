@@ -3,6 +3,7 @@ package game.module.newPata
 	import game.global.GlobalRoleDataManger;
 	import game.global.consts.ServiceConst;
 	import game.global.event.Signal;
+	import game.global.util.TraceUtils;
 	
 
 	public class NewPataData
@@ -37,14 +38,14 @@ package game.module.newPata
 			{
 				case ServiceConst.FIGHTING_RESULTS_CONST:
 				{
-					trace("爬塔推送:"+JSON.stringify(args));
-					trace("args[1]:"+JSON.stringify(args[1]));
+					TraceUtils.log("爬塔推送:"+JSON.stringify(args));
+					TraceUtils.log("args[1]:"+JSON.stringify(args[1]));
 					var uid:* = GlobalRoleDataManger.instance.userid;
-					trace("stage:"+args[1][uid]["stage"]);
+					TraceUtils.log("stage:"+args[1][uid]["stage"]);
 					if(args[1][uid]["stage"])//如果已经通关,才有这个属性
 					{
 						passId = args[1][uid]["stage"];
-						trace("passId:"+passId);
+						TraceUtils.log("passId:"+passId);
 					}else
 					{
 						passId = 0;
