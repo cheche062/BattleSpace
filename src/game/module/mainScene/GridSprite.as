@@ -41,8 +41,8 @@ package game.module.mainScene
 								 beginX:int = 0 , beginY:int = 0):void
 		{
 			curW = curH = 100;
-			_curW = curW;
-			_curH = curH;
+			// _curW = curW;
+			// _curH = curH;
 			trace("------------------",mapWidth,mapHeight, curW, curH);
 			this._mapData = HomeData.intance.copyMap();
 			
