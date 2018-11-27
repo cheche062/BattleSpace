@@ -18,6 +18,11 @@ package game.module.mainScene
 		private var _mapData:Object;
 		private var _curW:Number;
 		private var _curH:Number;
+		
+		// 整体右移
+		private var newX:int = 1880 + HomeData.PIANYI_X;
+		private var newY:int = 400 + HomeData.PIANYI_Y;
+		
 		//一次性参数
 		private var _param:Array;
 		
@@ -28,22 +33,19 @@ package game.module.mainScene
 		}
 		
 		/**初始化参数*/
-		public function initParam(mapWidth:int, mapHeight:int,curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int,
-								  beginX:int = 0 , beginY:int = 0):void{
-			_param = [mapWidth, mapHeight, curW, curH, tilePixelWidth, tilePixelHeight, beginX, beginY];
+		public function initParam(curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int):void{
+			_param = [curW, curH, tilePixelWidth, tilePixelHeight];
 		}
 		
 		/**
 		 * 画网格
 		 * disArea -- 是否显示可视区域
 		 */
-		private function drawGrid(mapWidth:int, mapHeight:int,curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int,
-								 beginX:int = 0 , beginY:int = 0):void
+		private function drawGrid(curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int):void
 		{
-//			curW = curH = 100;
 			_curW = curW;
 			_curH = curH;
-			trace("------------------",mapWidth,mapHeight, curW, curH);
+			trace("------------------", _curW, _curH);
 			this._mapData = HomeData.intance.copyMap();
 			
 			this.wHalfTile = Math.floor(tilePixelWidth/2);
@@ -57,19 +59,12 @@ package game.module.mainScene
 				this.gridLineLayer.graphics.clear();
 			}
 			
-			var dblMapWidth:int = mapWidth*2 + 1;
-			var dblMapHeight:int = mapHeight + 1;
 			var goPoint:Point = new Point();
 			var toPoint:Point = new Point();
-			var newX:int = 1880;
-			var newY:int = 400;
 			
-			// 整体右移
-			newX += HomeData.PIANYI_X;
-
 			//新的算法尝试
-			for(var i:int=0; i<=curW; i++){
-				var arr:Array = getYArr(i,curH);
+			for(var i:int=0; i<=_curW; i++){
+				var arr:Array = getYArr(i, _curH);
 				for(var j:int=0; j<arr.length; j++){
 					goPoint.x = newX+arr[j]*wHalfTile - i*wHalfTile;
 					goPoint.y = newY+arr[j]*hHalfTile + i*hHalfTile;
@@ -81,8 +76,8 @@ package game.module.mainScene
 				}
 			}
 
-			for(i=0; i<=curH; i++){
-				arr = getXArr(i,curW);
+			for(i=0; i<=_curH; i++){
+				arr = getXArr(i,_curW);
 				for(j=0; j<arr.length; j++){
 					goPoint.x = newX-arr[j]*wHalfTile+i*wHalfTile;
 					goPoint.y = newY+arr[j]*hHalfTile+i*hHalfTile;

@@ -207,7 +207,7 @@ package game.module.login
 			
 			if(view.SwtchLogin.visible==false)
 			{
-				if(GameSetting.isApp && Browser.onIOS)
+				if(GameSetting.isApp /*&& Browser.onIOS*/)
 				{
 					TraceUtils.log("nopc-login");
 					AndroidPlatform.instance.FGM_GetFCMToken(Handler.create(null,callBack));

@@ -29,6 +29,9 @@ package game.module.mainScene
 		//怪物列表,针对建筑
 		public var effMonsters:Array;
 		
+		/**建筑类型     1=功能建筑；2=防御建筑；3=资源建筑；4=装饰建筑*/
+		public var building_type:String;
+		
 		/**类型-建筑*/
 		public static const TYPE_BUILDING:int = 0;
 		/**类型-怪物*/

@@ -14,16 +14,16 @@ package game.global.util
 		 */
 		public static function log(...arg):void
 		{
-			if(!GameSetting.IsRelease)
-			{
-				if( !GameSetting.isApp )
-				{
+//			if(!GameSetting.IsRelease)
+//			{
+//				if( !GameSetting.isApp )
+//				{
 					for (var i:int = 0; i < arg.length; i++) 
 					{
 						trace(arg[i]);
 					}
-				}
-			}
+//				}
+//			}
 			
 //			if (param[0] == 1 || param.length == 0)
 //			{

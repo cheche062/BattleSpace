@@ -95,8 +95,10 @@ package game.module.mainScene
 			}
 			
 			var info:Object = DBBuilding.getBuildingById(_data.buildId);
+			this.data.building_type = info["building_type"];
 			if(!_nameCom){
 				_nameCom = new BuildingNameCom();
+				
 				this.addChild(_nameCom);
 				_nameCom.pos(-_nameCom.width/2, -_nameCom.height);
 				_nameCom.cacheAsBitmap = true;
@@ -415,7 +417,7 @@ package game.module.mainScene
 					var p:Point = HomeData.intance.getPointPos(data.showPoint.x,data.showPoint.y);
 					this.x = p.x;
 					this.y = p.y;
-					trace('坐标', p.toString())
+//					trace('坐标', p.toString())
 					
 				}
 			}

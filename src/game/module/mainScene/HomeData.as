@@ -29,26 +29,22 @@ package game.module.mainScene
 		 */
 		public static const tileColumn:uint = 48; 
 		/**
-		 * 网格纵向数量
+		 *网格纵向数量
 		 */
-		public static const tileRow:uint = 49; 
+		public static const tileRow:uint = 69; 
+		
+		/** 当前   网格横向数量-w*/
+		public var curColumn:uint = 68; 
+		/**当前  网格纵向数量-h*/
+		public var curRow:uint = 69;  
 		
 		/***基地格子与建筑层整体x轴偏移量*/
-		public static const PIANYI_X:uint = 1400;
+		public static const PIANYI_X:uint = 700;
 		/***基地格子与建筑层整体y轴偏移量*/
-		public static const PIANYI_Y:uint = 0;
+		public static const PIANYI_Y:uint = -100;
 		
 		/**地图数据*/
 		public var mapTileData:Object = {};
-		
-		/**
-		 * 网格横向数量-w
-		 */
-		public var curColumn:uint = 48; 
-		/**
-		 * 网格纵向数量-h
-		 */
-		public var curRow:uint = 49;  
 		
 		/***
 		 *全局配置表控制器 
@@ -91,6 +87,8 @@ package game.module.mainScene
 		
 		public function copyMap():Object{
 			var block:Array  = config.block;
+			
+			block = [];
 			
 			var map:Object = {};
 			var key:String = '';
@@ -140,19 +138,22 @@ package game.module.mainScene
 			if(pi.x<0 || pi.x >= w || pi.y <0 || pi.y>= h){
 				return false;
 			}
-			var pAr:Array = [];
+			
 			var sizeX:Number = bData.model_w;
 			var sizeY:Number = bData.model_h;
 			//再次越界判定
-			if(pi.x-sizeX<-1 || pi.y -sizeY <-1){
+			if(pi.x-sizeX < -1 || pi.y -sizeY < -1){
 				return false;
 			}
+			
+//			return canMoveToAreaByBuildingType(bData, pi);
+			
+			var pAr:Array = [];
 			for(var i:int=0; i<sizeX; i++){
 				for(var j:int=0; j<sizeY; j++){
 					pAr.push(new Point(pi.x-i,pi.y-j));
 				}
 			}
-			
 			
 			for (i = 0; i < pAr.length; i++) 
 			{
@@ -160,30 +161,27 @@ package game.module.mainScene
 				if(mapTileData[key] > 0){
 					return false;
 				}
-					
 			}
-			return true;
+			
+			var bool:Boolean = canMoveToAreaByBuildingType(bData, pi); 
+			
+			return bool;
+		}
+		
+		/**通过建筑类型判断  功能区、建筑区可放置的建筑*/
+		private function canMoveToAreaByBuildingType(bData:ArticleData, point:Point):Boolean {
+			if (bData.building_type == "2" || bData.building_type == "4") return true;
+			
+			if (bData.building_type == "1") {
+				return point.x <= 38;
+			}
+			if (bData.building_type == "3") {
+				return point.x - bData.model_w >= 41;
+			}
 		}
 		
 		//排序算法
 		public function sortFun(target:BaseArticle , item:BaseArticle ):int{
-			/*var tarY:Number = target.showPoint.y-target.data.model_h;
-			var itemY:Number = item.showPoint.y-item.data.model_h
-			if (tarY > itemY) {
-				return 1;
-			}else if (tarY < itemY) {
-				return -1;
-			}else{
-				var tarX:Number = target.showPoint.x-target.data.model_w;
-				var itemX:Number = item.showPoint.x-item.data.model_w
-				if(tarX < itemX){
-					return -1
-				}else if(tarX > itemX){
-					return 1
-				}
-			}
-			return 0;*/
-			
 			var p1:Point = HomeData.intance.getPointPos(target.showPoint.x-target.data.model_w,target.showPoint.y-target.data.model_h);
 			var p2:Point = HomeData.intance.getPointPos(item.showPoint.x-item.data.model_w,item.showPoint.y-item.data.model_h);
 			if(p1.y > p2.y){
@@ -293,7 +291,7 @@ package game.module.mainScene
 		/**判定点是否越界*/
 		public function checkPoint(x:Number, y:Number):Boolean{
 			//越界判定
-			if(x<0 || x >= HomeData.tileColumn || y <0 || y>= HomeData.tileRow){
+			if(x<0 || x >= HomeData.intance.curColumn || y <0 || y>= HomeData.tileRow){
 				return false;
 			}
 			return true
@@ -418,7 +416,7 @@ package game.module.mainScene
 			var pIdxs:Array = [x, y];
 			if(!originP){
 				originP = new Point();
-				originP.x = HomeData.tileColumn * tileW /2 + HomeData.OffsetX + HomeData.PIANYI_X;
+				originP.x = HomeData.tileColumn * tileW /2 + HomeData.OffsetX;
 				originP.y = HomeData.OffsetY - HomeData.tileColumn*tileH/2;
 			}
 			return new Point(originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2, originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)

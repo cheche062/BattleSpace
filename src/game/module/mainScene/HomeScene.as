@@ -94,8 +94,13 @@ package game.module.mainScene
 		/**切图宽度*/
 		public static const SizeX:int = 7;
 		public static const SizeY:int = 4;
-		public static const CellW:int = 1000;
+		/*public static const CellW:int = 1000;
 		public static const CellH:int = 911;
+		*/
+		
+		public static const CellW:int = 800;
+		public static const CellH:int = 729;
+		
 		private var _imgs:Array = [];
 		private var _imgContainer:Sprite;
 		
@@ -141,7 +146,7 @@ package game.module.mainScene
 					if(!img){
 						img = new Image();
 						_imgs[id] = img;
-						img.scale(1.25,1.25);
+//						img.scale(1.25,1.25);
 						m_sprMap.addChildAt(img,0);
 						img.pos(j*CellW, i*CellH);
 					}
@@ -667,11 +672,11 @@ package game.module.mainScene
 			WebSocketNetService.instance.sendData(ServiceConst.getNotice);
 		}
 		
-		protected function showGrid(w:int, h:int):void
+		protected function showGrid(curW, curH):void
 		{
 			gridSp.width = m_sprMap.width;
 			gridSp.height = m_sprMap.height;
-			gridSp.initParam(HomeData.tileColumn,HomeData.tileRow,w,h,HomeData.tileW,HomeData.tileH, HomeData.OffsetX, HomeData.OffsetY);
+			gridSp.initParam(curW, curH, HomeData.tileW, HomeData.tileH);
 			gridSp.showGrid(false);
 //			gridSp.showGrid(true);
 			//gridSp.drawMask(w,h,HomeData.tileColumn, HomeData.tileRow);
@@ -690,84 +695,84 @@ package game.module.mainScene
 			}else if(fogId == -1){
 				return;
 			}
-			//if(_nowFogid != fogId){
-//				trace("当前迷雾ID：", fogId);
-				_nowFogid = fogId;
-				var fogInfo:Object = DBFog.getFogInfo(fogId);
-				var tmp:Array = (fogInfo.coord_4+"").split(",");
-				HomeData.intance.curColumn = parseInt(tmp[0]);
-				HomeData.intance.curRow = parseInt(tmp[1]);
-				showGrid(HomeData.intance.curColumn, HomeData.intance.curRow);
-				for(var i:int=0; i<10; i++){
-					var img:Image = _fogImgs[i];
-					if(i > parseInt(_nowFogid)){
-						if(!_fogContainer){
-							_fogContainer = new Sprite();
-							m_sprMap.addChild(_fogContainer);
-							_fogContainer.cacheAsBitmap = true;
-						}
-						if(!img){
-							img = new Image(URL.formatURL(ResourceManager.instance.setResURL("scene\/fog\/"+i+".png")));
-							//img.scale(1.66667, 1.66667);
-							img.scale(2, 2);
-							_fogImgs[i] = img;
-						}else{
-							img.skin = "";
-							img.skin = URL.formatURL(ResourceManager.instance.setResURL("scene\/fog\/"+i+".png"))
-						}
-						img.name = img.skin;
-						this._fogContainer.addChild(img);
-						var posArr:Array = BuildPosData.getFogPos(i)
-						img.pos(posArr[0], posArr[1]);
+			
+			_nowFogid = fogId;
+			var fogInfo:Object = DBFog.getFogInfo(fogId);
+			var tmp:Array = (fogInfo.coord_4+"").split(",");
+			
+//			HomeData.intance.curColumn = parseInt(tmp[0]);
+//			HomeData.intance.curRow = parseInt(tmp[1]);
+			showGrid(HomeData.intance.curColumn, HomeData.intance.curRow);
+			
+			for(var i:int=0; i<10; i++){
+				var img:Image = _fogImgs[i];
+				if(i > parseInt(_nowFogid)){
+					if(!_fogContainer){
+						_fogContainer = new Sprite();
+						m_sprMap.addChild(_fogContainer);
+						_fogContainer.cacheAsBitmap = true;
+					}
+					if(!img){
+						img = new Image(URL.formatURL(ResourceManager.instance.setResURL("scene\/fog\/"+i+".png")));
+						//img.scale(1.66667, 1.66667);
+						img.scale(2, 2);
+						_fogImgs[i] = img;
 					}else{
-						if(img){
-							Loader.clearRes(img.skin);
-							img.removeSelf();
-							delete _fogImgs[i];
-						}
+						img.skin = "";
+						img.skin = URL.formatURL(ResourceManager.instance.setResURL("scene\/fog\/"+i+".png"))
 					}
-				}
-//				trace("_fogImgs:"+_fogImgs);
-				if(parseInt(_nowFogid) < DBFog.maxFogId){
-					var nextInfo:Object = DBFog.getFogInfo(fogId+1);
-					if(!_unlockBtn){
-						_unlockBtn = new unlockComUI();
-					}
-					_unlockBtn.on(Event.CLICK, this, this.onBtnClick);
-					//开地等级限制取消 做此修改 防止再改回等级限制 只注释
-					//if(nextInfo.level > User.getInstance().level){
-					if(false){
-						_unlockBtn.bgLocked.visible = true;
-						_unlockBtn.bgUnlock.visible = false;
-						_unlockBtn.icon.visible = false;
-						_unlockBtn.priceTF.text = _unlockBtn.unlockLabel.text = "";
-						_unlockBtn.lockLabel.text = XUtils.getDesBy("L_A_53",nextInfo.level);
-						_unlockBtn.lockLabel.y = (94-_unlockBtn.lockLabel.height)/2//94 is ui height
-						_unlockBtn.mouseEnabled = false;
-					}else{
-						_unlockBtn.bgLocked.visible = false;
-						_unlockBtn.bgUnlock.visible = true;
-						
-						var tmp:Array = (nextInfo.price+"").split("=");
-						
-						_unlockBtn.icon.visible = true;
-						ItemUtil.formatIcon(_unlockBtn.icon,nextInfo.price);
-						_unlockBtn.unlockLabel.text = GameLanguage.getLangByKey("L_A_52");
-						_unlockBtn.priceTF.text = tmp[1]+"";
-						_unlockBtn.lockLabel.text = "";
-						
-						_unlockBtn.mouseEnabled = true;
-					}
-					_fogContainer.addChild(_unlockBtn);
-					var pos:Array = FOG_POS[fogId];
-					_unlockBtn.pos(pos[0],pos[1])
+					img.name = img.skin;
+					this._fogContainer.addChild(img);
+					var posArr:Array = BuildPosData.getFogPos(i)
+					img.pos(posArr[0], posArr[1]);
 				}else{
-					if(_unlockBtn){
-						_unlockBtn.removeSelf();
-						_unlockBtn.off(Event.CLICK, this, this.onBtnClick);
+					if(img){
+						Loader.clearRes(img.skin);
+						img.removeSelf();
+						delete _fogImgs[i];
 					}
 				}
-			//}
+			}
+			//				trace("_fogImgs:"+_fogImgs);
+			if(parseInt(_nowFogid) < DBFog.maxFogId){
+				var nextInfo:Object = DBFog.getFogInfo(fogId+1);
+				if(!_unlockBtn){
+					_unlockBtn = new unlockComUI();
+				}
+				_unlockBtn.on(Event.CLICK, this, this.onBtnClick);
+				//开地等级限制取消 做此修改 防止再改回等级限制 只注释
+				//if(nextInfo.level > User.getInstance().level){
+				if(false){
+					_unlockBtn.bgLocked.visible = true;
+					_unlockBtn.bgUnlock.visible = false;
+					_unlockBtn.icon.visible = false;
+					_unlockBtn.priceTF.text = _unlockBtn.unlockLabel.text = "";
+					_unlockBtn.lockLabel.text = XUtils.getDesBy("L_A_53",nextInfo.level);
+					_unlockBtn.lockLabel.y = (94-_unlockBtn.lockLabel.height)/2//94 is ui height
+					_unlockBtn.mouseEnabled = false;
+				}else{
+					_unlockBtn.bgLocked.visible = false;
+					_unlockBtn.bgUnlock.visible = true;
+					
+					var tmp:Array = (nextInfo.price+"").split("=");
+					
+					_unlockBtn.icon.visible = true;
+					ItemUtil.formatIcon(_unlockBtn.icon,nextInfo.price);
+					_unlockBtn.unlockLabel.text = GameLanguage.getLangByKey("L_A_52");
+					_unlockBtn.priceTF.text = tmp[1]+"";
+					_unlockBtn.lockLabel.text = "";
+					
+					_unlockBtn.mouseEnabled = true;
+				}
+				_fogContainer.addChild(_unlockBtn);
+				var pos:Array = FOG_POS[fogId];
+				_unlockBtn.pos(pos[0],pos[1])
+			}else{
+				if(_unlockBtn){
+					_unlockBtn.removeSelf();
+					_unlockBtn.off(Event.CLICK, this, this.onBtnClick);
+				}
+			}
 		}
 		
 		private function onBtnClick():void{
@@ -1077,9 +1082,6 @@ package game.module.mainScene
 			showPoint.x += Math.floor(_selectedBuilding.data.model_w/2);
 			showPoint.y += Math.floor(_selectedBuilding.data.model_h/2);
 			
-//			trace(showPoint)
-			selectedBuilding.data.inMap = HomeData.intance.checkPoint(showPoint.x,showPoint.y)
-			
 			selectedBuilding.showPoint = showPoint;
 			
 			var i:int = 0;
@@ -1125,6 +1127,7 @@ package game.module.mainScene
 			
 			//判定是否可以移动到该位置===>
 			b = HomeData.intance.isOk(selectedBuilding.data, selectedBuilding.data.showPoint);
+			
 			selectedBuilding.showBgLayer(b);
 			
 			//预览状态，判定是否能建筑
@@ -1158,16 +1161,26 @@ package game.module.mainScene
 			XFacade.instance.getView(MainMenuView).visible = true;
 			_exchanged = false;
 			_selectedBuilding.moving = false;
+			
+			var isInMap = HomeData.intance.checkPoint(selectedBuilding.data.showPoint.x,selectedBuilding.data.showPoint.y);
+			selectedBuilding.data.inMap = isInMap;
+//			trace(showPoint)
+			
 			//无效的显示位置
 			var canMove:Boolean
 			if(!selectedBuilding.data.inMap){
 				canMove = false;
+				trace("不在地图内")
 			}else{
 				canMove = HomeData.intance.isOk(selectedBuilding.data,selectedBuilding.data.showPoint);
 			}
 			if(canMove && (!XUtils.isEmpty(_selectedBuilding.data.effMonsters) || !XUtils.isEmpty(_selectedBuilding.data.buff))){
 				canMove = false;
+				trace("怪占领")
 			}
+			
+			// 全部有效
+//			canMove = true;
 			
 			//如果交换建筑，需要立即执行交换位置操作
 			//A建筑id  A的x坐标  A的y坐标  B建筑id  B的x坐标  B的y坐标
@@ -1207,6 +1220,8 @@ package game.module.mainScene
 				if(!this._tmpBuilding){
 					if(!XUtils.isEmpty(_selectedBuilding.data.effMonsters) || !XUtils.isEmpty(_selectedBuilding.data.buff)){
 						var handler:Handler = Handler.create(MonsterRiotView,MonsterRiotView.fight,[_selectedBuilding.data.effMonsters[0]])
+						
+						// 临时去除
 						XAlert.showAlert(GameLanguage.getLangByKey("L_A_47003"),handler)
 					}
 					if(canMove){
@@ -1725,6 +1740,11 @@ package game.module.mainScene
 					SortingFun();
 				}
 				this._selectedBuilding = b;
+				
+				if (this._selectedBuilding) {
+					trace('建筑类型', this._selectedBuilding.data.building_type);
+				}
+				
 				if(this._selectedBuilding){
 					this._selectedBuilding.isSelect = true;
 				}
