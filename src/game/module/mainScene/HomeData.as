@@ -33,10 +33,10 @@ package game.module.mainScene
 		 */
 		public static const tileRow:uint = 49; 
 		
-		//地图偏移量
-		//public static const OffsetX:Number = -900//1740;
-		//地图偏移量Y
-		//public static const OffsetY:Number  = 1380//348;//
+		/***基地格子与建筑层整体x轴偏移量*/
+		public static const PIANYI_X:uint = 1400;
+		/***基地格子与建筑层整体y轴偏移量*/
+		public static const PIANYI_Y:uint = 0;
 		
 		/**地图数据*/
 		public var mapTileData:Object = {};
@@ -49,6 +49,7 @@ package game.module.mainScene
 		 * 网格纵向数量-h
 		 */
 		public var curRow:uint = 49;  
+		
 		/***
 		 *全局配置表控制器 
 		 */
@@ -417,8 +418,8 @@ package game.module.mainScene
 			var pIdxs:Array = [x, y];
 			if(!originP){
 				originP = new Point();
-				originP.x = HomeData.tileColumn * tileW /2 + HomeData.OffsetX;
-				originP.y = 0 + HomeData.OffsetY - HomeData.tileColumn*tileH/2;
+				originP.x = HomeData.tileColumn * tileW /2 + HomeData.OffsetX + HomeData.PIANYI_X;
+				originP.y = HomeData.OffsetY - HomeData.tileColumn*tileH/2;
 			}
 			return new Point(originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2, originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)
 		}

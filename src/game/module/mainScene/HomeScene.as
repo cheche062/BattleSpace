@@ -92,8 +92,8 @@ package game.module.mainScene
 		public static var speedHandler:Handler;
 		
 		/**切图宽度*/
-		public static const SizeX:int = 4;
-		public static const SizeY:int = 3;
+		public static const SizeX:int = 7;
+		public static const SizeY:int = 4;
 		public static const CellW:int = 1000;
 		public static const CellH:int = 911;
 		private var _imgs:Array = [];
@@ -1739,6 +1739,8 @@ package game.module.mainScene
 		
 		override public function initScence():void
 		{
+			window.home = this;
+			
 			Laya.stage.bgColor="#6B7C8C";
 			this._loadSceneResCom=false;
 			this.m_SceneResource="HomeScene";
@@ -1749,6 +1751,7 @@ package game.module.mainScene
 			
 			buildingLayer = new Sprite();
 			this.m_sprMap.addChild(buildingLayer);
+			
 			if(GameSetting.IsRelease){
 				MIN_SCALE = 0.4;
 				doScale(-0.6);
@@ -1759,35 +1762,6 @@ package game.module.mainScene
 //			testPos();//测试建筑坐标位置
 			Signal.intance.on(ServiceConst.getServerEventKey(ServiceConst.PUSH_INVADE),this,onResult,[ServiceConst.PUSH_INVADE]);
 		}
-		
-//		private function testPos():void
-//		{
-//			// TODO Auto Generated method stub
-//			var bSprite:Sprite = new Sprite();
-//			var img:Image = new Image();
-//			var skin:String = "appRes/building/base_a.png";
-//			img.loadImage(skin, 0, 0, 0, 0, Handler.create(this, onLoadPic));
-//			var tileW:Number = HomeData.tileW;
-//			var tileH:Number = HomeData.tileH;
-//			var newX:int = 1880;
-//			var newY:int = 400;
-//			var pIdxs:Array = [4, 4];
-//			bSprite.addChild(img);
-//			function onLoadPic():void
-//			{
-//				img.x = -img.width/2;
-//				img.y = -img.height;
-//				var posArr:Array = BuildPosData.getOff("1");
-//				if(posArr){
-//					img.x += posArr[0];
-//					img.y += posArr[1];
-//				}
-//				bSprite.x = newX + ((pIdxs[1]+1) - (pIdxs[0]+1)) * tileW/2;
-//				bSprite.y = newY + ((pIdxs[0]+1) + (pIdxs[1]+1)) * tileH/2 ;
-//				this.buildingLayer.addChild(bSprite);
-//			}
-//		}
-	
 		
 		override protected function onLoaded():void{
 			addEvent();
