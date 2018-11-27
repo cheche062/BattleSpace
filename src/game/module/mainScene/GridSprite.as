@@ -170,7 +170,7 @@ package game.module.mainScene
 		
 		public function showGrid(v:Boolean):void{
 			// 暂时全显示
-			v = true;
+//			v = true;
 			if(v && _param){
 				this.drawGrid.apply(this,_param);
 				_param = null;

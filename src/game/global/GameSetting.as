@@ -58,7 +58,7 @@ package game.global
 		public static var openId:String = "";
 		
 		/**游戏版本号*/
-		public static var Version:String = "20181126";
+		public static var Version:String = "20181127";
 		/**tag，平台分需要*/
 		public static var tag:String = "";
 		/**时间戳*/

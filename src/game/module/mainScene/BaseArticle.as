@@ -411,11 +411,11 @@ package game.module.mainScene
 				data.showPoint = value;
 				if(data.showPoint)
 				{
-					trace(data.showPoint.toString())
+//					trace(data.showPoint.toString())
 					var p:Point = HomeData.intance.getPointPos(data.showPoint.x,data.showPoint.y);
 					this.x = p.x;
 					this.y = p.y;
-					trace('坐标', p.toString())
+//					trace('坐标', p.toString())
 					
 				}
 			}

@@ -135,7 +135,7 @@ package game.module.mainScene
 					}else{
 						url = (id+1) + "";
 					}
-					url = URL.formatURL(ResourceManager.instance.setResURL("scene\/main\/mainscene_"+url+".jpg"));
+					url = URL.formatURL(ResourceManager.instance.setResURL("scene\/main\/mainscene_old_"+url+".jpg"));
 					
 					img = _imgs[id];
 					if(!img){
