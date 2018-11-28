@@ -1,6 +1,5 @@
 package game.module.mainui.upgradeViews
 {
-	import MornUI.homeScenceView.BuildingUpgrade_1UI;
 	import MornUI.homeScenceView.BuildingUpgrade_2UI;
 	
 	import game.common.ItemTips;
@@ -15,7 +14,6 @@ package game.module.mainui.upgradeViews
 	import game.global.vo.SkillVo;
 	import game.module.camp.ProTipUtil;
 	
-	import laya.events.Event;
 	import laya.html.dom.HTMLDivElement;
 
 	/**

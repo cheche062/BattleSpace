@@ -3,7 +3,7 @@ package game.module.equipFight.cell
 	import game.common.XFacade;
 	import game.global.GameLanguage;
 	import game.global.StringUtil;
-	import game.global.util.TraceUtils;
+	import game.global.vo.User;
 	import game.global.vo.User;
 	import game.module.equipFight.data.equipFightChapterData;
 	

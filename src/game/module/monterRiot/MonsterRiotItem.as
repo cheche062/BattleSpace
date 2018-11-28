@@ -9,9 +9,6 @@ package game.module.monterRiot
 	import game.global.util.ItemUtil;
 	import game.global.util.TraceUtils;
 	import game.global.vo.BuildingLevelVo;
-	import game.global.vo.BuildingVo;
-	import game.global.vo.User;
-	import game.module.mainui.SceneVo;
 	
 	import laya.net.URL;
 	
