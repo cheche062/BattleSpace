@@ -88,7 +88,7 @@ package game.module.mainScene
 		public function copyMap():Object{
 			var block:Array  = config.block;
 			
-			block = [];
+//			block = [];
 			
 			var map:Object = {};
 			var key:String = '';

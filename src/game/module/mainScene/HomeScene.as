@@ -728,7 +728,7 @@ package game.module.mainScene
 				_fogImgs[i] = img;
 				img.skin = URL.formatURL(ResourceManager.instance.setResURL("scene\/fog\/"+i+".png"))
 				img.name = img.skin;
-				_fogContainer.addChild(img);
+//				_fogContainer.addChild(img);
 				var posArr:Array = BuildPosData.getFogPos(i);
 				img.pos(posArr[0] + HomeData.PIANYI_X, posArr[1]+ HomeData.PIANYI_Y);
 			}
