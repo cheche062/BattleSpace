@@ -11,7 +11,7 @@ package game.module.mainScene
 
 	public class HomeData
 	{
-		//333
+		//public static const tileW:Number = 116;  //网格宽度
 		//public static const tileH:Number = 58;  //网格高度
 		/**打开主界面国战地图*/
 		public static const MAIN_BTNJUNTUAN:String = "main_btnJuntuan";
