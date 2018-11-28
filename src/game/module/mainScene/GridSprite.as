@@ -10,6 +10,7 @@ package game.module.mainScene
 	
 	public class GridSprite extends Sprite
 	{
+		//1
 		protected var gridLineLayer:Sprite;		//网格线层
 		protected var maskLayer:Sprite;	//迷雾层
 		
