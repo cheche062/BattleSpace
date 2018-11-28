@@ -124,7 +124,7 @@ package game.module.mainScene
 			if(arr.length%2 != 0){
 				arr.push(maxY);
 			}
-			TraceUtils.log(x+"getYArr=============="+maxY+arr);
+//			trace(x+"getYArr=============="+maxY+arr);
 			return arr;
 		}
 		
@@ -163,8 +163,6 @@ package game.module.mainScene
 //			trace(y,maxX,"getXArr==============",arr);
 			return arr;
 		}
-		
-		
 		
 		public function showGrid(v:Boolean):void{
 			// 暂时全显示

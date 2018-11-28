@@ -233,7 +233,7 @@ package game.module.mainScene
 						mapTileData[key] = v;
 					}
 					if(v == -1){
-						TraceUtils.log(key+"---------------------------"+mapTileData[key]);
+						trace(key+"---------------------------"+mapTileData[key]);
 					}
 					if(mapTileData[key] <= 0 ){
 						delete mapTileData[key]
@@ -417,7 +417,9 @@ package game.module.mainScene
 			if(!originP){
 				originP = new Point();
 				originP.x = HomeData.tileColumn * tileW /2 + HomeData.OffsetX;
-				originP.y = HomeData.OffsetY - HomeData.tileColumn*tileH/2;
+				originP.y = HomeData.OffsetY - HomeData.tileColumn * tileH/2;
+				
+				trace("originP", originP)
 			}
 			return new Point(originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2, originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)
 		}
