@@ -33,18 +33,18 @@ package game.module.mainScene
 		}
 		
 		/**初始化参数*/
-		public function initParam(curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int):void{
-			_param = [curW, curH, tilePixelWidth, tilePixelHeight];
+		public function initParam(tilePixelWidth:int, tilePixelHeight:int):void{
+			_param = [tilePixelWidth, tilePixelHeight];
 		}
 		
 		/**
 		 * 画网格
 		 * disArea -- 是否显示可视区域
 		 */
-		private function drawGrid(curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int):void
+		private function drawGrid(tilePixelWidth:int, tilePixelHeight:int):void
 		{
-			_curW = curW;
-			_curH = curH;
+			_curW = HomeData.MAX_COLUMN;
+			_curH = HomeData.MAX_CURROW;
 			trace("------------------", _curW, _curH);
 			this._mapData = HomeData.intance.copyMap();
 			

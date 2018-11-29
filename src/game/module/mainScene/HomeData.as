@@ -4,6 +4,7 @@ package game.module.mainScene
 	 * 主场景数据
 	 */
 	import game.common.ResourceManager;
+	import game.global.data.DBFog;
 	import game.global.util.TraceUtils;
 	
 	import laya.maths.Point;
@@ -11,8 +12,6 @@ package game.module.mainScene
 
 	public class HomeData
 	{
-		//public static const tileW:Number = 116;  //网格宽度
-		//public static const tileH:Number = 58;  //网格高度
 		/**打开主界面国战地图*/
 		public static const MAIN_BTNJUNTUAN:String = "main_btnJuntuan";
 		/**
@@ -34,9 +33,24 @@ package game.module.mainScene
 		public static const tileRow:uint = 69; 
 		
 		/** 当前   网格横向数量-w*/
-		public var curColumn:uint = 68; 
+		public var curColumn:uint = 68;
 		/**当前  网格纵向数量-h*/
 		public var curRow:uint = 69;  
+		
+		/**功能区   当前开放的 x*/
+		public static var fun_fog_x:uint = 1; 
+		/**功能区   当前开放的 y*/
+		public static var fun_fog_y:uint = 1;
+		/**资源区   当前开放的 x*/
+		public static var res_fog_x:uint = 1; 
+		/**资源区   当前开放的 y*/
+		public static var res_fog_y:uint = 1;
+		
+		
+		/**最大   网格横向数量-w*/
+		public static var MAX_COLUMN:uint = 68; 
+		/**最大  网格纵向数量-h*/
+		public static var MAX_CURROW:uint = 69;  
 		
 		/***基地格子与建筑层整体x轴偏移量*/
 		public static const PIANYI_X:uint = 700;
@@ -60,11 +74,6 @@ package game.module.mainScene
 			_instance = this;
 		}
 		
-		
-		//地图偏移量
-		private static var _OffsetX:Number = -280//1740;
-		//地图偏移量Y
-		private static var _OffsetY:Number  = 1640//348;//
 		public static function get OffsetX():Number{
 			return BuildPosData.offX;
 		}
@@ -87,8 +96,6 @@ package game.module.mainScene
 		
 		public function copyMap():Object{
 			var block:Array  = config.block;
-			
-//			block = [];
 			
 			var map:Object = {};
 			var key:String = '';
@@ -132,13 +139,6 @@ package game.module.mainScene
 		}
 		
 		public function isOk(bData:ArticleData, pi:Point):Boolean{
-			var w:Number = curColumn
-			var h:Number = curRow;
-			//越界判定
-			if(pi.x<0 || pi.x >= w || pi.y <0 || pi.y>= h){
-				return false;
-			}
-			
 			var sizeX:Number = bData.model_w;
 			var sizeY:Number = bData.model_h;
 			//再次越界判定
@@ -146,17 +146,14 @@ package game.module.mainScene
 				return false;
 			}
 			
-//			return canMoveToAreaByBuildingType(bData, pi);
-			
 			var pAr:Array = [];
 			for(var i:int=0; i<sizeX; i++){
 				for(var j:int=0; j<sizeY; j++){
-					pAr.push(new Point(pi.x-i,pi.y-j));
+					pAr.push(new Point(pi.x-i, pi.y-j));
 				}
 			}
 			
-			for (i = 0; i < pAr.length; i++) 
-			{
+			for (i = 0; i < pAr.length; i++) {
 				var key:String = pAr[i].x + "_" + pAr[i].y;
 				if(mapTileData[key] > 0){
 					return false;
@@ -170,13 +167,22 @@ package game.module.mainScene
 		
 		/**通过建筑类型判断  功能区、建筑区可放置的建筑*/
 		private function canMoveToAreaByBuildingType(bData:ArticleData, point:Point):Boolean {
-			if (bData.building_type == "2" || bData.building_type == "4") return true;
-			
-			if (bData.building_type == "1") {
-				return point.x <= 38;
-			}
-			if (bData.building_type == "3") {
-				return point.x - bData.model_w >= 41;
+			switch (Number(bData.building_type)) {
+				//功能建筑
+				case 1:
+					return (point.x <= fun_fog_x && point.y <= fun_fog_y);
+					break;
+				//资源建筑
+				case 3:
+					return (point.x <= res_fog_x && point.y <= res_fog_y);
+					break;
+				//防御建筑,装饰建筑
+				case 2:
+				case 4:
+					return ((point.x <= fun_fog_x && point.y <= fun_fog_y ) 
+						|| (point.x <= res_fog_x && point.x >= 59 && point.y <= res_fog_y))
+					
+					break;
 			}
 		}
 		
@@ -258,6 +264,18 @@ package game.module.mainScene
 			return arr;
 		}
 		
+		/**更新两区域的开放x，y*/
+		public static function updateFunResFogxy(fun_fog_id, res_fog_id):void {
+			var fun_point:Point = DBFog.getFunctionFogInfo(fun_fog_id).coord_1; 
+			fun_fog_x = fun_point.x;
+			fun_fog_y = fun_point.y;
+			var res_point:Point = DBFog.getResourceFogInfo(res_fog_id).coord_1;
+			res_fog_x = res_point.x;
+			res_fog_y = res_point.y;
+			
+			trace("功能区", fun_fog_x, fun_fog_y)
+			trace("资源区", res_fog_x, res_fog_y)
+		}
 		
 		/**
 		 *修改障碍数据
