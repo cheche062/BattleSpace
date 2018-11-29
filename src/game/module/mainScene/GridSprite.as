@@ -12,6 +12,7 @@ package game.module.mainScene
 	{
 		//hello
 		//world
+		//test2
 		protected var gridLineLayer:Sprite;		//网格线层
 		protected var maskLayer:Sprite;	//迷雾层
 		
