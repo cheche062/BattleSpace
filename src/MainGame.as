@@ -26,7 +26,7 @@ package
 
 	public class MainGame extends Sprite 
 	{
-		// test
+ 
 		public function MainGame()
 		{		
 			Laya.init(1136, 640,WebGL);
