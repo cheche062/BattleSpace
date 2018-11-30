@@ -14,9 +14,9 @@ package game.global.data
 	public class DBFog
 	{
 		/**资源迷雾配置*/
-		private static var _data_res:Array;
+		public static var _data_res:Array;
 		/**功能迷雾配置*/
-		private static var _data_fun:Array;
+		public static var _data_fun:Array;
 		
 		public function DBFog()
 		{
@@ -26,14 +26,14 @@ package game.global.data
 		/**功能区  需要锁住的迷雾信息列表*/
 		public static function getFunctionNeedLockFogInfos(fogId:int):Array {
 			return data_fun.filter(function(item:FogInfoVo) {
-				return item.id >= fogId;
+				return item.id > fogId;
 			});
 		}
 		
 		/**资源区  需要锁住的迷雾信息列表*/
 		public static function getResourceNeedLockFogInfos(fogId:int):Array {
 			return data_res.filter(function(item:FogInfoVo) {
-				return item.id >= fogId;
+				return item.id > fogId;
 			});
 		}
 		
@@ -73,6 +73,16 @@ package game.global.data
 //				max = Math.max(max, parseInt(i));
 //			}
 //			return max
+		}
+		
+		/**功能区   最大迷雾长度*/
+		public static function getFunMaxLength():int {
+			return data_fun.length;
+		}
+		
+		/**资源区   最大迷雾长度*/
+		public static function getResMaxLength():int {
+			return data_res.length;
 		}
 		
 		private static function get data_fun():Array{

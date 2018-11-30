@@ -57,6 +57,9 @@ package game.module.mainScene
 		/***基地格子与建筑层整体y轴偏移量*/
 		public static const PIANYI_Y:uint = -100;
 		
+		/**右上角的起始点坐标*/
+		public static const ORIGIN_POS = new Point(2580, 300);
+		
 		/**地图数据*/
 		public var mapTileData:Object = {};
 		
@@ -146,19 +149,23 @@ package game.module.mainScene
 				return false;
 			}
 			
-			var pAr:Array = [];
+//			var pAr:Array = [];
 			for(var i:int=0; i<sizeX; i++){
 				for(var j:int=0; j<sizeY; j++){
-					pAr.push(new Point(pi.x-i, pi.y-j));
+//					pAr.push(new Point(pi.x-i, pi.y-j));
+					var key:String = (pi.x-i) + "_" + (pi.y-j);
+					if(mapTileData[key] > 0){
+						return false;
+					}	
 				}
 			}
 			
-			for (i = 0; i < pAr.length; i++) {
-				var key:String = pAr[i].x + "_" + pAr[i].y;
-				if(mapTileData[key] > 0){
-					return false;
-				}
-			}
+//			for (i = 0; i < pAr.length; i++) {
+//				var key:String = pAr[i].x + "_" + pAr[i].y;
+//				if(mapTileData[key] > 0){
+//					return false;
+//				}
+//			}
 			
 			var bool:Boolean = canMoveToAreaByBuildingType(bData, pi); 
 			
@@ -440,6 +447,14 @@ package game.module.mainScene
 				trace("originP", originP)
 			}
 			return new Point(originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2, originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)
+		}
+		
+		/**格子坐标转化为像素坐标*/
+		public function gridPosTransformToPixelPos(x, y):Point {
+			var _x = (ORIGIN_POS.x - (HomeData.tileW / 2) * x + (HomeData.tileW / 2 ) * y);
+			var _y = (ORIGIN_POS.y + (HomeData.tileH / 2 ) * x + (HomeData.tileH / 2 ) * y);
+			
+			return new Point(_x, _y);
 		}
 		
 		/**主场景配置数据*/

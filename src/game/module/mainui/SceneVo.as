@@ -59,12 +59,12 @@ package game.module.mainui
 					this[i] = info[i];
 				}
 			}
-			if (info[fun_fog_id]) {
-				fun_fog_id = Number(fun_fog_id);
+			if (info.fun_fog_id) {
+				fun_fog_id = Number(info.fun_fog_id);
 			}
-			if (info[res_fog_id]) {
-				res_fog_id = Number(res_fog_id);
-			} 
+			if (info.res_fog_id) {
+				res_fog_id = Number(info.res_fog_id);
+			}
 		}
 		
 		/**更新建筑等级*/

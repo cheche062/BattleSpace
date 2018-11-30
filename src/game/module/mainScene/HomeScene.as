@@ -87,10 +87,7 @@ package game.module.mainScene
 		private var _scrollRect:Rectangle;
 		//记录正在升级的建筑
 		private var _upBuilds:Array = [];
-		/**功能区    迷雾按钮*/
-		private var _unlockBtn_fun:unlockComUI;
-		/**资源区   迷雾按钮*/
-		private var _unlockBtn_res:unlockComUI;
+		
 		/**队列满之后的回调*/
 		public static var speedHandler:Handler;
 		
@@ -109,7 +106,8 @@ package game.module.mainScene
 		
 		/**迷雾容器*/
 		private var _fogContainer:Sprite;
-
+		/**解锁容器*/
+		private var _lockContainer:Sprite;
 
 		private const AREA_TYPE_FUN = "fun";
 		private const AREA_TYPE_RES = "res";
@@ -240,6 +238,7 @@ package game.module.mainScene
 		public static var ARTICLE_UPDATE:String = "ARTICLE_UPDATE";
 		private function onResult(cmdStr:Number,... args):void{
 			DataLoading.instance.close();
+			trace("HomeScene", cmdStr, args);
 			switch(cmdStr){
 				//国战BOSS倒计时
 				case ServiceConst.BOSS_OPEN_VIEW:
@@ -282,8 +281,6 @@ package game.module.mainScene
 				//基地附近的红点
 				case ServiceConst.GET_ACT_LIST:
 				{
-					//trace("actList:"+JSON.stringify(args));
-					trace("actList:"+args);
 					var activityData = args[0].activity; 
 					for(var i = 0;i<activityData.length;i++){
 						if(activityData[i].tid == 19){
@@ -303,7 +300,6 @@ package game.module.mainScene
 				}	
 				case ServiceConst.B_INFO:
 					HomeData.intance.resetMapData();
-					trace("buildInfo:", args[1]);
 					//国战数据相关
 					legionwar_state = args[1].legionwar_state;
 					boss_state = args[1].boss_state;
@@ -312,8 +308,10 @@ package game.module.mainScene
 					var rewardArr:Array = args[1].base_rob_info.day_box_reward;
 					User.getInstance().day_box_reward = (rewardArr && rewardArr.length);
 					
-					this._vo.updateValue(args[1]);
-					this.initMap(); 
+					_vo.updateValue(args[1]);
+					HomeData.updateFunResFogxy(_vo.fun_fog_id, _vo.res_fog_id);
+					
+					this.initMap();
 					
 					this.initBuilding();
 					this.updateBuildingTime();
@@ -442,7 +440,7 @@ package game.module.mainScene
 					}
 					//数据维护
 					_vo.queue = args[1][2];
-					trace("_vo.queue:"+JSON.stringify(args[1][2]));
+//					trace("_vo.queue:"+JSON.stringify(args[1][2]));
 					Signal.intance.event(HomeScene.ARTICLE_UPDATE);
 					this.updateBuildingTime();
 					//重新设定菜单
@@ -501,13 +499,19 @@ package game.module.mainScene
 						XFacade.instance.openModule("MainMenuView",[MainMenuView.MENU_LVUP, this.selectedBuilding.data])
 					}
 				
-//					updateBuildingTime();
 					break;
+				
 				case ServiceConst.B_EXPAND:
-					trace("解锁迷雾", args[1])
-					_vo.fog = parseInt(args[1]["id"]);
-					this.initMap(_vo.fog);
+					var key = _fog_type == AREA_TYPE_FUN ? "fun_fog_id" : "res_fog_id";
+					var _result = {};
+					_result[key] = args[1];
+					_vo.updateValue(_result);
+					HomeData.updateFunResFogxy(_vo.fun_fog_id, _vo.res_fog_id);
+					
+					initMap();
+					
 					break;
+				
 				case ServiceConst.B_HARVEST:
 					if (!_selectedBuilding||!_selectedBuilding.harvestIcon)
 					{
@@ -692,105 +696,77 @@ package game.module.mainScene
 			gridSp.showGrid(false);
 		}
 		
-		private var _fogImgs:Array = [];
-		
-		private const FOG_POS:Object = {
-			1:[2528, 1494], 2:[2627, 1651], 3:[688, 1494], 4:[630, 1651],
-			5:[2607,1835],6:[2740,1998],7:[525,1905],8:[2788,2207],9:[525,2073]
-		}
-			
 		private function initMap():void{
 			// 这边设置当前最大的x， y开放区域
 //			HomeData.intance.curColumn = parseInt(tmp[0]);
 //			HomeData.intance.curRow = parseInt(tmp[1]);
-			HomeData.updateFunResFogxy(_vo.fun_fog_id, _vo.res_fog_id);
-			
 			showGrid();
 			
 			_fogContainer.destroyChildren();
 			var funFogImages:Array = createFunctionFogArea();
-			var resFogImages:Array = [] || createResourceFogArea();
+			var resFogImages:Array = createResourceFogArea();
+			var totalImages:Array = funFogImages.concat(resFogImages);
+			if (totalImages.length) {
+				_fogContainer.addChildren.apply(_fogContainer, totalImages);
+			}
 			
-//			_fogContainer.addChildren.apply(_fogContainer, funFogImages.concat(resFogImages));
-			
-			renderUnlockBtns();
+			_lockContainer.destroyChildren();
+			var _lock_uis:Array = renderUnlockBtns();
+			if (_lock_uis.length) {
+				_lockContainer.addChildren.apply(_lockContainer, _lock_uis);
+			}
 		}
 		
 		/**功能区     创建迷雾*/
 		private function createFunctionFogArea():Array {
 			var fogInfos:Array = DBFog.getFunctionNeedLockFogInfos(_vo.fun_fog_id);
 			var images:Array = fogInfos.map(function(item:FogInfoVo) {
-				// 最后一个无需创建
-				if (item.id == 10) return null;
-				// 用迷雾的id来与坐标定义好关系
-				var posArr:Array = BuildPosData.getFogPos(item.id + 1);
-				return createFogImage(item.id, posArr);
-			}).filter(function(item) {
-				return !!item;
-			});
+				var posArr:Array = BuildPosData.getFunFogPos(item.id);
+				var skin = "scene/fog/newfog/fun/" + item.id + ".png";
+				return createFogImage(skin, posArr);
+			})
 			
 			return images;
 		}
 		
 		/**资源区   创建迷雾*/
 		private function createResourceFogArea():void {
-			var fogInfos:Array = DBFog.getFunctionNeedLockFogInfos(_vo.res_fog_id);
+			var fogInfos:Array = DBFog.getResourceNeedLockFogInfos(_vo.res_fog_id);
 			var images:Array = fogInfos.map(function(item:FogInfoVo) {
-				// 最后一个无需创建
-				if (item.id == 5) return null;
-				// 用迷雾的id来与坐标定义好关系
-				var posArr:Array = BuildPosData.getFogPos(item.id + 1);
-				return createFogImage(item.id);
-			}).filter(function(item) {
-				return !!item;
-			});
+				var posArr:Array = BuildPosData.getResFogPos(item.id);
+				var skin = "scene/fog/newfog/res/" + item.id + ".png";
+				return createFogImage(skin, posArr);
+			})
 			
 			return images;
 		}
 		
 		/**创建单个迷雾遮罩图*/
-		private function createFogImage(id:int, posArr:Array):Image {
-			var img = new Image(URL.formatURL(ResourceManager.instance.setResURL("scene/fog/" + (id + 1) + ".png")));
-			img.pos(posArr[0] + HomeData.PIANYI_X, posArr[1]+ HomeData.PIANYI_Y);
-			img.scale(2, 2);
+		private function createFogImage(skin:String, posArr:Array):Image {
+			var img = new Image(URL.formatURL(ResourceManager.instance.setResURL(skin)));
+			img.pos(posArr[0], posArr[1]);
 			return img;
 		}
 		
 		/**渲染扩地锁按钮*/
-		private function renderUnlockBtns():void {
+		private function renderUnlockBtns():Array {
 			// 功能区解锁
-			var nextInfo:FogInfoVo = DBFog.getFunctionFogInfo(_vo.fun_fog_id + 1);
-			if (nextInfo) {
-				if(!_unlockBtn_fun){
-					_unlockBtn_fun = new unlockComUI();
-					_fogContainer.addChild(_unlockBtn_fun);
-				}
-				_unlockBtn_fun.off(Event.CLICK);
-				_unlockBtn_fun.on(Event.CLICK, this, onBtnClick, [AREA_TYPE_FUN, nextInfo]);
-				
-				renderLock(_unlockBtn_fun, nextInfo);
-			} else {
-				_unlockBtn_fun && _unlockBtn_fun.destroy();
-			}
-			
+			var fun_ui:unlockComUI = createUnlockComUI(AREA_TYPE_FUN, DBFog.getFunctionFogInfo(_vo.fun_fog_id + 1));
 			// 资源区解锁
-			/*var nextInfo:FogInfoVo = DBFog.getResourceFogInfo(_vo.res_fog_id + 1);
-			if (nextInfo) {
-				if(!_unlockBtn_res){
-					_unlockBtn_res = new unlockComUI();
-					_unlockBtn_res.on(Event.CLICK, this, onBtnClick, [AREA_TYPE_RES, nextInfo]);
-					_fogContainer.addChild(_unlockBtn_res);
-				}
-				
-				renderFunctionLock(_unlockBtn_res, nextInfo);
-			} else {
-				_unlockBtn_res && _unlockBtn_res.destroy();
-			}*/
+			var res_ui:unlockComUI = createUnlockComUI(AREA_TYPE_RES, DBFog.getResourceFogInfo(_vo.res_fog_id + 1));
+			
+			return [fun_ui, res_ui].filter(function(item){ return !!item});
 		}
-
 		
 		/**渲染某个解锁按钮*/
-		private function renderLock(lockui:unlockComUI, nextInfo:FogInfoVo):void {
+		private function createUnlockComUI(lockType:String, nextInfo:FogInfoVo):unlockComUI {
+			if (!nextInfo) return null;
+			
+			var lockui:unlockComUI = new unlockComUI();
+			lockui.anchorX = lockui.anchorY = 0.5;
+			lockui.on(Event.CLICK, this, unLockFogHandler, [lockType, nextInfo]);
+			var pos:Point = HomeData.intance.gridPosTransformToPixelPos(nextInfo.btn_pos.x, nextInfo.btn_pos.y);
+			lockui.pos(pos.x , pos.y);
 			//开地等级限制
 			if(nextInfo.level > Number(User.getInstance().level)){
 				lockui.bgLocked.visible = true;
@@ -808,27 +784,26 @@ package game.module.mainScene
 				lockui.unlockLabel.text = GameLanguage.getLangByKey("L_A_52");
 				lockui.priceTF.text = nextInfo.price[1];
 				lockui.lockLabel.text = "";
-				
 				lockui.mouseEnabled = true;
 			}
 			
-			var pos:Point = HomeData.intance.getPointPos(nextInfo.btn_pos.x, nextInfo.btn_pos.y);
-			lockui.pos(pos.x + HomeData.PIANYI_X, pos.y + HomeData.PIANYI_Y)
+			return lockui;
 		}
 		
-		private function onBtnClick(type:String, fogInfo:FogInfoVo):void{
-			return trace(type, fogInfo.id);
-			
-			/*var fogInfo:Object = DBFog.getFogInfo(_nowFogid + 1);
-			var tmp:Array = (fogInfo.price+"").split("=");
-			var user:User = User.getInstance();
-			var handler:Handler = Handler.create(WebSocketNetService.instance, WebSocketNetService.instance.sendData,[ServiceConst.B_EXPAND,[(user.sceneInfo.fog+1)]])
+		/**发送的迷雾类型*/
+		private var _fog_type:String
+		/**解锁迷雾*/
+		private function unLockFogHandler(type:String, fogInfo:FogInfoVo):void{
+			_fog_type = type;
+			var handler:Handler = Handler.create(WebSocketNetService.instance, 
+				WebSocketNetService.instance.sendData,[ServiceConst.B_EXPAND, [fogInfo.id, type]]);
+				
 			var str:String = GameLanguage.getLangByKey("L_A_23");
-			str = str.replace(/{(\d+)}/,tmp[1]);
-			var data:ItemData = new ItemData;
-			data.iid = parseInt(tmp[0]);
-			data.inum = parseInt(tmp[1]);
-			//ConsumeHelp.Consume([data],handler);
+			str = str.replace(/{(\d+)}/, fogInfo.price[1]);
+			var data:ItemData = new ItemData();
+			data.iid = parseInt(fogInfo.price[0]);
+			data.inum = parseInt(fogInfo.price[1]);
+			
 			var consumeHander:Handler = Handler.create(ConsumeHelp, ConsumeHelp.Consume, [[data], handler]);
 			
 			if (data.iid == DBItem.WATER)
@@ -844,7 +819,9 @@ package game.module.mainScene
 				return;
 			}
 			
-			XAlert.showAlert(str, consumeHander);*/
+			XAlert.showAlert(str, consumeHander);
+			
+			return trace(type, fogInfo.id);
 		}
 		
 		//初始化建筑
@@ -1110,11 +1087,6 @@ package game.module.mainScene
 				XFacade.instance.getView(MainMenuView).visible = false;
 				_selectedBuilding.moving = true;
 			}
-			
-			var tilePixelWidth:Number = HomeData.tileW * this.m_sprMap.scaleX ;
-			var tilePixelHeight:Number = HomeData.tileH * this.m_sprMap.scaleY;
-			var wHalfTile:uint = Math.floor(tilePixelWidth/2);
-			var hHalfTile:uint = Math.floor(tilePixelHeight/2);
 			
 			var p:Point = new Point(e.stageX,e.stageY);
 			
@@ -1896,10 +1868,11 @@ package game.module.mainScene
 				_vo = User.getInstance().sceneInfo;
 			}
 			
-			if (!_fogContainer) {
-				_fogContainer = new Sprite();
-				m_sprMap.addChild(_fogContainer);
-			}
+			_fogContainer = new Sprite();
+			m_sprMap.addChild(_fogContainer);
+			
+			_lockContainer = new Sprite();
+			m_sprMap.addChild(_lockContainer);
 			
 			initMap = ToolFunc.throttle(initMap, this);
 			
@@ -1928,11 +1901,11 @@ package game.module.mainScene
 					item.releaseSkin();
 				}
 			}
-			var img:Image;
-			for(i=0; i<_fogImgs.length; i++){
-				img = _fogImgs[i];
-				img && Loader.clearRes(img.name);
-			}
+			_fogContainer.destroy();
+			_fogContainer = null;
+			_lockContainer.destroy();
+			_lockContainer = null;
+			
 			BuildAniUtil.dispose();
 			HomeSceneUtil.clearHarvest();
 			doClearTimerHandler();
