@@ -35,7 +35,7 @@ package game.module.mainScene
 		/** 当前   网格横向数量-w*/
 		public var curColumn:uint = 68;
 		/**当前  网格纵向数量-h*/
-		public var curRow:uint = 69;  
+		public var curRow:uint = 69;
 		
 		/**功能区   当前开放的 x*/
 		public static var fun_fog_x:uint = 1; 
@@ -52,16 +52,14 @@ package game.module.mainScene
 		/**最大  网格纵向数量-h*/
 		public static var MAX_CURROW:uint = 69;  
 		
-		/***基地格子与建筑层整体x轴偏移量*/
-		public static const PIANYI_X:uint = 700;
-		/***基地格子与建筑层整体y轴偏移量*/
-		public static const PIANYI_Y:uint = -100;
-		
 		/**右上角的起始点坐标*/
-		public static const ORIGIN_POS = new Point(2580, 300);
+		public static const ORIGIN_POS:Point = new Point(2580, 300);
 		
 		/**地图数据*/
 		public var mapTileData:Object = {};
+		
+		/**中间墙的分界线*/
+		public var MIDDLE_WALL_X:int = 44;
 		
 		/***
 		 *全局配置表控制器 
@@ -149,23 +147,14 @@ package game.module.mainScene
 				return false;
 			}
 			
-//			var pAr:Array = [];
 			for(var i:int=0; i<sizeX; i++){
 				for(var j:int=0; j<sizeY; j++){
-//					pAr.push(new Point(pi.x-i, pi.y-j));
 					var key:String = (pi.x-i) + "_" + (pi.y-j);
 					if(mapTileData[key] > 0){
 						return false;
 					}	
 				}
 			}
-			
-//			for (i = 0; i < pAr.length; i++) {
-//				var key:String = pAr[i].x + "_" + pAr[i].y;
-//				if(mapTileData[key] > 0){
-//					return false;
-//				}
-//			}
 			
 			var bool:Boolean = canMoveToAreaByBuildingType(bData, pi); 
 			
@@ -187,7 +176,7 @@ package game.module.mainScene
 				case 2:
 				case 4:
 					return ((point.x <= fun_fog_x && point.y <= fun_fog_y ) 
-						|| (point.x <= res_fog_x && point.x >= 59 && point.y <= res_fog_y))
+						|| (point.x <= res_fog_x && point.x >= MIDDLE_WALL_X && point.y <= res_fog_y))
 					
 					break;
 			}
@@ -274,11 +263,12 @@ package game.module.mainScene
 		/**更新两区域的开放x，y*/
 		public static function updateFunResFogxy(fun_fog_id, res_fog_id):void {
 			var fun_point:Point = DBFog.getFunctionFogInfo(fun_fog_id).coord_1; 
-			fun_fog_x = fun_point.x;
-			fun_fog_y = fun_point.y;
+			// 使得看上去不碰到迷雾
+			fun_fog_x = fun_point.x - 1;
+			fun_fog_y = fun_point.y - 1;
 			var res_point:Point = DBFog.getResourceFogInfo(res_fog_id).coord_1;
-			res_fog_x = res_point.x;
-			res_fog_y = res_point.y;
+			res_fog_x = res_point.x - 1;
+			res_fog_y = res_point.y - 1;
 			
 			trace("功能区", fun_fog_x, fun_fog_y)
 			trace("资源区", res_fog_x, res_fog_y)
@@ -316,7 +306,7 @@ package game.module.mainScene
 		/**判定点是否越界*/
 		public function checkPoint(x:Number, y:Number):Boolean{
 			//越界判定
-			if(x<0 || x >= HomeData.intance.curColumn || y <0 || y>= HomeData.tileRow){
+			if(x<0 || x >= HomeData.intance.curColumn || y <0 || y>= HomeData.intance.curRow){
 				return false;
 			}
 			return true
@@ -426,27 +416,19 @@ package game.module.mainScene
 			
 			var dx:Number = px - offsetX
 			var dy:Number = py - offsetY
-			var N:Number =HomeData.tileColumn - 1 - Math.floor(dx/tileWidth - dy/tileHeight)
-			var M:Number =Math.floor(dx/tileWidth + dy/tileHeight)
+			var N:Number = HomeData.tileColumn - 1 - Math.floor(dx/tileWidth - dy/tileHeight)
+			var M:Number = Math.floor(dx/tileWidth + dy/tileHeight)
 			
-			//trace("xtile::ytile",N,M);
 			return new Point(N,M);
 		}
 		
 		/**根据点位推算坐标*/
-		private var originP:Point;
 		public function getPointPos(x:int,y:int):Point{
 			var tileW:Number = HomeData.tileW;
 			var tileH:Number = HomeData.tileH;
 			var pIdxs:Array = [x, y];
-			if(!originP){
-				originP = new Point();
-				originP.x = HomeData.tileColumn * tileW /2 + HomeData.OffsetX;
-				originP.y = HomeData.OffsetY - HomeData.tileColumn * tileH/2;
-				
-				trace("originP", originP)
-			}
-			return new Point(originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2, originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)
+			
+			return new Point(ORIGIN_POS.x + (pIdxs[1] - pIdxs[0]) * tileW/2, ORIGIN_POS.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)
 		}
 		
 		/**格子坐标转化为像素坐标*/

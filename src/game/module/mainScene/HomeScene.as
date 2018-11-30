@@ -94,9 +94,6 @@ package game.module.mainScene
 		/**切图宽度*/
 		public static const SizeX:int = 7;
 		public static const SizeY:int = 4;
-		/*public static const CellW:int = 1000;
-		public static const CellH:int = 911;
-		*/
 		
 		public static const CellW:int = 800;
 		public static const CellH:int = 729;
@@ -112,22 +109,47 @@ package game.module.mainScene
 		private const AREA_TYPE_FUN = "fun";
 		private const AREA_TYPE_RES = "res";
 		
-		/***/
 		public function HomeScene()
 		{
 			isResDispose = false;
 			m_bCanDrag = true;
 		}
 		
-		override protected function loadMap():void{
-//			super.loadMap();
+		/**覆盖这个方法，达到重用的效果*/
+		override public function show(...args):void{
+			if(!m_sprMap){
+				initScence();
+				this.loadMap();
+			}else{
+				this.loadMapCell();
+				onStageResize();
+				_vo = User.getInstance().sceneInfo;
+			}
 			
+			// 层级顺序    背景图，网格层，迷雾层，建筑层，迷雾锁
+			_fogContainer = new Sprite();
+			_fogContainer.zOrder = 2;
+			m_sprMap.addChild(_fogContainer);
+			
+			_lockContainer = new Sprite();
+			_lockContainer.zOrder = 4;
+			m_sprMap.addChild(_lockContainer);
+			
+			initMap = ToolFunc.throttle(initMap, this);
+			
+			DataLoading.instance.show();
+			WebSocketNetService.instance.sendData(ServiceConst.B_INFO,null);
+			WebSocketNetService.instance.sendData(ServiceConst.M_INFO,null);
+			super.show();
+			
+			SoundMgr.instance.playMusicByURL(ResourceManager.instance.getSoundURL("mainbase"));
+		}
+		
+		override protected function loadMap():void{
 			m_sprMap.width = SizeX*CellW;
 			m_sprMap.height = SizeY*CellH;
-//			onMapLoaded();
 			
 			loadMapCell();
-			
 			loadMapCallBack();
 		}
 		
@@ -137,6 +159,7 @@ package game.module.mainScene
 			var img:Image;
 			if(!_imgContainer){
 				_imgContainer = new Sprite();
+				_imgContainer.zOrder = 0;
 				m_sprMap.addChild(_imgContainer);
 				m_sprMap.cacheAsBitmap = true;
 			}
@@ -170,13 +193,10 @@ package game.module.mainScene
 			super.onMapLoaded();
 			this._scrollRect = new Rectangle(0,0, LayerManager.instence.stageWidth, LayerManager.instence.stageHeight);
 			this.scrollRect = _scrollRect;
-			//需要设定渲染区域
 			
-			//this.optimizeScrollRect = true;
-			//	
 			XFacade.instance.closeModule(PreLoadingView);
 			_vo = User.getInstance().sceneInfo;
-			WebSocketNetService.instance.sendData(ServiceConst.M_REFRESH,null);
+			WebSocketNetService.instance.sendData(ServiceConst.M_REFRESH, null);
 		}
 		
 		override protected function initMapPosition():void{
@@ -238,7 +258,7 @@ package game.module.mainScene
 		public static var ARTICLE_UPDATE:String = "ARTICLE_UPDATE";
 		private function onResult(cmdStr:Number,... args):void{
 			DataLoading.instance.close();
-			trace("HomeScene", cmdStr, args);
+//			trace("HomeScene", cmdStr, args);
 			switch(cmdStr){
 				//国战BOSS倒计时
 				case ServiceConst.BOSS_OPEN_VIEW:
@@ -692,14 +712,11 @@ package game.module.mainScene
 		{
 			gridSp.width = m_sprMap.width;
 			gridSp.height = m_sprMap.height;
-			gridSp.initParam(HomeData.tileW, HomeData.tileH);
+			gridSp.initParam();
 			gridSp.showGrid(false);
 		}
 		
 		private function initMap():void{
-			// 这边设置当前最大的x， y开放区域
-//			HomeData.intance.curColumn = parseInt(tmp[0]);
-//			HomeData.intance.curRow = parseInt(tmp[1]);
 			showGrid();
 			
 			_fogContainer.destroyChildren();
@@ -1089,11 +1106,7 @@ package game.module.mainScene
 			}
 			
 			var p:Point = new Point(e.stageX,e.stageY);
-			
-//			trace("aaaaa1", p.toString())
-			
 			p = m_sprMap.globalToLocal(p);
-//			trace("aaaaa2", p.toString())
 			
 			var showPoint:Point = HomeData.intance.getTilePoint(HomeData.tileW, HomeData.tileH, p.x, p.y, HomeData.OffsetX, HomeData.OffsetY);
 //			trace('get', showPoint.toString());
@@ -1101,10 +1114,6 @@ package game.module.mainScene
 			showPoint.y += Math.floor(_selectedBuilding.data.model_h / 2);
 			
 			selectedBuilding.showPoint = showPoint;
-			
-			var i:int = 0;
-			var key:String;
-			var b:Boolean = false;
 			
 			if(!_tmpBuilding){
 				var tmp:BaseArticle = HomeData.intance.getExchangeBuild(selectedBuilding,this._buildItemList);
@@ -1144,8 +1153,7 @@ package game.module.mainScene
 			}
 			
 			//判定是否可以移动到该位置===>
-			b = HomeData.intance.isOk(selectedBuilding.data, selectedBuilding.data.showPoint);
-			
+			var b = HomeData.intance.isOk(selectedBuilding.data, selectedBuilding.data.showPoint);
 			selectedBuilding.showBgLayer(b);
 			
 			//预览状态，判定是否能建筑
@@ -1785,9 +1793,11 @@ package game.module.mainScene
 			super.initScence();
 			
 			gridSp = new GridSprite();
+			gridSp.zOrder = 1;
 			this.m_sprMap.addChild(gridSp);
 			
 			buildingLayer = new Sprite();
+			buildingLayer.zOrder = 3; 
 			this.m_sprMap.addChild(buildingLayer);
 			
 			if(GameSetting.IsRelease){
@@ -1855,35 +1865,6 @@ package game.module.mainScene
 			}
 		}
 		 
-		
-		
-		/**覆盖这个方法，达到重用的效果*/
-		override public function show(...args):void{
-			if(!m_sprMap){
-				initScence();
-				this.loadMap();
-			}else{
-				this.loadMapCell();
-				onStageResize();
-				_vo = User.getInstance().sceneInfo;
-			}
-			
-			_fogContainer = new Sprite();
-			m_sprMap.addChild(_fogContainer);
-			
-			_lockContainer = new Sprite();
-			m_sprMap.addChild(_lockContainer);
-			
-			initMap = ToolFunc.throttle(initMap, this);
-			
-			DataLoading.instance.show();
-			WebSocketNetService.instance.sendData(ServiceConst.B_INFO,null);
-			WebSocketNetService.instance.sendData(ServiceConst.M_INFO,null);
-			super.show();
-		
-			SoundMgr.instance.playMusicByURL(ResourceManager.instance.getSoundURL("mainbase"));
-		}
-		
 		override public function close():void{
 			super.close();
 			this._vo = null;

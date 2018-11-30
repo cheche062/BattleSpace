@@ -1,12 +1,7 @@
 package game.module.mainScene
 {
-	import game.global.util.TraceUtils;
-	
 	import laya.display.Sprite;
 	import laya.maths.Point;
-	import laya.net.Loader;
-	import laya.resource.Texture;
-	import laya.ui.Button;
 	
 	public class GridSprite extends Sprite
 	{
@@ -19,49 +14,41 @@ package game.module.mainScene
 		private var _curW:Number;
 		private var _curH:Number;
 		
-		// 整体右移
-		private var newX:int = 1880 + HomeData.PIANYI_X;
-		private var newY:int = 400 + HomeData.PIANYI_Y;
-		
-		//一次性参数
-		private var _param:Array;
-		
 		public function GridSprite()
 		{
 			super();
-//			this.alpha = 0.3;
+			this.alpha = 0.3;
 		}
 		
 		/**初始化参数*/
-		public function initParam(tilePixelWidth:int, tilePixelHeight:int):void{
-			_param = [tilePixelWidth, tilePixelHeight];
+		public function initParam():void{
+			
 		}
 		
 		/**
 		 * 画网格
 		 * disArea -- 是否显示可视区域
 		 */
-		private function drawGrid(tilePixelWidth:int, tilePixelHeight:int):void
+		private function drawGrid():void
 		{
+			if (gridLineLayer) return;
+			
 			_curW = HomeData.MAX_COLUMN;
 			_curH = HomeData.MAX_CURROW;
 			trace("------------------", _curW, _curH);
 			this._mapData = HomeData.intance.copyMap();
 			
-			this.wHalfTile = Math.floor(tilePixelWidth/2);
-			this.hHalfTile = Math.floor(tilePixelHeight/2);
+			this.wHalfTile = Math.floor(HomeData.tileW / 2);
+			this.hHalfTile = Math.floor(HomeData.tileH / 2);
 			
-			if(!this.gridLineLayer){
-				this.gridLineLayer = new Sprite();
-				
-				this.addChild(this.gridLineLayer);
-			}else{
-				this.gridLineLayer.graphics.clear();
-			}
+			this.gridLineLayer = new Sprite();
+			this.addChild(this.gridLineLayer);
 			
 			var goPoint:Point = new Point();
 			var toPoint:Point = new Point();
 			
+			var newX = HomeData.ORIGIN_POS.x;
+			var newY = HomeData.ORIGIN_POS.y;
 			//新的算法尝试
 			for(var i:int=0; i<=_curW; i++){
 				var arr:Array = getYArr(i, _curH);
@@ -90,7 +77,6 @@ package game.module.mainScene
 				}
 			}
 			this.gridLineLayer.cacheAsBitmap = true;
-			this._mapData = null
 		}
 		
 		/**
@@ -166,49 +152,14 @@ package game.module.mainScene
 		
 		public function showGrid(v:Boolean):void{
 			// 暂时全显示
-			v = true;
-			if(v && _param){
-				this.drawGrid.apply(this,_param);
-				_param = null;
+//			v = true;
+			if (!v) {
+				gridLineLayer && (gridLineLayer.visible = false);
+				return;
 			}
-			if(gridLineLayer){
-				this.gridLineLayer.visible = v;
-			}
-		}
-		
-		/**画迷雾*/
-		private const STEP:int = 4;
-		public function drawMask(dw:Number, dh:Number,mapWidth:Number,mapHeight:Number):void{
-			if(!maskLayer){
-				maskLayer = new Sprite();
-				new Button
-				this.addChild(maskLayer);
-			}else{
-				maskLayer.graphics.clear();
-			}
-			var tex:Texture = Loader.getRes("mainUi\/brick.png");
 			
-			for(var i:int=0; i<mapWidth-1; i=i+STEP){
-				for(var j:int=0; j<mapHeight-1; j=j+STEP){
-					//如果不在有效区域内，则画迷雾
-					if(i < dw && j < dh){
-						//donothing
-					}else{
-						var p:Point = getPointPos(i, j);
-						maskLayer.graphics.drawTexture(tex,p.x-tex.sourceWidth/2, p.y)
-					}
-				}
-			}
-		}
-		
-		private function getPointPos(xp:Number, yp:Number):Point{
-			var pIdxs:Array = [xp, yp]
-			var tileW:Number = HomeData.tileW;
-			var tileH:Number = HomeData.tileH;
-			var originP:Point = new Point();
-			originP.x = HomeData.tileColumn * tileW /2 + HomeData.OffsetX;
-			originP.y = 0 + HomeData.OffsetY - HomeData.tileColumn*tileH/2;
-			return new Point(originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2, originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2);
+			drawGrid();
+			gridLineLayer.visible = true;
 		}
 	}
 }

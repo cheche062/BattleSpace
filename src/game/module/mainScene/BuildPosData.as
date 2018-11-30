@@ -42,10 +42,10 @@ package game.module.mainScene
 		
 		/**----------------------------*/
 		public static function get offX():Number{
-			return posDic["OffsetX"] + HomeData.PIANYI_X;
+			return posDic["OffsetX"];
 		}
 		public static function get offY():Number{
-			return posDic["OffsetY"] + HomeData.PIANYI_Y;
+			return posDic["OffsetY"];
 		}
 		
 		/**获取建筑声音，设计不合理，将就先用着*/
