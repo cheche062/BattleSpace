@@ -5,6 +5,7 @@ package game.module.military
 	import game.common.AnimationUtil;
 	import game.common.DataLoading;
 	import game.common.ItemTips;
+	import game.common.ModuleManager;
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
 	import game.common.XTip;
@@ -15,16 +16,20 @@ package game.module.military
 	import game.global.GameLanguage;
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
+	import game.global.data.DBBuilding;
 	import game.global.data.DBItem;
 	import game.global.data.DBMilitary;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
 	import game.global.vo.User;
+	import game.module.mainScene.HomeScene;
 	import game.module.mainui.MainMenuView;
 	import game.module.replay.ReplayView;
 	import game.net.socket.WebSocketNetService;
 	
+	import laya.display.Sprite;
 	import laya.events.Event;
+	import laya.ui.Box;
 	import laya.ui.Button;
 	import laya.ui.Image;
 	
@@ -133,6 +138,8 @@ package game.module.military
 			var vo:MilitaryVo = DBMilitary.getInfoByCup(User.getInstance().cup || 1);
 			this.view.icon.skin = "appRes\\icon\\military\\"+vo.icon+".png";
 			this.view.icon2.skin = "appRes\\icon\\military\\"+vo.icon+".png";
+			
+//			setDisableShowType(true);
 		}
 		
 		override public function close():void{
@@ -264,6 +271,25 @@ package game.module.military
 						Signal.intance.off(ServiceConst.getServerEventKey(ServiceConst.ERROR),null,onErr);
 						XTip.showTip( GameLanguage.getLangByKey(errStr));
 						break;
+				}
+			}
+			
+		}
+		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_PROTECT));
+		}
+			
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this._view.numChildren;i++){
+				var node = this._view.getChildAt(i);
+				if(this._view.getChildAt(i).name != "closeBtn" && bool){
+					(this._view.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this._view.getChildAt(i) as Box).disabled = false;
 				}
 			}
 		}

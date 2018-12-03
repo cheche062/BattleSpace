@@ -3,13 +3,11 @@ package MornUI.camp {
 	import laya.ui.*;
 	import laya.display.*; 
 	
-	import MornUI.componets.DataComUI;
 	import MornUI.componets.SkillItemUI;
 	import laya.display.Text;
 
 	public class NewUnitInfoOperViewUI extends View {
 		public var showBox:Box;
-		public var dataInfo:DataComUI;
 		public var dom_skill_box:HBox;
 		public var pListBox:Box;
 		public var nameTF:Text;
@@ -22,9 +20,9 @@ package MornUI.camp {
 		public var needBox:Box;
 		public var numTF:Text;
 		public var addBtn:Button;
+		public var boxAttr:Box;
 
 		override protected function createChildren():void {
-			View.regComponent("MornUI.componets.DataComUI",DataComUI);
 			View.regComponent("MornUI.componets.SkillItemUI",SkillItemUI);
 			View.regComponent("Text",Text);
 			super.createChildren();

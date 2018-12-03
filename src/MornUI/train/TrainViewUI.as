@@ -6,7 +6,6 @@ package MornUI.train {
 	import laya.display.Text;
 	import MornUI.train.TrainingItemUI;
 	import MornUI.componets.SkillComUI;
-	import MornUI.train.DataComUI;
 
 	public class TrainViewUI extends View {
 		public var goldIcon2:Image;
@@ -31,7 +30,7 @@ package MornUI.train {
 		public var btn_3:Button;
 		public var btn_4:Button;
 		public var editBtn:Button;
-		public var dataInfo:DataComUI;
+		public var boxAttr:Box;
 		public var btn_2:Button;
 		public var closeBtn:Button;
 		public var confirmBtn:Button;
@@ -47,7 +46,6 @@ package MornUI.train {
 			View.regComponent("Text",Text);
 			View.regComponent("MornUI.train.TrainingItemUI",TrainingItemUI);
 			View.regComponent("MornUI.componets.SkillComUI",SkillComUI);
-			View.regComponent("MornUI.train.DataComUI",DataComUI);
 			super.createChildren();
 			loadUI("train/TrainView");
 

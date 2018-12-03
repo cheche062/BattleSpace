@@ -36,6 +36,8 @@ package game.global.data
 		public static const PVP_TOKEN:int = 14;
 		/**配置常量-面包*/
 		public static const BREAD:Number=20;
+		/**配置常量-天赋*/
+		public static const TIANFU:Number=21;
 		
 		public static const PURPLE_CRYSTAL:int = 17;
 

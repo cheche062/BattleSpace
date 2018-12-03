@@ -675,6 +675,11 @@ package game.module.worldBoss
 		private function onClick(e:Event):void
 		{
 			switch (e.target) {
+				// 查看boss战奖励
+				case view.btnReward:
+					XFacade.instance.openModule(ModuleName.BossRewardTipView);
+				break;
+				
 				// 撤退
 				case view.btn_retreat:
 					//当前数据					

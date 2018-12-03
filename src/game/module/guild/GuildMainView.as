@@ -19,6 +19,9 @@ package game.module.guild
 	import game.module.chatNew.LiaotianView;
 	import game.module.mainui.MainView;
 	import game.net.socket.WebSocketNetService;
+	import game.module.mainScene.HomeScene;
+	import game.common.ModuleManager;
+	import game.global.data.DBBuilding;
 	
 	import laya.events.Event;
 	import laya.ui.View;

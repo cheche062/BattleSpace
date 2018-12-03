@@ -1,6 +1,7 @@
 package game.module.camp.data
 {
 	import game.common.ResourceManager;
+	import game.global.GameConfigManager;
 
 	public class TalentData
 	{
@@ -14,6 +15,8 @@ package game.module.camp.data
 		public var itemId:int;
 		/**	洗炼消耗 */		
 		public var xlxh:int;
+		/**	护甲类型 */		
+		public var arr_armor_type:Array;
 		
 		public static function getInstance():TalentData
 		{
@@ -65,8 +68,19 @@ package game.module.camp.data
 				talentList.push(uVo);
 			}
 		}
+		/**根据护甲类型判断这个护甲是否可以disable*/
+		public function isCanShowSkill(type:int):void{
+//			var arr_armor_type = 
+			for(var i = 0;i<arr_armor_type.length;i++){
+				if(Number(arr_armor_type[i]) == type){
+					return true;
+				}
+			}
+			return false;
+		}
 		
-		public function updata(obje:Object):void
+		/**refSkill当有技能新信息时，是否重置*/
+		public function updata(obje:Object,refSkill = true):void
 		{
 			if( !obje ) return;
 			
@@ -79,15 +93,35 @@ package game.module.camp.data
 			{
 				this.level = obje.level;
 			}
-			
+			var unit_obj:Object = GameConfigManager.unit_json[obje.unit_id];
+			var armor_type = unit_obj.defense_type;
+			var tianfu_armor_type_obj = ResourceManager.instance.getResByURL("config/tianfu_armor_type.json");
+			arr_armor_type = tianfu_armor_type_obj[armor_type].tianfu_id.split(",");
 			updataUnitSkillAble();
-			
-			for (var i:int = 0; i < obje.skills.length; i++) 
-			{
-				var object_:Object = obje.skills[i];
-				updataUnitSkill(object_);
+			if(refSkill){
+				initUnitSkill();
 			}
-			
+			if(obje.skills){
+				for (var i in obje.skills) 
+				{
+					var object_:Object = obje.skills[i];
+					var obj_new = {id:i,level:obje.skills[i]}
+					updataUnitSkill(obj_new);
+				}
+			}
+		}
+		
+		private function initUnitSkill():void{
+			for (var i:int = 0; i < talentSkills.length; i++) 
+			{
+				var vo:UnitTalentItemVO = talentSkills[i];
+				for (var j:int = 0; j < vo.skills.length; j++) 
+				{
+					var unitTaletVO:UnitTaletVO = vo.skills[j];
+					unitTaletVO.lv = 0;
+					unitTaletVO.isCanUp = isCanShowSkill(unitTaletVO.excelData.id);
+				}
+			}
 		}
 		
 		private function updataUnitSkill(obj:Object):void
@@ -113,7 +147,7 @@ package game.module.camp.data
 				var vo:UnitTalentItemVO = talentSkills[i];
 				if( i != 0 )
 				{
-					if( level >= vo.needLv )
+					if( (level-point) >= Number(vo.needLv) )
 					{
 						vo.isAble = true;
 					}

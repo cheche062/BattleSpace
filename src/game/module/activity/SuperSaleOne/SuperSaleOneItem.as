@@ -10,6 +10,7 @@ package game.module.activity.SuperSaleOne
 	import laya.events.Event;
 	import laya.ui.View;
 	import MornUI.SuperSaleOne.SuperSaleOneItemUI;
+	import game.module.activity.SuperSaleOne.SuperSaleOneView;
 	/**
 	 * ...
 	 * @author ...

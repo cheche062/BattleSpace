@@ -66,6 +66,7 @@ package game
 				case DBItem.CONTRIBUTE:
 				case DBItem.DB:
 				case DBItem.BREAD:
+				case DBItem.TIANFU:
 //					trace("itemId");
 					user.setResNumByItem(itemId, args[2]);
 					user.event(itemId);
@@ -109,7 +110,11 @@ package game
 			{
 				AndroidPlatform.instance.FGM_EventAchievedLevel(12);
 			}
-
+			//如果推送的等级大于当前等级，则视为升级，将打开升级提示窗
+			if(User.getInstance().level<parseInt(args[1])&&parseInt(args[1])>=3){
+				XFacade.instance.openModule(ModuleName.HQUpgradeView, parseInt(args[1]));
+			}
+			
 			User.getInstance().level=parseInt(args[1]);
 			User.getInstance().exp=parseInt(args[2]);
 			User.getInstance().event();
@@ -175,7 +180,6 @@ package game
 					XFacade.instance.openModule(ModuleName.CommonGuideView, args[1][0]);
 				}
 			}
-
 		}
 
 		public function closeViewHandler():void

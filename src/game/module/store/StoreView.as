@@ -24,6 +24,9 @@ package game.module.store
 	import game.global.vo.User;
 	import game.module.alert.XAlert;
 	import game.net.socket.WebSocketNetService;
+	import game.module.mainScene.HomeScene;
+	import game.common.ModuleManager;
+	import game.global.data.DBBuilding;
 	
 	import laya.display.Text;
 	import laya.events.Event;
@@ -325,6 +328,24 @@ package game.module.store
 				}
 			}
 			onChange();
+		}
+		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_STORE));
+		}
+		
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this.view.numChildren;i++){
+				var node = this.view.getChildAt(i);
+				if(this.view.getChildAt(i).name != "closeBtn" && bool){
+					(this.view.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this.view.getChildAt(i) as Box).disabled = false;
+				}
+			}
 		}
 		
 		override public function close():void{

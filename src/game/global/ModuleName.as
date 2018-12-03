@@ -448,6 +448,8 @@ package game.global
 		
 		/**世界boss*/
 		public static var WorldBossFightView:String = "WorldBossFightView";
+		/**查看boss战奖励*/
+		public static var BossRewardTipView:String = "BossRewardTipView";
 		/**设置粮草*/
 		public static var WorldBossSetFood:String = "WorldBossSetFood";
 		/**进入BOSS的首个小弹窗 */

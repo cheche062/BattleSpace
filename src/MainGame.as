@@ -10,6 +10,7 @@ package
 	import game.global.util.ComUtil;
 	import game.global.util.DCCUtil;
 	import game.global.util.ExtraJS;
+	import game.global.vo.User;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.debug.DebugPanel;
@@ -106,6 +107,10 @@ package
 		
 		/**对外接口-打开页游支付*/  
 		public static function openCharge():void{
+			if(!User.getInstance() ||!User.getInstance().hasFinishGuide){
+				trace("新手引导中无法打开对外接口",0); 
+				return;
+			}
 			XFacade.instance.openModule(ModuleName.ChargeView);
 		}
 		
@@ -116,6 +121,10 @@ package
 		
 		/**对外接口*/
 		public static function open(mName:String, param:Array):void{
+			if(!User.getInstance() ||!User.getInstance().hasFinishGuide){
+				trace("新手引导中无法打开对外接口",0); 
+				return;
+			}
 			XFacade.instance.openModule(mName, param);
 		}
 		

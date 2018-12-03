@@ -7,7 +7,14 @@ package MornUI.mainView {
 	public class ActCombinationBoxUI extends View {
 		public var firstChargeBtn:Button;
 		public var dayActBtn:Button;
+		public var imgDayAct:Image;
 		public var timeCountLabel:Label;
+		public var dayActBtn_1:Button;
+		public var imgDayAct_1:Image;
+		public var timeCountLabel_1:Label;
+		public var dayActBtn_2:Button;
+		public var imgDayAct_2:Image;
+		public var timeCountLabel_2:Label;
 		public var norActBtn:Button;
 		public var actTips:Image;
 		public var welfareBtn:Button;

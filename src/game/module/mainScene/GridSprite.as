@@ -37,10 +37,10 @@ package game.module.mainScene
 		 * 画网格
 		 * disArea -- 是否显示可视区域
 		 */
-		private function drawGrid(mapWidth:int, mapHeight:int,curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int,
+		public function drawGrid(mapWidth:int, mapHeight:int,curW:Number,curH:Number, tilePixelWidth:int, tilePixelHeight:int,
 								 beginX:int = 0 , beginY:int = 0):void
 		{
-//			curW = curH = 100;
+			//curW = curH = 10;
 			_curW = curW;
 			_curH = curH;
 			trace("------------------",mapWidth,mapHeight, curW, curH);
@@ -63,7 +63,18 @@ package game.module.mainScene
 			var toPoint:Point = new Point();
 			var newX:int = 1880;
 			var newY:int = 400;
-
+//			for(var i:int=mapWidth-curW; i<=mapWidth; i++){
+//				var arr:Array = getYArr(mapWidth-i,curH);
+//				for(var j:int=0; j<arr.length; j++){
+//					goPoint.x = beginX+arr[j]*wHalfTile + i*wHalfTile;
+//					goPoint.y = beginY+arr[j]*hHalfTile - i*hHalfTile;
+//					
+//					toPoint.x = beginX+(arr[j+1])*wHalfTile + i*wHalfTile;
+//					toPoint.y = beginY+(arr[j+1])*hHalfTile - i*hHalfTile;
+//					this.gridLineLayer.graphics.drawLine(goPoint.x,goPoint.y,toPoint.x, toPoint.y ,"#ffffff", 1 );
+//					j++;
+//				}
+//			}
 			//新的算法尝试
 			for(var i:int=0; i<=curW; i++){
 				var arr:Array = getYArr(i,curH);
@@ -77,7 +88,19 @@ package game.module.mainScene
 					j++;
 				}
 			}
-
+//			for(i=0; i<=curH; i++){
+//				arr = getXArr(i,curW);
+//				for(j=0; j<arr.length; j++){
+//					goPoint.x = beginX+(i+(mapWidth-arr[j]))*wHalfTile;
+//					goPoint.y = beginY+(i-(mapWidth-arr[j]))*hHalfTile
+//					
+//					toPoint.x = beginX+(i+(mapWidth-arr[j+1]))*wHalfTile;
+//					toPoint.y = beginY+(i-(mapWidth-arr[j+1]))*hHalfTile;
+//					this.gridLineLayer.graphics.drawLine(goPoint.x,goPoint.y,toPoint.x, toPoint.y ,"#ffffff", 1 );
+//				
+//					j++;
+//				}
+//			}
 			for(i=0; i<=curH; i++){
 				arr = getXArr(i,curW);
 				for(j=0; j<arr.length; j++){
@@ -169,8 +192,6 @@ package game.module.mainScene
 		
 		
 		public function showGrid(v:Boolean):void{
-			// 暂时全显示
-//			v = true;
 			if(v && _param){
 				this.drawGrid.apply(this,_param);
 				_param = null;

@@ -39,11 +39,15 @@ package game.module.mainui
 		final var LOOP_ACT:int = 5;
 		final var THREE_GIFT:int = 6;
 		final var DISCOUNT_SHOP:int = 7; 
-		//首充，主线，日常，福利，世界boss，轮换活动
+		final var LOOP_ACT_1:int = 8;
+		final var LOOP_ACT_2:int = 9;
+		//首充，主线，日常，福利，世界boss，轮换活动(LOOP_ACT)
 		public var _btnVec:Vector.<Button> = new Vector.<Button>();
 		public var _btnStateVec:Array = [false,false,false,true,false,false,false];
 		
 		private var _todayAct:String = "";
+		private var _todayAct_1:String = "";
+		private var _todayAct_2:String = "";
 		
 		private var _timeCount:int = 0;
 		
@@ -91,7 +95,13 @@ package game.module.mainui
 					XFacade.instance.openModule(ModuleName.FirstChargeView,_firstChargeActID);
 					break;
 				case view.dayActBtn:
-					openTodayAct();
+					openTodayAct(_todayAct);
+					break;
+				case view.dayActBtn_1:
+					openTodayAct(_todayAct_1);
+					break;
+				case view.dayActBtn_2:
+					openTodayAct(_todayAct_2);
 					break;
 				case view.welfareBtn:
 					this.view.welfareTips.visible=false;
@@ -143,12 +153,12 @@ package game.module.mainui
 			}
 		}
 		 
-		private function openTodayAct():void
+		private function openTodayAct(data):void
 		{ 
 
 //			XFacade.instance.openModule(ModuleName.PeopleFallOffView);
 //			return;
-			switch(_todayAct) 
+			switch(data) 
 			{ 
 				case "baolei":
 					var baoleiData = ToolFunc.find(activityData, function(item) {
@@ -188,6 +198,8 @@ package game.module.mainui
 				// WebSocketNetService.instance.sendData(ServiceConst.GET_ACT_LIST);
 			}
 			view.timeCountLabel.text = TimeUtil.getTimeCountDownStr(_timeCount, false);
+			view.timeCountLabel_1.text = TimeUtil.getTimeCountDownStr(_timeCount, false);
+			view.timeCountLabel_2.text = TimeUtil.getTimeCountDownStr(_timeCount, false);
 			view.discountCountLabel.text = TimeUtil.getTimeCountDownStr(_timeCount, false);
 			_threeGiftTime--;
 			if (_threeGiftTime <= 0)
@@ -271,17 +283,52 @@ package game.module.mainui
 						_btnVec[DAILY_ACT].visible = true;
 					}
 					
+					//之前一个按钮轮换三个活动，现在一个活动轮换一个按钮
 					if (args[1].lunhuan.length == 0)
 					{
 						_btnStateVec[LOOP_ACT] = false;
 						_btnVec[LOOP_ACT].visible = false;
+						_btnStateVec[LOOP_ACT_1] = false;
+						_btnVec[LOOP_ACT_1].visible = false;
+						_btnStateVec[LOOP_ACT_2] = false;
+						_btnVec[LOOP_ACT_2].visible = false;
 					}
-					else
+					else if(args[1].lunhuan.length == 1)
 					{
 						_btnStateVec[LOOP_ACT] = true;
 						_btnVec[LOOP_ACT].visible = true;
 						_todayAct = args[1].lunhuan[0];
 						view.dayActBtn.skin = "mainUi/icon_"+_todayAct+".png";
+						view.imgDayAct.skin = "mainUi/icon_"+_todayAct+".png";
+					}
+					else if(args[1].lunhuan.length == 2){
+						_btnStateVec[LOOP_ACT] = true;
+						_btnVec[LOOP_ACT].visible = true;
+						_btnStateVec[LOOP_ACT_1] = true;
+						_btnVec[LOOP_ACT_1].visible = true;
+						_todayAct = args[1].lunhuan[0];
+						view.dayActBtn.skin = "mainUi/icon_"+_todayAct+".png";
+						view.imgDayAct.skin = "mainUi/icon_"+_todayAct+".png";
+						_todayAct_1 = args[1].lunhuan[1];
+						view.dayActBtn_1.skin = "mainUi/icon_"+_todayAct_1+".png";
+						view.imgDayAct_1.skin = "mainUi/icon_"+_todayAct_1+".png";
+					}
+					else if(args[1].lunhuan.length == 3){
+						_btnStateVec[DAILY_ACT] = true;
+						_btnVec[DAILY_ACT].visible = true;
+						_btnStateVec[LOOP_ACT_1] = true;
+						_btnVec[LOOP_ACT_1].visible = true;
+						_btnStateVec[LOOP_ACT_2] = true;
+						_btnVec[LOOP_ACT_2].visible = true;
+						_todayAct = args[1].lunhuan[0];
+						view.dayActBtn.skin = "mainUi/icon_"+_todayAct+".png";
+						view.imgDayAct.skin = "mainUi/icon_"+_todayAct+".png";
+						_todayAct_1 = args[1].lunhuan[1];
+						view.dayActBtn_1.skin = "mainUi/icon_"+_todayAct_1+".png";
+						view.imgDayAct_1.skin = "mainUi/icon_"+_todayAct_1+".png";
+						_todayAct_2 = args[1].lunhuan[2];
+						view.dayActBtn_2.skin = "mainUi/icon_"+_todayAct_2+".png";
+						view.imgDayAct_2.skin = "mainUi/icon_"+_todayAct_2+".png";
 					}
 					
 					_btnStateVec[THREE_GIFT] = false;
@@ -502,6 +549,8 @@ package game.module.mainui
 			_btnVec[5] = view.dayActBtn;
 			_btnVec[6] = view.threeGiftBtn;
 			_btnVec[7] = view.discountBtn;
+			_btnVec[8] = view.dayActBtn_1;
+			_btnVec[9] = view.dayActBtn_2;
 			
 			this.view.arrTips.visible = false;
 			this.view.actTips.visible = false;

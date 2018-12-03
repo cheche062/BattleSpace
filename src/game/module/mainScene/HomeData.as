@@ -90,7 +90,6 @@ package game.module.mainScene
 		
 		public function copyMap():Object{
 			var block:Array  = config.block;
-			
 			var map:Object = {};
 			var key:String = '';
 			var idx:int=0;
@@ -400,6 +399,23 @@ package game.module.mainScene
 			var xtile:int = 0;	//网格的x坐标
 			var ytile:int = 0;	//网格的y坐标
 			
+			//N=int(x/TileW - y/TileH)
+			//M=int(x/TileW + y/TileH)
+			
+			/**
+			int getGx(int x, int y)   
+			{  
+				return (int) (0.5f * (y / (CHIP_H >> 1) + x / (CHIP_W >> 1)));   
+			}  
+			
+			int getGy(int x, int y)   
+			{  
+				return (int) (0.5f * (y / (CHIP_H >> 1) - x / (CHIP_W >> 1)));   
+			} 
+			 */
+			//xtile = Math.floor((px - offsetX) / tileWidth - (py-offsetY)/tileHeight);
+			//ytile = Math.floor((px - offsetX) / tileWidth + (py-offsetY)/tileHeight);
+			
 			var dx:Number = px - offsetX
 			var dy:Number = py - offsetY
 			var N:Number =HomeData.tileColumn - 1 - Math.floor(dx/tileWidth - dy/tileHeight)
@@ -414,18 +430,23 @@ package game.module.mainScene
 		public function getPointPos(x:int,y:int):Point{
 			var tileW:Number = HomeData.tileW;
 			var tileH:Number = HomeData.tileH;
+			var newX:int = 1880;
+			var newY:int = 400;
 			var pIdxs:Array = [x, y];
 			if(!originP){
 				originP = new Point();
 				originP.x = HomeData.tileColumn * tileW /2 + HomeData.OffsetX;
 				originP.y = 0 + HomeData.OffsetY - HomeData.tileColumn*tileH/2;
 			}
-			return new Point(originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2, originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)
+			//this.x = originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2;
+			//this.y = originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH;
+//			trace("originP:"+originP.x+","+originP.y);
+			return new Point(originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2,originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)
 		}
 		
 		/**主场景配置数据*/
 		private static var _config:Object;
-		private static function get config():Object{
+		public static function get config():Object{
 			if(!_config){
 				_config = ResourceManager.instance.getResByURL("staticConfig/HomeSceneConfig.json"); 
 			}

@@ -4,7 +4,6 @@ package game.module.equipFight.cell
 	import game.global.GameLanguage;
 	import game.global.StringUtil;
 	import game.global.vo.User;
-	import game.global.vo.User;
 	import game.module.equipFight.data.equipFightChapterData;
 	
 	import laya.display.Stage;

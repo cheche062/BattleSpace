@@ -5,6 +5,7 @@ package game.module.guild
 	import MornUI.guild.CreateGuildViewUI;
 	
 	import game.common.AnimationUtil;
+	import game.common.ModuleManager;
 	import game.common.ResourceManager;
 	import game.common.XFacade;
 	import game.common.XTip;
@@ -14,10 +15,12 @@ package game.module.guild
 	import game.global.ModuleName;
 	import game.global.StringUtil;
 	import game.global.consts.ServiceConst;
+	import game.global.data.DBBuilding;
 	import game.global.event.BagEvent;
 	import game.global.event.GuildEvent;
 	import game.global.event.Signal;
 	import game.global.vo.User;
+	import game.module.mainScene.HomeScene;
 	import game.module.train.TrainItem;
 	import game.net.socket.WebSocketNetService;
 	
@@ -187,6 +190,24 @@ package game.module.guild
 //				{name:"test9",lv:"99",type:"NEED REQUIRE",member:"45",join:"25",state:1},
 //				{name:"test10",lv:"99",type:"NEED REQUIRE",member:"45",join:"25",state:1}];
 //			view.guildListContainer.array = testData;
+		}
+		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_GUILD));
+		}
+		
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this._view.numChildren;i++){
+				var node = this._view.getChildAt(i);
+				if(this._view.getChildAt(i).name != "closeBtn" && bool){
+					(this._view.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this._view.getChildAt(i) as Box).disabled = false;
+				}
+			}
 		}
 		
 		override public function addEvent():void{

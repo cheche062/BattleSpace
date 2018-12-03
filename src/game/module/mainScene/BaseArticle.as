@@ -320,9 +320,6 @@ package game.module.mainScene
 		public var isShowTransport:Boolean = false
 		//
 		public function showAction(b:Boolean, skin:String = "mainUi/3.png"):void{
-			if(data.buildId == "B20"){
-				var a = harvestIcon;
-			}
 			if(b){
 				var key:String = data.buildId.replace("B","");
 				if(!harvestIcon){
@@ -344,6 +341,13 @@ package game.module.mainScene
 				}
 				//this.cacheAs = "normal";
 				//_nameCom && (_nameCom.cacheAsBitmap = false);
+			}
+		}
+		
+		public function removeGuideImg(skin:String = "mainUi/arrow.png"):void{
+			if(harvestIcon && harvestIcon.icon.skin == skin){
+				harvestIcon.visible = false;
+				AnimationUtil.removeFlow(harvestIcon)
 			}
 		}
 		
@@ -406,26 +410,18 @@ package game.module.mainScene
 		
 		public function set showPoint(value:Point):void
 		{
-			if(isDiffPoints(data.showPoint, value))
+			if(data.showPoint != value)
 			{
 				data.showPoint = value;
 				if(data.showPoint)
 				{
-//					trace(data.showPoint.toString())
 					var p:Point = HomeData.intance.getPointPos(data.showPoint.x,data.showPoint.y);
 					this.x = p.x;
 					this.y = p.y;
-//					trace('坐标', p.toString())
-					
 				}
 			}
 		}
 		
-		private function isDiffPoints(p1:Point, p2:Point):Boolean {
-			if (!p1 || !p2) return true;
-			
-			return p1.x != p2.x || p1.y != p2.y;
-		}
 		
 		private function setBgLayer():void
 		{

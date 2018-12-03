@@ -26,6 +26,9 @@ package game.module.pvp.views
 	import game.module.pvp.event.PvpPiPeiEvent;
 	import game.module.pvp.model.PvpProxy;
 	import game.net.socket.WebSocketNetService;
+	import game.module.mainScene.HomeScene;
+	import game.common.ModuleManager;
+	import game.global.data.DBBuilding;
 	
 	import laya.events.Event;
 	import laya.events.MouseManager;
@@ -320,6 +323,24 @@ package game.module.pvp.views
 		private function rewardClick():void
 		{
 			XFacade.instance.openModule(ModuleName.PvpRewardPanel);
+		}
+		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_PVP));
+		}
+		
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this._ui.numChildren;i++){
+				var node = this._ui.getChildAt(i);
+				if(this._ui.getChildAt(i).name != "topLeftBox" && bool&&this._ui.getChildAt(i).name != "topRightBox"){
+					(this._ui.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this._ui.getChildAt(i) as Box).disabled = false;
+				}
+			}
 		}
 		
 		override public function dispose():void

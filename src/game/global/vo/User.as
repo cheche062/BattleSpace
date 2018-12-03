@@ -226,6 +226,11 @@ package game.global.vo
 		 */
 		public var vipRewardInfo:Array = [];
 		
+		/**
+		 * 天赋的点数
+		 */
+		public var tianfu:int = 0;
+		
 		/**第一次弹充值*/
 		public var firstRecharge:Boolean = false;
 		
@@ -266,7 +271,9 @@ package game.global.vo
 		/**道具ID=>属性映射,需要人肉维护*/
 		private var itemToPro:Object=
 		{
-			"1":"water","2":"stone","3":"steel","4":"gold","5":"food","6":"contribution", "9":"substitute","14":"token","16":"armyGroupFood","20":"bread"
+			"1":"water","2":"stone","3":"steel","4":"gold","5":"food",
+			"6":"contribution", "9":"substitute","14":"token","16":"armyGroupFood","20":"bread",
+			"21":"tianfu"
 		}
 		 
 		/**单例*/

@@ -5,6 +5,7 @@ package game.module.TeamCopy
 	
 	import game.common.ItemTips;
 	import game.common.LayerManager;
+	import game.common.ModuleManager;
 	import game.common.SceneManager;
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
@@ -18,6 +19,7 @@ package game.module.TeamCopy
 	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
 	import game.global.data.ConsumeHelp;
+	import game.global.data.DBBuilding;
 	import game.global.data.bag.BagManager;
 	import game.global.data.bag.ItemCell;
 	import game.global.data.bag.ItemCell3;
@@ -31,10 +33,12 @@ package game.module.TeamCopy
 	import game.global.vo.teamCopy.TeamCopyVo;
 	import game.global.vo.teamCopy.TeamFightBuyVo;
 	import game.global.vo.teamCopy.TeamFightLevelVo;
+	import game.module.mainScene.HomeScene;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.events.Event;
 	import laya.maths.Rectangle;
+	import laya.ui.Box;
 	import laya.utils.Handler;
 	
 	
@@ -544,6 +548,23 @@ package game.module.TeamCopy
 			}
 		}
 		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_TEAMCOPY));
+		}
+		
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this._view.numChildren;i++){
+				var node = this._view.getChildAt(i);
+				if(this.view.getChildAt(i).name != "closeBtn" && bool && this.view.getChildAt(i).name != "ReturnBtn"){
+					(this.view.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this.view.getChildAt(i) as Box).disabled = false;
+				}
+			}
+		}
 		
 		/**服务器报错*/
 		private function onError(...args):void

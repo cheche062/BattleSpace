@@ -4,13 +4,12 @@ package MornUI.gene {
 	import laya.display.*; 
 	
 	import laya.display.Text;
-	import MornUI.componets.DataComUI;
 
 	public class GeneEquipViewUI extends View {
 		public var infoBox:Box;
 		public var pic:Image;
 		public var nameTF:Text;
-		public var dataInfo:DataComUI;
+		public var boxAttr:Box;
 		public var kpiIcon:Image;
 		public var kpiTF:Text;
 		public var list:List;
@@ -38,7 +37,6 @@ package MornUI.gene {
 
 		override protected function createChildren():void {
 			View.regComponent("Text",Text);
-			View.regComponent("MornUI.componets.DataComUI",DataComUI);
 			super.createChildren();
 			loadUI("gene/GeneEquipView");
 

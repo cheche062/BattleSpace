@@ -2,9 +2,15 @@ package game.module.camp.talent
 {
 	import MornUI.camp.talent.TalentViewUI;
 	
+	import game.common.ResourceManager;
+	import game.common.XFacade;
+	import game.common.XTip;
 	import game.global.GameConfigManager;
+	import game.global.ModuleName;
 	import game.global.consts.ServiceConst;
+	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
+	import game.global.vo.User;
 	import game.module.camp.UnitTalentItemView;
 	import game.module.camp.UpgradeTalentView;
 	import game.module.camp.data.TalentData;
@@ -13,6 +19,7 @@ package game.module.camp.talent
 	import game.module.fighting.adata.ArmyData;
 	import game.module.fighting.view.BaseChapetrView;
 	import game.net.socket.WebSocketNetService;
+	import game.global.GameLanguage;
 	
 	import laya.events.Event;
 	
@@ -76,12 +83,14 @@ package game.module.camp.talent
 			return _selectAmData;
 		}
 		
+		/**天赋bindAmData*/
 		private function bindAmData():void
 		{
 			ui.levelTxt.text = _talentData.level.toString();
 			ui.pointTxt.text = _talentData.point.toString();
 			ui.typeIcon.skin = GameConfigManager.getItemImgPath(_talentData.itemId);
 			ui.xhTxt.text = _talentData.xlxh.toString();
+			this.showMoney();
 			
 			for (var i:int = 0; i < _items.length; i++) 
 			{
@@ -106,27 +115,66 @@ package game.module.camp.talent
 		{
 			super.addEvent();
 			
-			Signal.intance.on("unitTalentAdd",upSkillLevel);
-			ui.actionBtn.on(Event.CLICK,actionClick);
+			Signal.intance.on("unitTalentAdd",this,upSkillLevel);
+			ui.actionBtn.on(Event.CLICK,this,actionClick);
+			ui.btnBuy.on(Event.CLICK,this,onBtnBuyClick);
 			Signal.intance.on(ServiceConst.getServerEventKey(ServiceConst.TALENT_UPLEVEL),this,upTalentLevel);
 			Signal.intance.on(ServiceConst.getServerEventKey(ServiceConst.TALENT_UPSKILLLEVEL),this,reUpSkillLevel);
 			Signal.intance.on(ServiceConst.getServerEventKey(ServiceConst.TALENT_WASHPOINT),this,washPoint);
+			Signal.intance.on(ServiceConst.getServerEventKey(ServiceConst.TALENT_GETINFO),this,setData);
 		}
 		
 		override public function removeEvent():void
 		{
 			super.removeEvent();
 			
-			Signal.intance.off("unitTalentAdd",upSkillLevel);
-			ui.actionBtn.off(Event.CLICK,actionClick);
+			Signal.intance.off("unitTalentAdd",this,upSkillLevel);
+			ui.actionBtn.off(Event.CLICK,this,actionClick);
+			ui.btnBuy.off(Event.CLICK,this,onBtnBuyClick);
 			Signal.intance.off(ServiceConst.getServerEventKey(ServiceConst.TALENT_UPLEVEL),this,upTalentLevel);
 			Signal.intance.off(ServiceConst.getServerEventKey(ServiceConst.TALENT_UPSKILLLEVEL),this,reUpSkillLevel);
 			Signal.intance.off(ServiceConst.getServerEventKey(ServiceConst.TALENT_WASHPOINT),this,washPoint);
+			Signal.intance.off(ServiceConst.getServerEventKey(ServiceConst.TALENT_GETINFO),this,setData);
 		}
 		
 		private function actionClick(e:Event):void
+		{       
+			if(!selectAmData.serverData){
+				XTip.showTip("L_A_73120");
+				return;
+			}
+			// 获取配置表数据
+//			var data = ResourceManager.instance.getResByURL("config/tianfu_param.json");
+//			var itemId = data[6]['value'].split("=")[0];
+//			var itemNum = data[6]['value'].split("=")[1];
+			var itemId = _talentData.itemId;
+			var itemNum = _talentData.xlxh;
+			XFacade.instance.openModule(ModuleName.ItemAlertView, [GameLanguage.getLangByKey("L_A_88410"),
+				itemId,
+				itemNum,
+				function(){
+					WebSocketNetService.instance.sendData(ServiceConst.TALENT_WASHPOINT,[selectAmData.unitId]);
+				}]
+			);
+		}
+		
+		private function onBtnBuyClick(e:Event):void
 		{
-			WebSocketNetService.instance.sendData(ServiceConst.TALENT_WASHPOINT,[selectAmData.unitId]);
+			if(!selectAmData.serverData){
+				XTip.showTip("L_A_73120");
+			   return;
+			}
+			WebSocketNetService.instance.sendData(ServiceConst.TALENT_UPLEVEL,[selectAmData.unitId]);
+		}
+		
+		private function showMoney():void
+		{
+			// 获取配置表数据
+			var data = ResourceManager.instance.getResByURL("config/tianfu_param.json");
+			var itemId = data[6]['value'].split("=")[0];
+			var itemNum:Number = User.getInstance().getResNumByItem(itemId);
+			ui.imgMoney.skin = GameConfigManager.getItemImgPath(itemId);
+			ui.lbMoneyNum.text = itemNum;
 		}
 		
 		/**	洗点*/		
@@ -140,6 +188,10 @@ package game.module.camp.talent
 		/**	升级额外技能 */		
 		private function upSkillLevel(data:*=null):void
 		{
+			if(!selectAmData.serverData){
+				XTip.showTip("L_A_73120");
+				return;
+			}
 			var skillId:int = data as int;
 			WebSocketNetService.instance.sendData(ServiceConst.TALENT_UPSKILLLEVEL,[selectAmData.unitId,skillId]);
 		}
@@ -151,10 +203,29 @@ package game.module.camp.talent
 			bindAmData();
 		}
 		
-		/**	升级天赋等级 */		
-		private function upTalentLevel():void
+		/**	升级天赋等级,购买点数和资源 */		
+		private function upTalentLevel(...args):void
 		{
-			
+			var data:Object = args[1];
+			_talentData.updata(data,false);
+			bindAmData();
+			this.showMoney();
+		}
+		
+		/**兵种的天赋信息*/		
+		public function setData(...args):void
+		{
+			var data:Object = args[1];
+			_talentData.updata(data);
+			bindAmData();
+		}
+		
+		/**兵种的天赋初始化*/		
+		public function initData(...args):void
+		{
+			var data:Object = args[0];
+			_talentData.updata(data);
+			bindAmData();
 		}
 		
 		override protected function stageSizeChange(e:Event = null):void

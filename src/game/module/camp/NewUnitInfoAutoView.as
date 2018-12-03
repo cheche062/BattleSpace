@@ -42,6 +42,8 @@ package game.module.camp
 	
 	public class NewUnitInfoAutoView extends BaseChapetrView
 	{
+		/**20个属性页面*/
+		public var attrUi:DataComNewView;
 		public var autoSelectIndex:uint = 0;
 		public var muUi:NewUnitInfoViewUI;
 		public var typeList:Array = [0,1,2,3,4,5];  //所有 英雄 重甲 重甲 轻甲 无甲
@@ -139,7 +141,8 @@ package game.module.camp
 
 			//trace('tabListAr: ', tabListAr);
 		
-			_listPanel = new ListPanel([NewUnitInfoOperView, NewUnitJuexingView, AdvanceView, HeroAvatarCom/*, TalentView*/]);
+			_listPanel = new ListPanel([NewUnitInfoOperView, NewUnitJuexingView, AdvanceView, HeroAvatarCom, TalentView]);
+			(_listPanel.getPanel(0) as NewUnitInfoOperView).x -= 110;
 			_listPanel.mouseThrough = true;
 			muUi.selectUnitBox.parent.addChildAt(_listPanel,muUi.selectUnitTopBox.parent.getChildIndex(muUi.selectUnitTopBox));
 			
@@ -148,14 +151,18 @@ package game.module.camp
 			this._ani.scale(1.5,1.5);
 			muUi.selectUnitBox.addChild(_ani);
 			
-			for(var key:String in muUi.dom_newInfo){
-				if(muUi.dom_newInfo[key] is HTMLDivElement){
-					muUi.dom_newInfo[key].style.fontFamily = XFacade.FT_Futura;
-					muUi.dom_newInfo[key].style.fontSize = 16;
-					muUi.dom_newInfo[key].style.color = "#ffffff";
-					muUi.dom_newInfo[key].style.align = "right";
-				}
-			}
+			//属性列表
+			attrUi = new DataComNewView();
+			muUi.boxAttr.addChild(attrUi);
+			attrUi.addEvent();
+//			for(var key:String in muUi.dom_newInfo){
+//				if(muUi.dom_newInfo[key] is HTMLDivElement){
+//					muUi.dom_newInfo[key].style.fontFamily = XFacade.FT_Futura;
+//					muUi.dom_newInfo[key].style.fontSize = 16;
+//					muUi.dom_newInfo[key].style.color = "#ffffff";
+//					muUi.dom_newInfo[key].style.align = "right";
+//				}
+//			}
 		}
 		
 		private function show():void {
@@ -346,7 +353,8 @@ package game.module.camp
 					
 					updateNewInfo();
 					
-					ProTipUtil.addTip(muUi.dom_newInfo, selectAmData.serverData ? selectAmData.serverData : selectAmData.unitVo);
+//					ProTipUtil.addTip(muUi.dom_newInfo, selectAmData.serverData ? selectAmData.serverData : selectAmData.unitVo);
+					attrUi.setUnitData(selectAmData.serverData ? selectAmData.serverData : selectAmData.unitVo);
 					muUi.lvBox.visible = true;
 					muUi.powerBox.y = 465;
 					muUi.powerBox.visible = false;
@@ -359,8 +367,15 @@ package game.module.camp
 				case (bv is TalentView):
 					var _bv4:TalentView = (bv as TalentView);
 					if(_bv4){
-//						_bv4.selectAmData = selectAmData;
-						Facade.getInstance().sendNotification(TalentEvent.GETINFO,[selectAmData.unitId]);
+						_bv4.selectAmData = selectAmData;
+						if(selectAmData.serverData){
+							Facade.getInstance().sendNotification(TalentEvent.GETINFO,[selectAmData.unitId]);
+						}
+						else{
+							//玩家还没有这个兵种的时候也要天赋初始化
+							_bv4.initData({"unit_id":selectAmData.unitId,"point":0,"level":0,"skills":[]});
+						}
+//						Facade.getInstance().sendNotification(TalentEvent.GETINFO,[selectAmData.unitId]);
 //						WebSocketNetService.instance.sendData(ServiceConst.TALENT_GETINFO,[selectAmData.unitId]);
 					}
 					muUi.lvBox.visible = false;
@@ -386,16 +401,29 @@ package game.module.camp
 		/**更新左侧基本信息*/
 		public function updateNewInfo():void {
 			var _info = selectAmData.getInfoObj();
-			muUi.dom_newInfo.attackTF.innerHTML = _info["attack"];
-			muUi.dom_newInfo.critTF.innerHTML = _info["crit"];
-			muUi.dom_newInfo.critDamageTF.innerHTML = _info["critDamage"];
-			muUi.dom_newInfo.critDamReductTF.innerHTML = _info["critDamReduct"];
-			muUi.dom_newInfo.defenseTF.innerHTML = _info["defense"];
-			muUi.dom_newInfo.dodgeTF.innerHTML = _info["dodge"];
-			muUi.dom_newInfo.hitTF.innerHTML = _info["hit"];
-			muUi.dom_newInfo.hpTF.innerHTML = _info["hp"];
-			muUi.dom_newInfo.resilienceTF.innerHTML = _info["resilience"];
-			muUi.dom_newInfo.speedTF.innerHTML = _info["speed"];
+//			muUi.dom_newInfo.attackTF.innerHTML = _info["attack"];
+//			muUi.dom_newInfo.critTF.innerHTML = _info["crit"];
+//			muUi.dom_newInfo.critDamageTF.innerHTML = _info["critDamage"];
+//			muUi.dom_newInfo.critDamReductTF.innerHTML = _info["critDamReduct"];
+//			muUi.dom_newInfo.defenseTF.innerHTML = _info["defense"];
+//			muUi.dom_newInfo.dodgeTF.innerHTML = _info["dodge"];
+//			muUi.dom_newInfo.hitTF.innerHTML = _info["hit"];
+//			muUi.dom_newInfo.hpTF.innerHTML = _info["hp"];
+//			muUi.dom_newInfo.resilienceTF.innerHTML = _info["resilience"];
+//			muUi.dom_newInfo.speedTF.innerHTML = _info["speed"];
+			var arrAttr = [];
+			arrAttr.push(_info["hp"]);
+			arrAttr.push(_info["attack"]);
+			arrAttr.push(_info["defense"]);
+			arrAttr.push(_info["speed"]);
+			arrAttr.push(_info["hit"]);
+			arrAttr.push(_info["dodge"]);
+			arrAttr.push(_info["crit"]);
+			arrAttr.push(_info["critDamage"]);
+			arrAttr.push(_info["resilience"]);
+			arrAttr.push(_info["critDamReduct"]);
+			
+			attrUi.setListData(arrAttr);
 		}
 		
 		public function get selectAmData():ArmyData
@@ -432,6 +460,14 @@ package game.module.camp
 					}
 				}
 			}
+			var config_tianfu = ResourceManager.instance.getResByURL("config/tianfu_param.json");
+			//玩家等级
+			var tianfu_lv = Number(config_tianfu[8]["value"]);
+			//建筑等级
+			var str_1v1:String = config_tianfu[7]["value"];
+			var buildlv_1v1 = str_1v1.split("=");
+			//是否不够
+			var isNoLv = (User.getInstance().level<tianfu_lv)&&(User.getInstance().sceneInfo.getBuildingLv(buildlv_1v1[0]) < buildlv_1v1[1]);
 		
 			return [
 				{
@@ -448,10 +484,11 @@ package game.module.camp
 				{
 					icon:"newUnitInfo/btn_tab2.png",
 					cond: json[1].value
+				},
+				{
+					icon:"newUnitInfo/btn_tab4.png",
+					isNoLv:isNoLv
 				}
-//				{
-//					icon:"newUnitInfo/btn_tab4.png"
-//				}
 			];
 		}
 		
@@ -628,6 +665,7 @@ package game.module.camp
 		override public function addEvent():void
 		{
 			super.addEvent();
+			
 			muUi.selBtn.on(Event.CLICK,this,showTypeList);
 			muUi.helpBtn.on(Event.CLICK,this,helpBtnClick);
 			muUi.powerBox.on(Event.CLICK,this,showPowerTip);
@@ -654,6 +692,7 @@ package game.module.camp
 		override public function removeEvent():void
 		{
 			super.removeEvent();
+//			attrUi.removeEvent();
 			muUi.selBtn.off(Event.CLICK,this,showTypeList);
 			muUi.helpBtn.off(Event.CLICK,this,helpBtnClick);
 			muUi.powerBox.off(Event.CLICK,this,showPowerTip);

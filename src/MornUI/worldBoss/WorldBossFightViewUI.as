@@ -36,6 +36,7 @@ package MornUI.worldBoss {
 		public var dom_killNum:Label;
 		public var btn_setfood:Button;
 		public var dom_food:Label;
+		public var btnReward:Button;
 		public var dom_left:Box;
 		public var btn_rank:Button;
 		public var btn_mission:Button;

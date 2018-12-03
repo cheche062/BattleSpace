@@ -25,7 +25,7 @@ package game.module.camp
 		{
 			clear();
 			
-			this.mouseEnabled = this.mouseThrough = vo.isAble;
+			this.mouseEnabled = this.mouseThrough = true;
 			this.gray = !vo.isAble;
 			
 			_ui.levelTxt.text = "Lv." + vo.needLv;
@@ -34,7 +34,7 @@ package game.module.camp
 			{
 				var item:UnitTalentView = new UnitTalentView();
 				item.x = 104 + ( i * 90);
-				item.setData(vo.skills[i]);
+				item.setData(vo.skills[i],this.gray);
 				_ui.addChild(item);
 				_items.push(item);
 			}

@@ -31,11 +31,15 @@ package game.module.gene
 	import game.global.vo.User;
 	import game.module.alert.XAlert;
 	import game.module.camp.CampData;
+	import game.module.camp.DataComNewView;
 	import game.module.camp.ProTipUtil;
 	import game.module.camp.UnitItem;
 	import game.module.tips.GeneTip;
 	import game.module.train.TrainItem;
 	import game.net.socket.WebSocketNetService;
+	import game.module.mainScene.HomeScene;
+	import game.common.ModuleManager;
+	import game.global.data.DBBuilding;
 	
 	import laya.display.Animation;
 	import laya.display.Sprite;
@@ -54,6 +58,8 @@ package game.module.gene
 	 */
 	public class GeneEquipView extends BaseDialog
 	{
+		/**20个属性页面*/
+		public var attrUi:DataComNewView;
 		private var _soldierInfo:Object;
 		private var _geneInfo:Object;
 		//
@@ -164,16 +170,43 @@ package game.module.gene
 				}
 				
 				//兼容原始数据
-				view.dataInfo.attackTF.innerHTML = (data.attack || vo.ATK)+"";
-				view.dataInfo.critTF.innerHTML = (data.crit || vo.crit) +"";
-				view.dataInfo.critDamageTF.innerHTML = (data.critDamage || vo.CDMG)+"";
-				view.dataInfo.critDamReductTF.innerHTML = (data.critDamReduct|| vo.CDMGR)+"";
-				view.dataInfo.defenseTF.innerHTML = (data.defense || vo.DEF)+"";
-				view.dataInfo.dodgeTF.innerHTML = (data.dodge || vo.dodge)+"";
-				view.dataInfo.hitTF.innerHTML = (data.hit || vo.hit)+"";
-				view.dataInfo.hpTF.innerHTML = (data.hp || vo.HP)+"";
-				view.dataInfo.resilienceTF.innerHTML = (data.resilience || vo.RES)+"";
-				view.dataInfo.speedTF.innerHTML = (data.speed || vo.SPEED)+"";
+//				view.dataInfo.attackTF.innerHTML = (data.attack || vo.ATK)+"";
+//				view.dataInfo.critTF.innerHTML = (data.crit || vo.crit) +"";
+//				view.dataInfo.critDamageTF.innerHTML = (data.critDamage || vo.CDMG)+"";
+//				view.dataInfo.critDamReductTF.innerHTML = (data.critDamReduct|| vo.CDMGR)+"";
+//				view.dataInfo.defenseTF.innerHTML = (data.defense || vo.DEF)+"";
+//				view.dataInfo.dodgeTF.innerHTML = (data.dodge || vo.dodge)+"";
+//				view.dataInfo.hitTF.innerHTML = (data.hit || vo.hit)+"";
+//				view.dataInfo.hpTF.innerHTML = (data.hp || vo.HP)+"";
+//				view.dataInfo.resilienceTF.innerHTML = (data.resilience || vo.RES)+"";
+//				view.dataInfo.speedTF.innerHTML = (data.speed || vo.SPEED)+"";
+				var arrAttr = [];
+				arrAttr.push((data.hp || vo.HP)+"");
+				arrAttr.push((data.attack || vo.ATK)+"");
+				arrAttr.push((data.defense || vo.DEF)+"");
+				arrAttr.push((data.speed || vo.SPEED)+"");
+				arrAttr.push((data.hit || vo.hit)+"");
+				arrAttr.push((data.dodge || vo.dodge)+"");
+				arrAttr.push((data.crit || vo.crit) +"");
+				arrAttr.push((data.critDamage || vo.CDMG)+"");
+				arrAttr.push((data.resilience || vo.RES)+"");
+				arrAttr.push((data.critDamReduct|| vo.CDMGR)+"");
+				
+				//			arrAttr.push(_info["HP_Amp"]);
+				//			arrAttr.push(_info["ATK_Amp"]);
+				//			arrAttr.push(_info["DEF_Amp"]);
+				//			arrAttr.push(_info["SPEED_Amp"]);
+				//			arrAttr.push(_info["hit_Amp"]);
+				//			arrAttr.push(_info["dodge_Amp"]);
+				//			arrAttr.push(_info["crit_Amp"]);
+				//			arrAttr.push(_info["CDMG_Amp"]);
+				//			arrAttr.push(_info["RES_Amp"]);
+				//			arrAttr.push(_info["CDMGR_Amp"]);
+				
+				attrUi.setListData(arrAttr);
+				attrUi.setUnitData(data);
+				
+//				ProTipUtil.addTip(view.dataInfo,data);
 				
 				var vo2:Object = GameConfigManager.unit_json[data.unitId || data.unit_id];;
 				
@@ -186,25 +219,49 @@ package game.module.gene
 				if(vo2){
 					view.nameTF.text = vo2.name+"";
 				}
-				ProTipUtil.addTip(view.dataInfo,data);
+				
 				view.kpiTF.text = data.power+"";
 			}else{
 				_starLv.visible = false;
-				view.dataInfo.attackTF.innerHTML = "";
-				view.dataInfo.critTF.innerHTML = "";
-				view.dataInfo.critDamageTF.innerHTML = "";
-				view.dataInfo.critDamReductTF.innerHTML = "";
-				view.dataInfo.defenseTF.innerHTML = "";
-				view.dataInfo.dodgeTF.innerHTML = "";
-				view.dataInfo.hitTF.innerHTML = "";
-				view.dataInfo.hpTF.innerHTML = "";
-				view.dataInfo.resilienceTF.innerHTML = "";
-				view.dataInfo.speedTF.innerHTML = "";
+//				view.dataInfo.attackTF.innerHTML = "";
+//				view.dataInfo.critTF.innerHTML = "";
+//				view.dataInfo.critDamageTF.innerHTML = "";
+//				view.dataInfo.critDamReductTF.innerHTML = "";
+//				view.dataInfo.defenseTF.innerHTML = "";
+//				view.dataInfo.dodgeTF.innerHTML = "";
+//				view.dataInfo.hitTF.innerHTML = "";
+//				view.dataInfo.hpTF.innerHTML = "";
+//				view.dataInfo.resilienceTF.innerHTML = "";
+//				view.dataInfo.speedTF.innerHTML = "";
+				var arrAttr = [];
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				
+				//			arrAttr.push(_info["HP_Amp"]);
+				//			arrAttr.push(_info["ATK_Amp"]);
+				//			arrAttr.push(_info["DEF_Amp"]);
+				//			arrAttr.push(_info["SPEED_Amp"]);
+				//			arrAttr.push(_info["hit_Amp"]);
+				//			arrAttr.push(_info["dodge_Amp"]);
+				//			arrAttr.push(_info["crit_Amp"]);
+				//			arrAttr.push(_info["CDMG_Amp"]);
+				//			arrAttr.push(_info["RES_Amp"]);
+				//			arrAttr.push(_info["CDMGR_Amp"]);
+				
+				attrUi.setListData(arrAttr);
 				
 				view.nameTF.text = "";
 				view.pic.skin = "";
 				view.kpiTF.text = "";
-				ProTipUtil.removeTip(view.dataInfo)
+//				ProTipUtil.removeTip(view.dataInfo)
 			}
 		}
 		
@@ -257,20 +314,31 @@ package game.module.gene
 				data = XUtils.separateObj(data,totalPro);
 			}
 			
-			
-			view.dataInfo.attackTF.innerHTML = data.attack +"";
-			view.dataInfo.critTF.innerHTML = data.crit +"";
-			view.dataInfo.critDamageTF.innerHTML = data.critDamage +"";
-			view.dataInfo.critDamReductTF.innerHTML = data.critDamReduct +"";
-			view.dataInfo.defenseTF.innerHTML = data.defense +"";
-			view.dataInfo.dodgeTF.innerHTML = data.dodge +"";
-			view.dataInfo.hitTF.innerHTML = data.hit +"";
-			view.dataInfo.hpTF.innerHTML = data.hp +"";
-			view.dataInfo.resilienceTF.innerHTML = data.resilience +"";
-			view.dataInfo.speedTF.innerHTML = data.speed+"";
-			
+			var attrObj={
+				hp:(data.hp +""),
+				attack:(data.attack +""),
+				defense:(data.defense +""),
+				speed:(data.speed +""),
+				hit:(data.hit +""),
+				dodge:(data.dodge +""),
+				crit:(data.crit +""),
+				critDamage:(data.critDamage +""),
+				resilience:(data.resilience +""),
+				critDamReduct:(data.critDamReduct +"")
+			};
+//			view.dataInfo.attackTF.innerHTML = data.attack +"";
+//			view.dataInfo.critTF.innerHTML = data.crit +"";
+//			view.dataInfo.critDamageTF.innerHTML = data.critDamage +"";
+//			view.dataInfo.critDamReductTF.innerHTML = data.critDamReduct +"";
+//			view.dataInfo.defenseTF.innerHTML = data.defense +"";
+//			view.dataInfo.dodgeTF.innerHTML = data.dodge +"";
+//			view.dataInfo.hitTF.innerHTML = data.hit +"";
+//			view.dataInfo.hpTF.innerHTML = data.hp +"";
+//			view.dataInfo.resilienceTF.innerHTML = data.resilience +"";
+//			view.dataInfo.speedTF.innerHTML = data.speed+"";
+
 			//属性显示===============================================
-			var str:String
+			var str:String;
 			for(var m:String in totalPro){
 				TraceUtils.log("m------------------------------"+m)
 				var sign:String = "+";
@@ -278,8 +346,32 @@ package game.module.gene
 					sign = "-"
 				}
 				str = "<font color='#abff47'>"+sign+totalPro[m]+"</font>" 
-				view.dataInfo[m+"TF"].appendHTML(str);
+				attrObj[m]+=(str);
 			}
+			var arrAttr = [];
+			arrAttr.push(attrObj["hp"]);
+			arrAttr.push(attrObj["attack"]);
+			arrAttr.push(attrObj["defense"]);
+			arrAttr.push(attrObj["speed"]);
+			arrAttr.push(attrObj["hit"]);
+			arrAttr.push(attrObj["dodge"]);
+			arrAttr.push(attrObj["crit"]);
+			arrAttr.push(attrObj["critDamage"]);
+			arrAttr.push(attrObj["resilience"]);
+			arrAttr.push(attrObj["critDamReduct"]);
+			
+			//			arrAttr.push(_info["HP_Amp"]);
+			//			arrAttr.push(_info["ATK_Amp"]);
+			//			arrAttr.push(_info["DEF_Amp"]);
+			//			arrAttr.push(_info["SPEED_Amp"]);
+			//			arrAttr.push(_info["hit_Amp"]);
+			//			arrAttr.push(_info["dodge_Amp"]);
+			//			arrAttr.push(_info["crit_Amp"]);
+			//			arrAttr.push(_info["CDMG_Amp"]);
+			//			arrAttr.push(_info["RES_Amp"]);
+			//			arrAttr.push(_info["CDMGR_Amp"]);
+			attrUi.setListData(arrAttr);
+			attrUi.setUnitData(data);
 		}
 		
 		/**
@@ -596,14 +688,18 @@ package game.module.gene
 			view.itemList.vScrollBarSkin=""
 			view.bagBox.visible = false;
 			
-			for(var i:String in view.dataInfo){
-				if(view.dataInfo[i] is HTMLDivElement){
-					view.dataInfo[i].style.fontFamily = XFacade.FT_Futura;
-					view.dataInfo[i].style.fontSize = 16;
-					view.dataInfo[i].style.color = "#ffffff";
-					view.dataInfo[i].style.align = "right";
-				}
-			}
+//			for(var i:String in view.dataInfo){
+//				if(view.dataInfo[i] is HTMLDivElement){
+//					view.dataInfo[i].style.fontFamily = XFacade.FT_Futura;
+//					view.dataInfo[i].style.fontSize = 16;
+//					view.dataInfo[i].style.color = "#ffffff";
+//					view.dataInfo[i].style.align = "right";
+//				}
+//			}
+			//属性列表
+			attrUi = new DataComNewView();
+			view.boxAttr.addChild(attrUi);
+			attrUi.addEvent();
 			
 			var btns:Array = [];
 			for(var j:int=0; j<5; j++){
@@ -619,6 +715,24 @@ package game.module.gene
 			UIRegisteredMgr.AddUI(view.icon_0,"XGen");
 			UIRegisteredMgr.AddUI(view.itemList,"GeneList");
 			UIRegisteredMgr.AddUI(view.closeBtn,"CloseGen");
+		}
+		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_GENE));
+		}
+		
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this.view.numChildren;i++){
+				var node = this.view.getChildAt(i);
+				if(this.view.getChildAt(i).name != "closeBtn" && bool){
+					(this.view.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this.view.getChildAt(i) as Box).disabled = false;
+				}
+			}
 		}
 		
 		override public function dispose():void{
@@ -650,6 +764,7 @@ package game.module.gene
 		}
 		
 		override public function removeEvent():void{
+//			attrUi.removeEvent();
 			view.off(Event.CLICK, this, this.onClick);
 			view.typeTab.off(Event.CHANGE, this, this.onChangeType);
 			view.list.renderHandler = null;
@@ -664,7 +779,7 @@ package game.module.gene
 			Signal.intance.off(ServiceConst.getServerEventKey(ServiceConst.G_EQ_INFO),this,onResult);
 			Signal.intance.off(ServiceConst.getServerEventKey(ServiceConst.G_EQ_EQUIP),this,onResult);
 			Signal.intance.off(ServiceConst.getServerEventKey(ServiceConst.G_EQ_UNEQ),this,onResult);
-			ProTipUtil.removeTip(view.dataInfo)
+//			ProTipUtil.removeTip(view.dataInfo)
 		}
 		
 		private function get view():GeneEquipViewUI{

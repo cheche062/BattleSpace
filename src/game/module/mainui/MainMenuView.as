@@ -3,6 +3,7 @@ package game.module.mainui
 	import MornUI.homeScenceView.homeMenuViewUI;
 	
 	import game.common.LayerManager;
+	import game.common.ModuleManager;
 	import game.common.ResourceManager;
 	import game.common.SceneManager;
 	import game.common.ToolFunc;
@@ -27,15 +28,20 @@ package game.module.mainui
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.User;
 	import game.global.vo.reVo;
+	import game.module.military.MilitaryView;
 	import game.module.fighting.mgr.FightingManager;
 	import game.module.mainScene.ArticleData;
 	import game.module.mainui.infoViews.InfoViewFactory;
 	import game.module.mainui.upgradeViews.UpViewFactory;
 	import game.net.socket.WebSocketNetService;
-	
+	import game.module.mainScene.HomeScene;
+	import game.common.ModuleManager;
+	import game.global.data.DBBuilding;
+
 	import laya.display.Sprite;
 	import laya.events.Event;
 	import laya.maths.Point;
+	import laya.ui.Box;
 	import laya.ui.Button;
 	import laya.ui.Image;
 	import laya.utils.Handler;
@@ -115,6 +121,21 @@ package game.module.mainui
 			
 			//预加载第一场战斗
 			PreloadUtil.preloadFirstBattle();
+			
+			var atr_data:ArticleData = this._data[1];
+			if(atr_data.buildId &&HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(atr_data.buildId)){
+				//建筑物是否需要弱引导
+				if(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOnGuildBuild(atr_data.buildId)){
+					var id:String = atr_data.buildId.replace("B","");
+					var guideId = HomeScene(ModuleManager.intance.getModule(HomeScene)).getBuildGuideId(atr_data.buildId);
+					if(guideId && guideId != ''){
+						WebSocketNetService.instance.sendData(ServiceConst.HAVE_TOUCH_GUIDE,id);
+						HomeScene(ModuleManager.intance.getModule(HomeScene)).arrHasGotGuide.push(id);
+						HomeScene(ModuleManager.intance.getModule(HomeScene)).refGuildBuildType();
+						XFacade.instance.openModule(ModuleName.FunctionGuideView,guideId);
+					}
+				}
+			}
 		}
 		
 		private function showMenu(menuType:int):void{

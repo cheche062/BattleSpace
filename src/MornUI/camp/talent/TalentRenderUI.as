@@ -7,6 +7,7 @@ package MornUI.camp.talent {
 	public class TalentRenderUI extends View {
 		public var bg:Image;
 		public var talentIcon:Image;
+		public var btnTip:Button;
 		public var addBtn:Button;
 		public var tfLvTxt:Label;
 

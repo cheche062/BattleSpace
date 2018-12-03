@@ -34,6 +34,7 @@ package game.module.train
 	import game.global.vo.User;
 	import game.global.vo.VIPVo;
 	import game.module.camp.CampData;
+	import game.module.camp.DataComNewView;
 	import game.module.camp.ProTipUtil;
 	import game.module.camp.UnitItem;
 	import game.module.camp.UnitItemVo;
@@ -56,6 +57,8 @@ package game.module.train
 	 */
 	public class TrainView extends BaseDialog
 	{
+		/**20个属性页面*/
+		public var attrUi:DataComNewView;
 		private var _data:Object
 		private var _ids:Array
 		private var _skills:Array;
@@ -290,16 +293,38 @@ package game.module.train
 				
 				view.powerTF.text = data.power+"";
 				//兼容原始数据
-				view.dataInfo.attackTF.innerHTML = (data.attack || vo.ATK)+"";
-				view.dataInfo.critTF.innerHTML = (data.crit || vo.crit) +"";
-				view.dataInfo.critDamageTF.innerHTML = (data.critDamage || vo.CDMG)+"";
-				view.dataInfo.critDamReductTF.innerHTML = (data.critDamReduct|| vo.CDMGR)+"";
-				view.dataInfo.defenseTF.innerHTML = (data.defense || vo.DEF)+"";
-				view.dataInfo.dodgeTF.innerHTML = (data.dodge || vo.dodge)+"";
-				view.dataInfo.hitTF.innerHTML = (data.hit || vo.hit)+"";
-				view.dataInfo.hpTF.innerHTML = (data.hp || vo.HP)+"";
-				view.dataInfo.resilienceTF.innerHTML = (data.resilience || vo.RES)+"";
-				view.dataInfo.speedTF.innerHTML = (data.speed || vo.SPEED)+"";
+//				view.dataInfo.attackTF.innerHTML = (data.attack || vo.ATK)+"";
+//				view.dataInfo.critTF.innerHTML = (data.crit || vo.crit) +"";
+//				view.dataInfo.critDamageTF.innerHTML = (data.critDamage || vo.CDMG)+"";
+//				view.dataInfo.critDamReductTF.innerHTML = (data.critDamReduct|| vo.CDMGR)+"";
+//				view.dataInfo.defenseTF.innerHTML = (data.defense || vo.DEF)+"";
+//				view.dataInfo.dodgeTF.innerHTML = (data.dodge || vo.dodge)+"";
+//				view.dataInfo.hitTF.innerHTML = (data.hit || vo.hit)+"";
+//				view.dataInfo.hpTF.innerHTML = (data.hp || vo.HP)+"";
+//				view.dataInfo.resilienceTF.innerHTML = (data.resilience || vo.RES)+"";
+//				view.dataInfo.speedTF.innerHTML = (data.speed || vo.SPEED)+"";
+				var arrAttr = [];
+				arrAttr.push((data.hp || vo.HP)+"");
+				arrAttr.push((data.defense || vo.DEF)+"");
+				arrAttr.push((data.attack || vo.ATK)+"");
+				arrAttr.push((data.speed || vo.SPEED)+"");
+				arrAttr.push((data.hit || vo.hit)+"");
+				arrAttr.push((data.dodge || vo.dodge)+"");
+				arrAttr.push((data.crit || vo.crit) +"");
+				arrAttr.push((data.resilience || vo.RES)+"");
+				arrAttr.push((data.critDamage || vo.CDMG)+"");
+				arrAttr.push((data.critDamReduct|| vo.CDMGR)+"");
+//				arrAttr.push(_info["HP_Amp"]);
+//				arrAttr.push(_info["DEF_Amp"]);
+//				arrAttr.push(_info["ATK_Amp"]);
+//				arrAttr.push(_info["SPEED_Amp"]);
+//				arrAttr.push(_info["hit_Amp"]);
+//				arrAttr.push(_info["dodge_Amp"]);
+//				arrAttr.push(_info["crit_Amp"]);
+//				arrAttr.push(_info["RES_Amp"]);
+//				arrAttr.push(_info["CDMG_Amp"]);
+//				arrAttr.push(_info["CDMGR_Amp"]);
+				attrUi.setListData(arrAttr);
 				
 				var vo2:Object = GameConfigManager.unit_json[data.unitId || data.unit_id];
 				if(data){
@@ -337,22 +362,34 @@ package game.module.train
 				
 				setSkillPosition();
 				
-				
-				ProTipUtil.addTip(view.dataInfo,data)
+				//				ProTipUtil.addTip(view.dataInfo,data)
+				attrUi.setUnitData(data);
 			}else{
 				
 				
 				//兼容原始数据
-				view.dataInfo.attackTF.innerHTML = "";
-				view.dataInfo.critTF.innerHTML = "";
-				view.dataInfo.critDamageTF.innerHTML = "";
-				view.dataInfo.critDamReductTF.innerHTML = "";
-				view.dataInfo.defenseTF.innerHTML = "";
-				view.dataInfo.dodgeTF.innerHTML = "";
-				view.dataInfo.hitTF.innerHTML = "";
-				view.dataInfo.hpTF.innerHTML = "";
-				view.dataInfo.resilienceTF.innerHTML = "";
-				view.dataInfo.speedTF.innerHTML = "";
+				var arrAttr = [];
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				arrAttr.push("");
+				//				arrAttr.push(_info["HP_Amp"]);
+				//				arrAttr.push(_info["DEF_Amp"]);
+				//				arrAttr.push(_info["ATK_Amp"]);
+				//				arrAttr.push(_info["SPEED_Amp"]);
+				//				arrAttr.push(_info["hit_Amp"]);
+				//				arrAttr.push(_info["dodge_Amp"]);
+				//				arrAttr.push(_info["crit_Amp"]);
+				//				arrAttr.push(_info["RES_Amp"]);
+				//				arrAttr.push(_info["CDMG_Amp"]);
+				//				arrAttr.push(_info["CDMGR_Amp"]);
+				attrUi.setListData(arrAttr);
 				
 				view.costTF.text = "";
 				view.poNumTF.text = "";
@@ -361,7 +398,7 @@ package game.module.train
 				formatSkill(view.skillCom.item_0, null);
 				formatSkill(view.skillCom.item_1, null);
 				formatSkill(view.skillCom.item_2, null);
-				ProTipUtil.removeTip(view.dataInfo)
+//				ProTipUtil.removeTip(view.dataInfo)
 			}
 		}
 		
@@ -630,6 +667,11 @@ package game.module.train
 		override public function createUI():void{
 			this._view = new TrainViewUI();
 			this.addChild(_view);
+			//属性列表
+			attrUi = new DataComNewView();
+			this.view.boxAttr.addChild(attrUi);
+			attrUi.addEvent();
+			
 			view.list.hScrollBarSkin=""
 			view.list.itemRender = UnitItem;
 			view.list.selectEnable = true;
@@ -649,14 +691,14 @@ package game.module.train
 			
 			_firstItem = new TrainingItem(view.exItem);
 			
-			for(var i:String in view.dataInfo){
-				if(view.dataInfo[i] is HTMLDivElement){
-					view.dataInfo[i].style.fontFamily = XFacade.FT_Futura;
-					view.dataInfo[i].style.fontSize = 16;
-					view.dataInfo[i].style.color = "#ffffff";
-					view.dataInfo[i].style.align = "right";
-				}
-			}
+//			for(var i:String in view.dataInfo){
+//				if(view.dataInfo[i] is HTMLDivElement){
+//					view.dataInfo[i].style.fontFamily = XFacade.FT_Futura;
+//					view.dataInfo[i].style.fontSize = 16;
+//					view.dataInfo[i].style.color = "#ffffff";
+//					view.dataInfo[i].style.align = "right";
+//				}
+//			}
 			UIRegisteredMgr.AddUI(this.view.list,"TrainSoilderList");
 			UIRegisteredMgr.AddUI(this.view.trainBtn,"TrainBtn");
 			
@@ -704,7 +746,7 @@ package game.module.train
 			Signal.intance.off(ServiceConst.getServerEventKey(ServiceConst.ERROR),this,onError);
 			Signal.intance.off(User.PRO_CHANGED, this, updateGold);
 			super.removeEvent();
-			ProTipUtil.removeTip(view.dataInfo)
+//			ProTipUtil.removeTip(view.dataInfo)
 		}
 		
 		public function get view():TrainViewUI{

@@ -7,7 +7,8 @@ package MornUI.format {
 
 	public class FormatViewUI extends View {
 		public var btnClose:Button;
-		public var format:Image;
+		public var imgFormat:Image;
+		public var lbFormat:Label;
 		public var pos:Label;
 		public var posLv:Label;
 		public var btnUp:Button;
@@ -20,10 +21,9 @@ package MornUI.format {
 		public var zdes1:Label;
 		public var zdes2:Label;
 		public var zdes3:Label;
-		public var list:List;
-		public var btn1:Button;
-		public var btn2:Button;
-		public var btn3:Button;
+		public var lbUpCost:Text;
+		public var imgUpCost:Image;
+		public var listAttr:List;
 		public var btnInfo:Button;
 
 		override protected function createChildren():void {

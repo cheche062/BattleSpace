@@ -7,12 +7,15 @@ package game.module.mainScene
 	import game.common.LayerManager;
 	import game.common.ModuleManager;
 	import game.common.ResourceManager;
+	import game.common.SceneManager;
 	import game.common.SoundMgr;
 	import game.common.ToolFunc;
 	import game.common.XFacade;
 	import game.common.XTip;
 	import game.common.XUtils;
 	import game.common.baseScene.BaseScene;
+	import game.common.baseScene.SceneType;
+	import game.global.GameConfigManager;
 	import game.global.GameLanguage;
 	import game.global.GameSetting;
 	import game.global.ModuleName;
@@ -35,6 +38,9 @@ package game.module.mainScene
 	import game.global.vo.BuildingLevelVo;
 	import game.global.vo.ItemVo;
 	import game.global.vo.User;
+	import game.global.vo.VoHasTool;
+	import game.global.vo.funGuide;
+	import game.module.activity.ActivityMainView;
 	import game.module.alert.XAlert;
 	import game.module.login.PreLoadingView;
 	import game.module.mainui.BuildEvent;
@@ -44,6 +50,7 @@ package game.module.mainScene
 	import game.module.mainui.speedView.SpeedView;
 	import game.module.military.MilitaryView;
 	import game.module.monterRiot.MonsterRiotView;
+	import game.module.story.StoryManager;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Sprite;
@@ -135,7 +142,7 @@ package game.module.mainScene
 					}else{
 						url = (id+1) + "";
 					}
-					url = URL.formatURL(ResourceManager.instance.setResURL("scene\/main\/mainscene_old_"+url+".jpg"));
+					url = URL.formatURL(ResourceManager.instance.setResURL("scene\/main\/mainscene_"+url+".jpg"));
 					
 					img = _imgs[id];
 					if(!img){
@@ -267,8 +274,8 @@ package game.module.mainScene
 				//基地附近的红点
 				case ServiceConst.GET_ACT_LIST:
 				{
-					//trace("actList:"+JSON.stringify(args));
-					TraceUtils.log("actList:"+args);
+					//TraceUtils.log("actList:"+JSON.stringify(args));
+					TraceUtils.log("actList:",args);
 					var activityData = args[0].activity; 
 					for(var i = 0;i<activityData.length;i++){
 						if(activityData[i].tid == 19){
@@ -284,11 +291,14 @@ package game.module.mainScene
 							}
 						}
 					}
+					if(args[0].guideid){
+						arrHasGotGuide=args[0].guideid;
+					}
 					break;
 				}	
 				case ServiceConst.B_INFO:
 					HomeData.intance.resetMapData();
-					TraceUtils.log("buildInfo:"+JSON.stringify(args[1]));
+					TraceUtils.log("buildInfo:",JSON.stringify(args[1]));
 					//国战数据相关
 					legionwar_state = args[1].legionwar_state;
 					boss_state = args[1].boss_state;
@@ -344,6 +354,19 @@ package game.module.mainScene
 							build_B_MINE.showAction(true, "mainUi/11.png");
 						}
 					}
+					
+					//所有需要弱引导的建筑物加上小箭头,建筑物开放置灰
+					for(var i:int=0; i<_buildItemList.length; i++){
+						var buildData:BaseArticle = _buildItemList[i];
+						//建筑物是否开放
+						if(isOpenBuild(buildData.data.buildId)){
+							buildData.gray = false;
+						}
+						else{
+							buildData.gray = true;
+						}
+					}
+					refGuildBuildType();
 					break;
 				case ServiceConst.M_INFO:
 					MonsterLogic.buildingList = this._buildItemList;
@@ -391,7 +414,7 @@ package game.module.mainScene
 					var tmpId:String = tmp[0];
 					_vo.building[tmpId] = tmp[1];//建筑数据
 					_vo.queue = tmp[2]//队列数据
-//					trace("_vo.queue:"+JSON.stringify(_vo.queue));
+//					TraceUtils.log("_vo.queue:"+JSON.stringify(_vo.queue));
 					//刷时间条
 					updateBuildingTime();
 					
@@ -436,9 +459,9 @@ package game.module.mainScene
 					break;
 				case ServiceConst.B_ONCE:
 				
-					//trace("秒建筑："+JSON.stringify(args));
+					//TraceUtils.log("秒建筑："+JSON.stringify(args));
 					var dueuqId:int = args[1][1];
-					//trace("要秒掉队列id:"+dueuqId);
+					//TraceUtils.log("要秒掉队列id:"+dueuqId);
 					onceBuilding(dueuqId);
 					_vo.queue = args[1][0];
 					Signal.intance.event(HomeScene.ARTICLE_UPDATE);
@@ -458,7 +481,7 @@ package game.module.mainScene
 					break;
 				case ServiceConst.B_RUIN:
 					var dueuqId:int = args[1][1];
-					//trace("_vo.queue:"+JSON.stringify(_vo.queue));
+					//TraceUtils.log("_vo.queue:"+JSON.stringify(_vo.queue));
 					onceBuilding(dueuqId);
 					_vo.queue = args[1][0];
 					Signal.intance.event(HomeScene.ARTICLE_UPDATE);
@@ -553,7 +576,7 @@ package game.module.mainScene
 				case ServiceConst.Build_Item_CD:
 					XTip.showTip("L_A_17006");
 					var dueuqId:int = args[1][1];
-//					trace("_vo.queue:"+JSON.stringify(_vo.queue));
+//					TraceUtils.log("_vo.queue:"+JSON.stringify(_vo.queue));
 					onceBuilding(dueuqId);
 					_vo.queue = args[1][0];
 					updateBuildingTime();
@@ -691,7 +714,7 @@ package game.module.mainScene
 				return;
 			}
 			//if(_nowFogid != fogId){
-//				trace("当前迷雾ID：", fogId);
+//				TraceUtils.log("当前迷雾ID：", fogId);
 				_nowFogid = fogId;
 				var fogInfo:Object = DBFog.getFogInfo(fogId);
 				var tmp:Array = (fogInfo.coord_4+"").split(",");
@@ -727,7 +750,7 @@ package game.module.mainScene
 						}
 					}
 				}
-//				trace("_fogImgs:"+_fogImgs);
+//				TraceUtils.log("_fogImgs:"+_fogImgs);
 				if(parseInt(_nowFogid) < DBFog.maxFogId){
 					var nextInfo:Object = DBFog.getFogInfo(fogId+1);
 					if(!_unlockBtn){
@@ -849,6 +872,7 @@ package game.module.mainScene
 			}
 			TrainInfoCom.update();
 		}
+
 		
 		//获取建筑
 		private function getBuilding(bid:String):BaseArticle{
@@ -874,7 +898,7 @@ package game.module.mainScene
 				bitem = new BaseArticle();
 				bdData = new ArticleData();
 				var bdVo:BuildingLevelVo = DBBuildingUpgrade.getBuildingLv(id,lv);
-				//trace("createBuildingxxxxxxxx",bdVo, id, lv)
+				//TraceUtils.log("createBuildingxxxxxxxx",bdVo, id, lv)
 				bdData.buildId = "B"+id;
 				bdData.level = lv;
 				bdData.id = bid;
@@ -932,7 +956,7 @@ package game.module.mainScene
 			}
 			//如果传入一个建筑ID
 			if(bitem is String){
-//				trace("1111")
+//				TraceUtils.log("1111")
 				var bid:String = (bitem+"");
 				if(bid.indexOf("B") == -1){
 					bid = "B"+bid;
@@ -966,8 +990,8 @@ package game.module.mainScene
 			if(!bitem){
 				return null;
 			}
-//			trace("bitem:"+bitem);
-//			trace("bitem坐标:"+bitem.x+","+bitem.y);
+//			TraceUtils.log("bitem:"+bitem);
+//			TraceUtils.log("bitem坐标:"+bitem.x+","+bitem.y);
 			this.showDragRegion();
 			var targetX:Number = (m_sprMap.width/2-bitem.x)*m_sprMap.scaleX+LayerManager.instence.stageWidth/2;
 			var targetY:Number = (m_sprMap.height/2-bitem.y)*m_sprMap.scaleY+LayerManager.instence.stageHeight/2;
@@ -981,7 +1005,7 @@ package game.module.mainScene
 			}else if(targetY > dragRegion.y+dragRegion.height){
 				targetY = dragRegion.y+dragRegion.height
 			}
-//			trace("聚焦的坐标:"+targetX+","+targetY);
+//			TraceUtils.log("聚焦的坐标:"+targetX+","+targetY);
 			Tween.to(m_sprMap,{x:targetX,y:targetY,ease:Ease.linearOut},200, null, Handler.create(this,showObject));
 			return bitem;
 		}
@@ -989,7 +1013,7 @@ package game.module.mainScene
 		/**查找已经生成的建筑*/
 		private function getBuild(bid:String):BaseArticle{
 			if(this._tmpBuilding && bid != "-1"){//-1表示临时的建筑
-//				trace("why???");
+//				TraceUtils.log("why???");
 				var bitem:BaseArticle 
 				for(var i:Number=0; i<this._tempList.length; i++){
 					bitem = _tempList[i]
@@ -999,6 +1023,122 @@ package game.module.mainScene
 				}
 			}	
 			return null;
+		}
+		
+		/**查看建筑是否开放*/
+		public function isOpenBuild(bid):Boolean{
+			var id:String = bid.replace("B","");
+			var db = ResourceManager.instance.getResByURL("config/building_upgrade.json");
+			var lv = User.getInstance().level;
+			var baseLv = User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_BASE);
+			if(db)
+			{
+				var vo:*;
+				var c:*; 
+				for each (c in db) 
+				{
+					if(c.building_id == id&&c.level == 1){
+						if(c.HQ_level<=baseLv && c.character_level<=lv){
+							return true;
+						}
+						
+						else{
+							return false;
+						}
+					}
+				}
+			}
+			return false;
+		}
+		
+		/**需要弱引导的建筑列表*/
+		public var arrHasGotGuide=[];
+		/**查看建筑是否在弱引导提示中*/
+		public function isOnGuildBuild(bid):Boolean{
+			var id:String = bid.replace("B","");
+			if(isOpenBuild(id)){
+				for(var i =0;i<arrHasGotGuide.length;i++){
+					if(id == arrHasGotGuide[i]){
+						return false;
+					}
+				}
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		
+		/**刷新弱引导的建筑状态*/
+		public function refGuildBuildType():void{
+			var arr_guideBuilds = getAllBuildNeedGuide();
+			//所有需要弱引导的建筑物加上小箭头
+			for(var i:int=0; i<arr_guideBuilds.length; i++){
+				var buildData:BaseArticle = getBuildByBid(arr_guideBuilds[i]);
+				//建筑物是否开放
+				if(isOpenBuild(buildData.data.buildId)){
+					//建筑物是否需要弱引导
+					if(isOnGuildBuild(buildData.data.buildId)){
+						buildData.showAction(true, "mainUi/arrow.png");
+					}
+					else{
+						buildData.removeGuideImg();
+					}
+				}
+			}
+		}
+		
+		/**所有引导的建筑列表*/
+		public function getAllBuildNeedGuide():Array{
+			var arr=[];
+			var vo:*;
+			var c:*;
+			var fovo:Object=ResourceManager.instance.getResByURL("config/functionGuide/function_open.json");
+			if (fovo)
+			{
+				for each (c in fovo)
+				{
+					if(c.type == 1 && c.extra_t == 1 && c.value2 == 1 && c.g_id){
+						arr.push(c.value1);
+					}
+				}
+			}
+			return arr;
+		}
+		
+		/**获取建筑物的功能引导ID*/
+		public function getBuildGuideId(bid):String{
+			var id:String = bid.replace("B","");
+			var arr=[];
+			var vo:*;
+			var c:*;
+			var fovo:Object=ResourceManager.instance.getResByURL("config/functionGuide/function_open.json");
+			if (fovo)
+			{
+				for each (c in fovo)
+				{
+					if(c.type == 1 && c.extra_t == 1 && c.value2 == 1 && c.value1 ==id){
+						return c.g_id;
+					}
+				}
+			}
+			return "";
+		}
+		
+		
+		/**获取需要弱引导提示的所有建筑列表*/
+		public function allNeedGuideBuild(id):Array{
+			var arr=[];
+			var db = ResourceManager.instance.getResByURL("config/building_list.json");
+			var vo:*;
+			var c:*; 
+			for each (c in db) 
+			{
+				if(isOpenBuild(c.building_id)){
+					arr.push(c.building_id);
+				}
+			}
+			return arr;
 		}
 		
 		/**根据道具ID获取*/
@@ -1073,15 +1213,12 @@ package game.module.mainScene
 			var p:Point = new Point(e.stageX,e.stageY);
 			p = m_sprMap.globalToLocal(p);
 			var showPoint:Point = HomeData.intance.getTilePoint(HomeData.tileW, HomeData.tileH, p.x, p.y, HomeData.OffsetX, HomeData.OffsetY);
-//			trace('get', showPoint.toString());
 			showPoint.x += Math.floor(_selectedBuilding.data.model_w/2);
 			showPoint.y += Math.floor(_selectedBuilding.data.model_h/2);
 			
-//			trace(showPoint)
 			selectedBuilding.data.inMap = HomeData.intance.checkPoint(showPoint.x,showPoint.y)
 			
 			selectedBuilding.showPoint = showPoint;
-			
 			var i:int = 0;
 			var key:String;
 			var b:Boolean = false;
@@ -1124,9 +1261,8 @@ package game.module.mainScene
 			}
 			
 			//判定是否可以移动到该位置===>
-			b = HomeData.intance.isOk(selectedBuilding.data, selectedBuilding.data.showPoint);
-			selectedBuilding.showBgLayer(b);
-			
+			b = HomeData.intance.isOk(selectedBuilding.data,selectedBuilding.data.showPoint);
+			selectedBuilding.showBgLayer(b);  
 			//预览状态，判定是否能建筑
 			if(this._tmpBuilding){
 				Signal.intance.event(BuildEvent.BUILD_RESULT, b);
@@ -1265,8 +1401,8 @@ package game.module.mainScene
 						var minTime:Number = _vo.queue[0][1];//获取队列里建筑的最短时间
 						var minArtId:String="-1";
 						var minQId:String = 0;
-//						trace("minTime0:"+minTime);
-//						trace("minTime1"+_vo.queue[1][1]);
+//						TraceUtils.log("minTime0:"+minTime);
+//						TraceUtils.log("minTime1"+_vo.queue[1][1]);
 						for(var i:Number=1; i<_vo.queue.length; i++)
 						{
 							if(_vo.queue[i][1]<minTime)
@@ -1662,7 +1798,7 @@ package game.module.mainScene
 							if(vo.queue[i].length>0)
 							{
 								var id:String = vo.queue[i][0];
-								//trace("后端建筑id:"+id);
+								//TraceUtils.log("后端建筑id:"+id);
 								if(id == bid)
 								{
 									building = true;
@@ -1803,7 +1939,7 @@ package game.module.mainScene
 			showObject();
 			var v1:Number = m_sprMap.x-m_sprMap.width*m_sprMap.scaleX/2;
 			var v2:Number = m_sprMap.y-m_sprMap.height*m_sprMap.scaleY/2;
-			//trace(v1+","+v2);
+			//TraceUtils.log(v1+","+v2);
 		}
 		
 		

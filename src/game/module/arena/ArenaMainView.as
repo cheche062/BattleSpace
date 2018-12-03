@@ -24,6 +24,9 @@ package game.module.arena
 	import game.module.bingBook.ItemContainer;
 	import game.module.fighting.mgr.FightingManager;
 	import game.net.socket.WebSocketNetService;
+	import game.module.mainScene.HomeScene;
+	import game.common.ModuleManager;
+	import game.global.data.DBBuilding;
 	
 	import laya.display.Text;
 	import laya.events.Event;
@@ -630,6 +633,24 @@ package game.module.arena
 
 			UIRegisteredMgr.AddUI(view.delopyBtn, "AreaDeployBtn");
 
+		}
+		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_ARENA));
+		}
+		
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this.view.numChildren;i++){
+				var node = this.view.getChildAt(i);
+				if(this.view.getChildAt(i).name != "leftTopArea" && bool&&this.view.getChildAt(i).name != "rightTopArea"){
+					(this.view.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this.view.getChildAt(i) as Box).disabled = false;
+				}
+			}
 		}
 
 		override public function addEvent():void

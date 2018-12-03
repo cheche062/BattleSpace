@@ -31,6 +31,9 @@ package game.module.relic
 	import game.module.camp.UnitItem;
 	import game.module.camp.UnitItemVo;
 	import game.net.socket.WebSocketNetService;
+	import game.module.mainScene.HomeScene;
+	import game.common.ModuleManager;
+	import game.global.data.DBBuilding;
 	
 	import laya.display.Animation;
 	import laya.events.Event;
@@ -789,6 +792,24 @@ package game.module.relic
 			l_effect1.scaleX=0.55; 
 			l_effect1.x=98;
 			l_effect1.y=443;
+		}
+		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_RADIO));
+		}
+		
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this._view.numChildren;i++){
+				var node = this._view.getChildAt(i);
+				if(this._view.getChildAt(i).name != "closeBtn" && bool){
+					(this._view.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this._view.getChildAt(i) as Box).disabled = false;
+				}
+			}
 		}
 		
 		private function onCompleteHandler(...arg):void

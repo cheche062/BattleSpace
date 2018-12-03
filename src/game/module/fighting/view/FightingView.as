@@ -8,6 +8,7 @@ package game.module.fighting.view
 	import MornUI.fightingView.FightingSelectUnitViewUI;
 	import MornUI.fightingView.FightingTopViewUI;
 	import MornUI.fightingView.KpiComUI;
+	import MornUI.tips.FightSaveTipUI;
 	
 	import game.common.AlertManager;
 	import game.common.AlertType;
@@ -62,6 +63,9 @@ package game.module.fighting.view
 		
 		public var leftTopView:FightingLeftTopViewUI;
 		private var kpiCom:KpiComUI;
+		
+		//保存提示窗口
+		public var fightSaveTipView:FightSaveTipUI;
 		
 		public var selectUnitView:FightingSelectUnitViewUI;
 		public var rightBottomView:FightingRightBottomViewUI;
@@ -185,6 +189,14 @@ package game.module.fighting.view
 //					btn.labelFont = "BigNoodleToo";
 //				}
 //			}
+			
+			fightSaveTipView = new FightSaveTipUI();
+			fightSaveTipView.width=fightSaveTipView.bg.width = fightSaveTipView.msgTF.width + 40;
+			fightSaveTipView.mouseEnabled = false;
+			fightSaveTipView.visible = false;
+			fightSaveTipView.top = 5;
+			fightSaveTipView.right = 120;
+			this.addChild(fightSaveTipView);
 			
 			
 			leftTopView.visible = selectUnitView.visible = false;
@@ -706,10 +718,13 @@ package game.module.fighting.view
 						//selectUnitView.fBox.visible = 	_showType == SHOWTYPE_3 || _showType == SHOWTYPE_7 || _showType == SHOWTYPE_8;
 						selectUnitView.fBox.visible = _showType != SHOWTYPE_5 && _showType != SHOWTYPE_7;
 						selectUnitView.fightBtn.disabled = false;
+						fightSaveTipView.visible = false;
 						if(_showType == SHOWTYPE_3 || _showType == SHOWTYPE_9)
 							selectUnitView.fightBtn.label = "L_A_2569";
-						else if(_showType == SHOWTYPE_5 || _showType == SHOWTYPE_8)
+						else if(_showType == SHOWTYPE_5 || _showType == SHOWTYPE_8){
 							selectUnitView.fightBtn.label = "L_A_48047";
+							fightSaveTipView.visible = true;
+						}
 						else if(_showType == SHOWTYPE_7)
 						{
 							selectUnitView.fightBtn.label = "L_A_48047";

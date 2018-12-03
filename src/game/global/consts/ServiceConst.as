@@ -384,6 +384,11 @@ package game.global.consts
 		 * 触发条件引导
 		 */
 		public static const PUSH_NEW_FUN:int=10501;
+		
+		/**
+		 * 触发的建筑功能引导ID,参数，建筑物ID
+		 */
+		public static const HAVE_TOUCH_GUIDE:int=10115;
 
 
 		/**
@@ -682,13 +687,13 @@ package game.global.consts
 		public static const TURNTABLE_ONE_RANK:int=40058;
 
 		/**折扣商店初始**/
-		public static const SUPER_SALE_ONE_INIT:int=32009;
+		public static const SUPER_SALE_ONE_INIT:int=40085;
 		/**刷新全部*/
-		public static const SUPER_SALE_ONE_REFRESH_ALL:int=32010;
+		public static const SUPER_SALE_ONE_REFRESH_ALL:int=40086;
 		/**刷新单个商品*/
-		public static const SUPER_SALE_ONE_REFRESH_GOODS:int=32011;
+		public static const SUPER_SALE_ONE_REFRESH_GOODS:int=40087;
 		/**购买商品*/
-		public static const SUPER_SALE_ONE_BUY:int = 32012;
+		public static const SUPER_SALE_ONE_BUY:int = 40088;
 		
 		public static const FIRST_CHARGE_INIT:int = 40000;
 		public static const FIRST_CHARGE_GET_REWARD:int = 40001;
@@ -1429,12 +1434,14 @@ package game.global.consts
 		//-------------------天赋 -------------
 		/**	天赋基础信息 */		
 		public static const TALENT_GETINFO:int = 50040;
-		/**	天赋升级 */		
+		/**	天赋升级，用资源买等级和点数 */		
 		public static const TALENT_UPLEVEL:int = 50041;
 		/**	天赋额外技能升级 */		
 		public static const TALENT_UPSKILLLEVEL:int = 50042;
 		/**	洗点 */		
 		public static const TALENT_WASHPOINT:int = 50043;
+		/**	天赋相关的10个新属性*/		
+		public static const TALENT_TO_NEWATTR:int = 50060;
 
 		// ---------------------- pvp 1vs1
 		/**	基本信息 */		

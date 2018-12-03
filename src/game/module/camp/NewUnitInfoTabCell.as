@@ -2,8 +2,11 @@ package game.module.camp
 {
 	import MornUI.camp.NewUnitInfoTabCellUI;
 	
+	import game.common.ResourceManager;
 	import game.common.XTip;
 	import game.global.cond.ConditionsManger;
+	import game.global.vo.User;
+	import game.global.GameLanguage;
 	
 	import laya.display.Sprite;
 	import laya.events.Event;
@@ -38,6 +41,9 @@ package game.module.camp
 				}
 				// 是否含有资源争夺建筑
 				if (value.isNoBuild) {
+					btn.filters = [UIUtils.grayFilter];
+				}
+				if(value.isNoLv){
 					btn.filters = [UIUtils.grayFilter];
 				}
 				
@@ -81,6 +87,30 @@ package game.module.camp
 			
 			if(dataSource.isNoBuild) {
 				XTip.showTip("L_A_132");
+				e.stopPropagation();
+			}
+			
+			if(dataSource.isNoLv) {
+				var config_tianfu = ResourceManager.instance.getResByURL("config/tianfu_param.json")
+				var tianfu_lv = Number(config_tianfu[8]["value"]);
+				var str_1v1:String = config_tianfu[7]["value"];
+				var buildlv_1v1 = str_1v1.split("=");
+				//是否不够
+				var isNoLv = (User.getInstance().level<tianfu_lv)&&(User.getInstance().sceneInfo.getBuildingLv(buildlv_1v1[0]) < buildlv_1v1[1]);
+				var strTip ='';
+				if(isNoLv){
+					strTip=GameLanguage.getLangByKey("L_A_88841").replace("{0}", buildlv_1v1[1]);
+					strTip=strTip.replace("{1}", tianfu_lv);
+				}
+				else if(User.getInstance().level<tianfu_lv){
+					//玩家等级不够
+					strTip=GameLanguage.getLangByKey("L_A_88842").replace("{0}", tianfu_lv);
+				}
+				else if(User.getInstance().sceneInfo.getBuildingLv(buildlv_1v1[0]) < buildlv_1v1[1]){
+					//建筑等级不够
+					strTip=GameLanguage.getLangByKey("L_A_88841").replace("{0}", buildlv_1v1[1]);
+				}
+				XTip.showTip(strTip);
 				e.stopPropagation();
 			}
 		}

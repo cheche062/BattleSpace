@@ -77,41 +77,43 @@ package game.module.activity.SuperSaleOne
 				case ServiceConst.SUPER_SALE_ONE_INIT:
 					for (i = 0; i < 6; i++)
 					{
-						_itemInfo[i].itemInfo = args[0].items[i].item_id;
-						_itemInfo[i].oriPrice = args[0].items[i].price.split("=")[1];
-						_itemInfo[i].nowPrice = args[0].items[i].discount_price.split("=")[1];
-						_itemInfo[i].discount = args[0].items[i].discount;
-						_itemInfo[i].nowNum = args[0].items[i].limit;
-						_itemInfo[i].maxNum = args[0].items[i].max;
+						_itemInfo[i].id= args[0].user_shop_data[i+1].id;
+						_itemInfo[i].itemInfo = args[0].user_shop_data[i+1].item_id;
+						_itemInfo[i].oriPrice = args[0].user_shop_data[i+1].price.split("=")[1];
+						_itemInfo[i].nowPrice = args[0].user_shop_data[i+1].discount_price.split("=")[1];
+						_itemInfo[i].discount = args[0].user_shop_data[i+1].discount;
+						_itemInfo[i].nowNum = args[0].user_shop_data[i+1].limit;
+						_itemInfo[i].maxNum = args[0].user_shop_data[i+1].max;
 						_itemInfo[i].refreshPrice = args[0].refresh_item_price.split("=")[1];
 						
 						_itemVec[i].dataSource = _itemInfo[i];
 					}
 					
 					_refreshPriceArr = [];
-					len = args[0].refresh_price.length;
-					for (i = 0; i < len; i++) 
+//					len = args[0].refresh_price.length;
+					for (var i in args[0].refresh_price) 
 					{
-						_refreshPriceArr.push( { up:args[0].refresh_price[i].up, price:args[0].refresh_price[i].price.split("=")[1] } );
+						_refreshPriceArr.push( { up:args[0].refresh_price[i].up, price:args[0].refresh_price[i].piece.split("=")[1] } );
 					}					
-					_refreshTime = args[0].refresh_time+1;
-					_remainTime = parseInt(args[0].end_date) - parseInt(TimeUtil.now / 1000);
+					_refreshTime = args[0].user_refresh_num+1;
+					_remainTime = parseInt(args[0].basic.end_date_time) - parseInt(TimeUtil.now / 1000);
 					updateRefreshPrice();
 					remainTimeCount();
 					break;
 				case ServiceConst.SUPER_SALE_ONE_REFRESH_ALL:
 					for (i = 0; i < 6; i++)
 					{
-						_itemInfo[i].itemInfo = args[0].items[i].item_id;
-						_itemInfo[i].oriPrice = args[0].items[i].price.split("=")[1];
-						_itemInfo[i].nowPrice = args[0].items[i].discount_price.split("=")[1];
-						_itemInfo[i].discount = args[0].items[i].discount;
-						_itemInfo[i].nowNum = args[0].items[i].limit;
-						_itemInfo[i].maxNum = args[0].items[i].max;
+						_itemInfo[i].id= args[0].user_shop_data[i+1].id;
+						_itemInfo[i].itemInfo = args[0].user_shop_data[i+1].item_id;
+						_itemInfo[i].oriPrice = args[0].user_shop_data[i+1].price.split("=")[1];
+						_itemInfo[i].nowPrice = args[0].user_shop_data[i+1].discount_price.split("=")[1];
+						_itemInfo[i].discount = args[0].user_shop_data[i+1].discount;
+						_itemInfo[i].nowNum = args[0].user_shop_data[i+1].limit;
+						_itemInfo[i].maxNum = args[0].user_shop_data[i+1].max;
 						
 						_itemVec[i].dataSource = _itemInfo[i];
 					}
-					_refreshTime = args[0].refresh_time+1;
+					_refreshTime = args[0].user_refresh_num+1;
 					updateRefreshPrice();
 					break;
 				case ServiceConst.SUPER_SALE_ONE_BUY:
@@ -166,10 +168,10 @@ package game.module.activity.SuperSaleOne
 			switch(cmd)
 			{
 				case BUY_ITEM:
-					WebSocketNetService.instance.sendData(ServiceConst.SUPER_SALE_ONE_BUY, [ActivityMainView.CURRENT_ACT_ID,_itemInfo[args[0]].itemInfo]);
+					WebSocketNetService.instance.sendData(ServiceConst.SUPER_SALE_ONE_BUY, [ActivityMainView.CURRENT_ACT_ID,_itemInfo[args[0]].id]);
 					break;
 				case REFRESH_ITEM:
-					WebSocketNetService.instance.sendData(ServiceConst.SUPER_SALE_ONE_REFRESH_GOODS, [ActivityMainView.CURRENT_ACT_ID,_itemInfo[args[0]].itemInfo]);
+					WebSocketNetService.instance.sendData(ServiceConst.SUPER_SALE_ONE_REFRESH_GOODS, [ActivityMainView.CURRENT_ACT_ID,_itemInfo[args[0]].id]);
 					break;
 				default:
 					break;
@@ -235,7 +237,7 @@ package game.module.activity.SuperSaleOne
 		
 		private function addToStageEvent():void 
 		{
-//			WebSocketNetService.instance.sendData(ServiceConst.SUPER_SALE_ONE_INIT, ActivityMainView.CURRENT_ACT_ID);
+			WebSocketNetService.instance.sendData(ServiceConst.SUPER_SALE_ONE_INIT, ActivityMainView.CURRENT_ACT_ID);
 			Laya.timer.loop(1000, this, this.remainTimeCount);
 			Signal.intance.on(ServiceConst.getServerEventKey(ServiceConst.SUPER_SALE_ONE_INIT), this, this.serviceResultHandler);
 			Signal.intance.on(ServiceConst.getServerEventKey(ServiceConst.SUPER_SALE_ONE_REFRESH_ALL), this, this.serviceResultHandler);
@@ -290,17 +292,17 @@ package game.module.activity.SuperSaleOne
 		
 	}
 
-	private class SuperSaleOneVo
-	{
-		public var itemIndex:int = 0;
-		public var itemInfo:String = "";
-		public var discount:int = 0;
-		public var oriPrice:int;
-		public var nowPrice:int;
-		public var maxNum:int;
-		public var nowNum:int;
-		public var refreshPrice:int = 20;
-	}
+//	public class SuperSaleOneVo
+//	{
+//		public var itemIndex:int = 0;
+//		public var itemInfo:String = "";
+//		public var discount:int = 0;
+//		public var oriPrice:int;
+//		public var nowPrice:int;
+//		public var maxNum:int;
+//		public var nowNum:int;
+//		public var refreshPrice:int = 20;
+//	}
 
 }
 

@@ -5,6 +5,7 @@ package game.module.bingBook
 	import game.common.AlertManager;
 	import game.common.AlertType;
 	import game.common.AnimationUtil;
+	import game.common.ModuleManager;
 	import game.common.ResourceManager;
 	import game.common.UIRegisteredMgr;
 	import game.common.XFacade;
@@ -15,6 +16,7 @@ package game.module.bingBook
 	import game.global.StringUtil;
 	import game.global.consts.ServiceConst;
 	import game.global.data.ConsumeHelp;
+	import game.global.data.DBBuilding;
 	import game.global.data.DBItem;
 	import game.global.data.bag.ItemData;
 	import game.global.event.Signal;
@@ -22,6 +24,7 @@ package game.module.bingBook
 	import game.global.util.TraceUtils;
 	import game.global.vo.VIPVo;
 	import game.module.bag.mgr.ItemManager;
+	import game.module.mainScene.HomeScene;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Animation;
@@ -791,6 +794,23 @@ package game.module.bingBook
 			}
 		}
 		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_RADIO));
+		}
+		
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this._view.numChildren;i++){
+				var node = this._view.getChildAt(i);
+				if(this._view.getChildAt(i).name != "closeBtn" && bool){
+					(this._view.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this._view.getChildAt(i) as Box).disabled = false;
+				}
+			}
+		}
 		
 		public override function destroy(destroyChild:Boolean=true):void{
 			Signal.intance.off(

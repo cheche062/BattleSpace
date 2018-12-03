@@ -37,9 +37,13 @@ package game.module.relic
 	import game.global.vo.relic.TransportVehicleInfo;
 	import game.module.fighting.mgr.FightingManager;
 	import game.net.socket.WebSocketNetService;
+	import game.module.mainScene.HomeScene;
+	import game.common.ModuleManager;
+	import game.global.data.DBBuilding;
 	
 	import laya.display.Animation;
 	import laya.events.Event;
+	import laya.ui.Box;
 	import laya.ui.Image;
 	import laya.utils.Handler;
 	import laya.utils.Timer;
@@ -810,6 +814,24 @@ package game.module.relic
 				l_ui.visible=true;
 //				l_PlanDot.visible=true;
 //				l_Line.visible=true;
+			}
+		}
+		
+		/**------检测是否处于预览模式--------*/
+		public function checkShowType():void{
+			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_RELIC));
+		}
+		
+		/**------是否处于预览模式--------*/
+		public function setDisableShowType(bool:Boolean):void{
+			for(var i =0;i<this._view.numChildren;i++){
+				var node = this._view.getChildAt(i);
+				if(this._view.getChildAt(i).name != "closeBtn" && bool){
+					(this._view.getChildAt(i) as Box).disabled = true;
+				}
+				else{
+					(this._view.getChildAt(i) as Box).disabled = false;
+				}
 			}
 		}
 

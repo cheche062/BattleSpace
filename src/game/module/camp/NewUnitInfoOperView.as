@@ -1,8 +1,10 @@
 package game.module.camp
 {
 	import MornUI.camp.NewUnitInfoOperViewUI;
+	import MornUI.componets.DataComNewUI;
 	import MornUI.componets.SkillItemUI;
 	
+	import game.module.camp.DataComNewView;
 	import game.common.ResourceManager;
 	import game.common.ToolFunc;
 	import game.common.UIHelp;
@@ -39,6 +41,8 @@ package game.module.camp
 	public class NewUnitInfoOperView extends BaseChapetrView
 	{
 		public var muUi:NewUnitInfoOperViewUI;
+		/**20个属性页面*/
+		public var attrUi:DataComNewView;
 		/**当前技能列表*/
 		private var _currentSkillList:Array;
 		/**技能上限列表*/
@@ -57,14 +61,18 @@ package game.module.camp
 			
 			this.mouseThrough = muUi.mouseThrough = true;
 			
-			for(var i:String in muUi.dataInfo){
-				if(muUi.dataInfo[i] is HTMLDivElement){
-					muUi.dataInfo[i].style.fontFamily = XFacade.FT_Futura;
-					muUi.dataInfo[i].style.fontSize = 16;
-					muUi.dataInfo[i].style.color = "#ffffff";
-					muUi.dataInfo[i].style.align = "right";
-				}
-			}
+//			for(var i:String in muUi.dataInfo){
+//				if(muUi.dataInfo[i] is HTMLDivElement){
+//					muUi.dataInfo[i].style.fontFamily = XFacade.FT_Futura;
+//					muUi.dataInfo[i].style.fontSize = 16;
+//					muUi.dataInfo[i].style.color = "#ffffff";
+//					muUi.dataInfo[i].style.align = "right";
+//				}
+//			}
+			//属性列表
+			attrUi = new DataComNewView();
+			muUi.boxAttr.addChild(attrUi);
+			attrUi.addEvent();
 			
 			this._starLv = new starBar("common/sectorBar/star_2.png","common/sectorBar/star_1.png",23,21,-9,10, 5);
 			_starLv.scaleX = _starLv.scaleY = 1;
@@ -101,14 +109,14 @@ package game.module.camp
 			if(!selectAmData)
 			{
 				this.muUi.upgradeBtn.label = GameLanguage.getLangByKey("L_A_701");
-				for each(var _node:* in muUi.dataInfo){
-					if(_node is HTMLDivElement){
-						(_node as HTMLDivElement).innerHTML = "";
-					}else if(_node is Image)
-					{
-						XTipManager.removeTip(_node);
-					}
-				}
+//				for each(var _node:* in muUi.dataInfo){
+//					if(_node is HTMLDivElement){
+//						(_node as HTMLDivElement).innerHTML = "";
+//					}else if(_node is Image)
+//					{
+//						XTipManager.removeTip(_node);
+//					}
+//				}
 				return;
 			}
 			this.muUi.upgradeBtn.label = selectAmData.serverData ? "L_A_702":"L_A_701";
@@ -125,16 +133,42 @@ package game.module.camp
 			_starLv.barValue = selectAmData.serverData && selectAmData.serverData.hasOwnProperty("starId")
 				? Number(_starVo.star_level) : selectAmData.unitVo.initial_star;
 			
-			muUi.dataInfo.attackTF.innerHTML = _info["attack"];
-			muUi.dataInfo.critTF.innerHTML = _info["crit"];
-			muUi.dataInfo.critDamageTF.innerHTML = _info["critDamage"];
-			muUi.dataInfo.critDamReductTF.innerHTML = _info["critDamReduct"];
-			muUi.dataInfo.defenseTF.innerHTML = _info["defense"];
-			muUi.dataInfo.dodgeTF.innerHTML = _info["dodge"];
-			muUi.dataInfo.hitTF.innerHTML = _info["hit"];
-			muUi.dataInfo.hpTF.innerHTML = _info["hp"];
-			muUi.dataInfo.resilienceTF.innerHTML = _info["resilience"];
-			muUi.dataInfo.speedTF.innerHTML = _info["speed"];
+//			muUi.dataInfo.attackTF.innerHTML = _info["attack"];
+//			muUi.dataInfo.critTF.innerHTML = _info["crit"];
+//			muUi.dataInfo.critDamageTF.innerHTML = _info["critDamage"];
+//			muUi.dataInfo.critDamReductTF.innerHTML = _info["critDamReduct"];
+//			muUi.dataInfo.defenseTF.innerHTML = _info["defense"];
+//			muUi.dataInfo.dodgeTF.innerHTML = _info["dodge"];
+//			muUi.dataInfo.hitTF.innerHTML = _info["hit"];
+//			muUi.dataInfo.hpTF.innerHTML = _info["hp"];
+//			muUi.dataInfo.resilienceTF.innerHTML = _info["resilience"];
+//			muUi.dataInfo.speedTF.innerHTML = _info["speed"];
+			var arrAttr = [];
+			arrAttr.push(_info["hp"]);
+			arrAttr.push(_info["attack"]);
+			arrAttr.push(_info["defense"]);
+			arrAttr.push(_info["speed"]);
+			arrAttr.push(_info["hit"]);
+			arrAttr.push(_info["dodge"]);
+			arrAttr.push(_info["crit"]);
+			arrAttr.push(_info["critDamage"]);
+			arrAttr.push(_info["resilience"]);
+			arrAttr.push(_info["critDamReduct"]);
+			
+//			arrAttr.push(_info["HP_Amp"]);
+//			arrAttr.push(_info["ATK_Amp"]);
+//			arrAttr.push(_info["DEF_Amp"]);
+//			arrAttr.push(_info["SPEED_Amp"]);
+//			arrAttr.push(_info["hit_Amp"]);
+//			arrAttr.push(_info["dodge_Amp"]);
+//			arrAttr.push(_info["crit_Amp"]);
+//			arrAttr.push(_info["CDMG_Amp"]);
+//			arrAttr.push(_info["RES_Amp"]);
+//			arrAttr.push(_info["CDMGR_Amp"]);
+			
+			attrUi.setListData(arrAttr);
+			attrUi.setUnitData(selectAmData.serverData ? selectAmData.serverData : selectAmData.unitVo);
+			
 			muUi.lvTF.text = _info["level"];
 			
 			muUi.popTF.text = selectAmData.unitVo.population
@@ -151,7 +185,7 @@ package game.module.camp
 				muUi.maxIcon.visible = false;
 			}
 			muUi.nameTF.text = selectAmData.unitVo.name;
-			ProTipUtil.addTip(muUi.dataInfo, selectAmData.serverData ? selectAmData.serverData : selectAmData.unitVo);
+//			ProTipUtil.addTip(muUi.dataInfo, selectAmData.serverData ? selectAmData.serverData : selectAmData.unitVo);
 			UIHelp.crossLayout(muUi.pListBox,true,0,50,20,-3);
 			
 			_limitSkillList = getLimitSkills(_starVo);
@@ -285,10 +319,12 @@ package game.module.camp
 			
 			muUi.dom_skill_box.space = muUi.dom_skill_box.numChildren == 3 ? 0 : 50;
 			if(muUi.dom_skill_box.numChildren >= 4){
-				muUi.dom_skill_box.x = -10;
+//				muUi.dom_skill_box.x = -10;
+				muUi.dom_skill_box.x = 100;
 				muUi.dom_skill_box.space = -5;
 			}else{
-				muUi.dom_skill_box.x = 40;
+//				muUi.dom_skill_box.x = 40;
+				muUi.dom_skill_box.x = 140;
 			}
 			
 			// 主动让它更新
@@ -411,6 +447,7 @@ package game.module.camp
 		public override function removeEvent():void
 		{
 			super.removeEvent();
+//			attrUi.removeEvent();
 			Signal.intance.off(BagEvent.BAG_EVENT_INIT, this, onBagInit);
 			Signal.intance.off(BagEvent.BAG_EVENT_CHANGE, this, onBagInit);
 			
@@ -470,12 +507,12 @@ package game.module.camp
 		public override function destroy(destroyChild:Boolean=true):void{
 			UIRegisteredMgr.DelUi("ComposeBtn");
 			UIRegisteredMgr.DelUi("Skill1Btn");
-			for each(var _node:* in muUi.dataInfo){
-				if(_node is Image)
-				{
-					XTipManager.removeTip(_node);
-				}	
-			}
+//			for each(var _node:* in muUi.dataInfo){
+//				if(_node is Image)
+//				{
+//					XTipManager.removeTip(_node);
+//				}	
+//			}
 			
 			super.destroy(destroyChild);
 			muUi = null;

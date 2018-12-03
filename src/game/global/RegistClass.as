@@ -213,6 +213,7 @@
 	import game.module.worldBoss.WorldBossChatView;
 	import game.module.worldBoss.WorldBossEnterView;
 	import game.module.worldBoss.WorldBossFightView;
+	import game.module.worldBoss.BossRewardTipView;
 	import game.module.worldBoss.WorldBossMissionView;
 	import game.module.worldBoss.WorldBossRankView;
 	import game.module.worldBoss.WorldBossSetFood;
@@ -589,6 +590,10 @@
 			 * 世界BOSS战斗界面
 			 */
 			ClassUtils.regClass(ModuleName.WorldBossFightView, WorldBossFightView);
+			/**
+			 * 世界BOSS战查看奖励
+			 */
+			ClassUtils.regClass(ModuleName.BossRewardTipView, BossRewardTipView);
 			/**设置粮草*/
 			ClassUtils.regClass(ModuleName.WorldBossSetFood, WorldBossSetFood);
 			/**入口弹层*/

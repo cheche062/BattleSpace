@@ -213,6 +213,7 @@ package game.global
 			this.user.inviteCode = args[1].invite_key;
 			this.user.VIP_LV=args[1].vip_info.vip_level;
 			this.user.chargeNum = args[1].vip_info.amount;
+			this.user.tianfu = args[1].tianfu;
 			
 			if (loginHandler)
 				loginHandler.run();

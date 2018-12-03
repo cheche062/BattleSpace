@@ -108,6 +108,7 @@ package game.module.fighting.mgr
 				 var str:String = "第四步";
 			}
 			var jsonStr:String = "appRes/staticConfig/Simulation/bu"+num+".json";
+			TraceUtils.log("qwqwqw"+jsonStr);
 			Laya.loader.load([{url:jsonStr,type:Loader.JSON}],Handler.create(this,loaderOver,[jsonStr,false]));
 			num ++ ;
 		}

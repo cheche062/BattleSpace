@@ -163,7 +163,7 @@ package game.global
 			return _instance;
 		}
 
-//		public static var buildingList_json:Object;  //建筑数据的json格式
+		public static var buildingList_json:Object;  //建筑数据的json格式
 		public static var buildingList_vos:Array=[]; //建筑数据的list格式
 
 //		public static var buildingUpgrade_json:Object;  //建筑数据(升级)的json格式
@@ -581,7 +581,7 @@ package game.global
 			
 			var vo:*;
 			var c:*;
-			var buildingList_json:*=ResourceManager.instance.getResByURL("config/building_list.json");
+			buildingList_json=ResourceManager.instance.getResByURL("config/building_list.json");
 			if (buildingList_json)
 			{
 				for each (c in buildingList_json)

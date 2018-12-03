@@ -36,8 +36,8 @@ package game.net.socket
 		 * //WK
 		 * 10.8.189.13
 		 */		
-		//public var SOCKET_HOST:String="10.8.189.13";  //文凯
-		public var SOCKET_HOST:String="10.8.189.14";  //褚继伟
+		//public var SOCKET_HOST:String="10.8.189.102";  //文凯
+		public var SOCKET_HOST:String="10.8.189.101";  //褚继伟
 		//public var SOCKET_HOST:String="10.8.189.9";  //花花
 		/**
 		 * 长链接端口 

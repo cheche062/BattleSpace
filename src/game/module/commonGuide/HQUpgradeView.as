@@ -12,7 +12,9 @@ package game.module.commonGuide
 	import game.global.data.DBBuildingNum;
 	import game.global.data.DBBuildingUpgrade;
 	import game.global.vo.BuildingLevelVo;
+	import game.global.vo.BuildingVo;
 	import game.global.vo.User;
+	import game.global.vo.VoHasTool;
 	import game.global.vo.funGuide;
 	import game.module.story.StoryManager;
 	import game.net.socket.WebSocketNetService;
@@ -28,14 +30,15 @@ package game.module.commonGuide
 	 */
 	public class HQUpgradeView extends BaseDialog 
 	{
-		private var _guideID:int = 0;
+//		private var _guideID:int = 0;
+		private var _Level:int = 0;
 		
 		private var _funOpenVo:funGuide;
 		
 		private var _buildImgVec:Vector.<Image> = new Vector.<Image>(3);
 		private var _buildNameVec:Vector.<Text> = new Vector.<Text>(3);
 		
-		private var _nowLv:int=1;
+//		private var _nowLv:int=1;
 		
 		public function HQUpgradeView() 
 		{
@@ -104,39 +107,55 @@ package game.module.commonGuide
 		}
 		
 		private function startYingdao():void {
-			User.getInstance().curGuideArr.shift();
-			User.getInstance().isInGuilding = false;
-			StoryManager.intance.activeStory();
+//			User.getInstance().curGuideArr.shift();
+//			User.getInstance().isInGuilding = false;
+//			StoryManager.intance.activeStory();
 		}
 		
 		override public function show(...args):void
 		{
 			super.show();
-			_guideID = args[0];
+			_Level = args[0];
+			newSetLv(_Level);
 			showView();
 			Tween.from(view, { scaleX:0, scaleY:0,x:LayerManager.instence.stageWidth/2,y:LayerManager.instence.stageHeight/2 }, 300);
 			view.gouImg.visible = GlobalRoleDataManger.instance.ShareState;
-			WebSocketNetService.instance.sendData(ServiceConst.GET_ACT_LIST);
+//			WebSocketNetService.instance.sendData(ServiceConst.GET_ACT_LIST);
+		}
+		
+		private var arrUnlockId:Array;
+		private function newSetLv(lv):void
+		{
+			var vo:*;
+			var c:*;
+			arrUnlockId=[];
+			for each (c in GameConfigManager.buildingList_json)
+			{
+				if(c.unlock == lv){
+					arrUnlockId.push(c.building_id);
+				}
+			}
 		}
 		
 		private function showView():void
 		{
-			_funOpenVo = GameConfigManager.fun_open_vec[_guideID];
+//			_funOpenVo = GameConfigManager.fun_open_vec[_guideID];
+//			
+//			_nowLv = User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_BASE);
 			
-			_nowLv = User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_BASE);
+			view.HQinfo.text = GameLanguage.getLangByKey("L_A_6013").replace("{0}", _Level);
 			
-			view.HQinfo.text = GameLanguage.getLangByKey("L_A_6013").replace("{0}", _nowLv);
+			view.oBLV.text = GameLanguage.getLangByKey("L_A_6015").replace("{0}", _Level-1);
+			view.nowBLv.text = GameLanguage.getLangByKey("L_A_14").replace("{0}", _Level);
 			
-			view.oBLV.text = GameLanguage.getLangByKey("L_A_6015").replace("{0}", _nowLv-1);
-			view.nowBLv.text = GameLanguage.getLangByKey("L_A_14").replace("{0}", _nowLv);
-			
-			var nextVo:BuildingLevelVo = DBBuildingUpgrade.getBuildingLv(DBBuilding.B_BASE, _nowLv);
-			view.oFNum.text = GameLanguage.getLangByKey("L_A_6014").replace("{0}", DBBuildingUpgrade.getBuildingLv(DBBuilding.B_BASE, _nowLv-1).buldng_capacty);
+			var nextVo:BuildingLevelVo = DBBuildingUpgrade.getBuildingLv(DBBuilding.B_BASE, _Level);
+			view.oFNum.text = GameLanguage.getLangByKey("L_A_6014").replace("{0}", DBBuildingUpgrade.getBuildingLv(DBBuilding.B_BASE, _Level-1).buldng_capacty);
 			view.nFNum.text = nextVo.buldng_capacty;
 			
 			
 			//新增建筑
-			var buildList:Array = DBBuildingNum.getNewBuingList(_nowLv-1);
+//			var buildList:Array = DBBuildingNum.getNewBuingList(_nowLv-1);
+			var buildList:Array = arrUnlockId;
 			var len:int = Math.min(buildList.length,3);
 			
 			if (len == 0)
