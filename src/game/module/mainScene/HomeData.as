@@ -4,6 +4,7 @@ package game.module.mainScene
 	 * 主场景数据
 	 */
 	import game.common.ResourceManager;
+	import game.global.data.DBFog;
 	import game.global.util.TraceUtils;
 	
 	import laya.maths.Point;
@@ -11,8 +12,6 @@ package game.module.mainScene
 
 	public class HomeData
 	{
-		//public static const tileW:Number = 116;  //网格宽度
-		//public static const tileH:Number = 58;  //网格高度
 		/**打开主界面国战地图*/
 		public static const MAIN_BTNJUNTUAN:String = "main_btnJuntuan";
 		/**
@@ -29,26 +28,39 @@ package game.module.mainScene
 		 */
 		public static const tileColumn:uint = 48; 
 		/**
-		 * 网格纵向数量
+		 *网格纵向数量
 		 */
-		public static const tileRow:uint = 49; 
+		public static const tileRow:uint = 69; 
 		
-		//地图偏移量
-		//public static const OffsetX:Number = -900//1740;
-		//地图偏移量Y
-		//public static const OffsetY:Number  = 1380//348;//
+		/** 当前   网格横向数量-w*/
+		public var curColumn:uint = 68;
+		/**当前  网格纵向数量-h*/
+		public var curRow:uint = 69;
+		
+		/**功能区   当前开放的 x*/
+		public static var fun_fog_x:uint = 1; 
+		/**功能区   当前开放的 y*/
+		public static var fun_fog_y:uint = 1;
+		/**资源区   当前开放的 x*/
+		public static var res_fog_x:uint = 1; 
+		/**资源区   当前开放的 y*/
+		public static var res_fog_y:uint = 1;
+		
+		
+		/**最大   网格横向数量-w*/
+		public static var MAX_COLUMN:uint = 68; 
+		/**最大  网格纵向数量-h*/
+		public static var MAX_CURROW:uint = 69;  
+		
+		/**右上角的起始点坐标*/
+		public static const ORIGIN_POS:Point = new Point(2580, 300);
 		
 		/**地图数据*/
 		public var mapTileData:Object = {};
 		
-		/**
-		 * 网格横向数量-w
-		 */
-		public var curColumn:uint = 48; 
-		/**
-		 * 网格纵向数量-h
-		 */
-		public var curRow:uint = 49;  
+		/**中间墙的分界线*/
+		public var MIDDLE_WALL_X:int = 44;
+		
 		/***
 		 *全局配置表控制器 
 		 */
@@ -63,11 +75,6 @@ package game.module.mainScene
 			_instance = this;
 		}
 		
-		
-		//地图偏移量
-		private static var _OffsetX:Number = -280//1740;
-		//地图偏移量Y
-		private static var _OffsetY:Number  = 1640//348;//
 		public static function get OffsetX():Number{
 			return BuildPosData.offX;
 		}
@@ -132,56 +139,50 @@ package game.module.mainScene
 		}
 		
 		public function isOk(bData:ArticleData, pi:Point):Boolean{
-			var w:Number = curColumn
-			var h:Number = curRow;
-			//越界判定
-			if(pi.x<0 || pi.x >= w || pi.y <0 || pi.y>= h){
-				return false;
-			}
-			var pAr:Array = [];
 			var sizeX:Number = bData.model_w;
 			var sizeY:Number = bData.model_h;
 			//再次越界判定
-			if(pi.x-sizeX<-1 || pi.y -sizeY <-1){
+			if(pi.x-sizeX < -1 || pi.y -sizeY < -1){
 				return false;
 			}
+			
 			for(var i:int=0; i<sizeX; i++){
 				for(var j:int=0; j<sizeY; j++){
-					pAr.push(new Point(pi.x-i,pi.y-j));
+					var key:String = (pi.x-i) + "_" + (pi.y-j);
+					if(mapTileData[key] > 0){
+						return false;
+					}	
 				}
 			}
 			
+			var bool:Boolean = canMoveToAreaByBuildingType(bData, pi); 
 			
-			for (i = 0; i < pAr.length; i++) 
-			{
-				var key:String = pAr[i].x + "_" + pAr[i].y;
-				if(mapTileData[key] > 0){
-					return false;
-				}
+			return bool;
+		}
+		
+		/**通过建筑类型判断  功能区、建筑区可放置的建筑*/
+		private function canMoveToAreaByBuildingType(bData:ArticleData, point:Point):Boolean {
+			switch (Number(bData.building_type)) {
+				//功能建筑
+				case 1:
+					return (point.x <= fun_fog_x && point.y <= fun_fog_y);
+					break;
+				//资源建筑
+				case 3:
+					return (point.x <= res_fog_x && point.y <= res_fog_y);
+					break;
+				//防御建筑,装饰建筑
+				case 2:
+				case 4:
+					return ((point.x <= fun_fog_x && point.y <= fun_fog_y ) 
+						|| (point.x <= res_fog_x && point.x >= MIDDLE_WALL_X && point.y <= res_fog_y))
 					
+					break;
 			}
-			return true;
 		}
 		
 		//排序算法
 		public function sortFun(target:BaseArticle , item:BaseArticle ):int{
-			/*var tarY:Number = target.showPoint.y-target.data.model_h;
-			var itemY:Number = item.showPoint.y-item.data.model_h
-			if (tarY > itemY) {
-				return 1;
-			}else if (tarY < itemY) {
-				return -1;
-			}else{
-				var tarX:Number = target.showPoint.x-target.data.model_w;
-				var itemX:Number = item.showPoint.x-item.data.model_w
-				if(tarX < itemX){
-					return -1
-				}else if(tarX > itemX){
-					return 1
-				}
-			}
-			return 0;*/
-			
 			var p1:Point = HomeData.intance.getPointPos(target.showPoint.x-target.data.model_w,target.showPoint.y-target.data.model_h);
 			var p2:Point = HomeData.intance.getPointPos(item.showPoint.x-item.data.model_w,item.showPoint.y-item.data.model_h);
 			if(p1.y > p2.y){
@@ -233,7 +234,7 @@ package game.module.mainScene
 						mapTileData[key] = v;
 					}
 					if(v == -1){
-						TraceUtils.log(key+"---------------------------"+mapTileData[key]);
+						trace(key+"---------------------------"+mapTileData[key]);
 					}
 					if(mapTileData[key] <= 0 ){
 						delete mapTileData[key]
@@ -258,6 +259,19 @@ package game.module.mainScene
 			return arr;
 		}
 		
+		/**更新两区域的开放x，y*/
+		public static function updateFunResFogxy(fun_fog_id, res_fog_id):void {
+			var fun_point:Point = DBFog.getFunctionFogInfo(fun_fog_id).coord_1; 
+			// 使得看上去不碰到迷雾
+			fun_fog_x = fun_point.x - 1;
+			fun_fog_y = fun_point.y - 1;
+			var res_point:Point = DBFog.getResourceFogInfo(res_fog_id).coord_1;
+			res_fog_x = res_point.x - 1;
+			res_fog_y = res_point.y - 1;
+			
+			trace("功能区", fun_fog_x, fun_fog_y)
+			trace("资源区", res_fog_x, res_fog_y)
+		}
 		
 		/**
 		 *修改障碍数据
@@ -291,7 +305,7 @@ package game.module.mainScene
 		/**判定点是否越界*/
 		public function checkPoint(x:Number, y:Number):Boolean{
 			//越界判定
-			if(x<0 || x >= HomeData.tileColumn || y <0 || y>= HomeData.tileRow){
+			if(x<0 || x >= HomeData.intance.curColumn || y <0 || y>= HomeData.intance.curRow){
 				return false;
 			}
 			return true
@@ -418,30 +432,29 @@ package game.module.mainScene
 			
 			var dx:Number = px - offsetX
 			var dy:Number = py - offsetY
-			var N:Number =HomeData.tileColumn - 1 - Math.floor(dx/tileWidth - dy/tileHeight)
-			var M:Number =Math.floor(dx/tileWidth + dy/tileHeight)
+			var N:Number = HomeData.tileColumn - 1 - Math.floor(dx/tileWidth - dy/tileHeight)
+			var M:Number = Math.floor(dx/tileWidth + dy/tileHeight)
 			
-			//trace("xtile::ytile",N,M);
 			return new Point(N,M);
 		}
 		
 		/**根据点位推算坐标*/
-		private var originP:Point;
 		public function getPointPos(x:int,y:int):Point{
 			var tileW:Number = HomeData.tileW;
 			var tileH:Number = HomeData.tileH;
 			var newX:int = 1880;
 			var newY:int = 400;
 			var pIdxs:Array = [x, y];
-			if(!originP){
-				originP = new Point();
-				originP.x = HomeData.tileColumn * tileW /2 + HomeData.OffsetX;
-				originP.y = 0 + HomeData.OffsetY - HomeData.tileColumn*tileH/2;
-			}
-			//this.x = originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2;
-			//this.y = originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH;
-//			trace("originP:"+originP.x+","+originP.y);
-			return new Point(originP.x + (pIdxs[1] - pIdxs[0]) * tileW/2,originP.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)
+			
+			return new Point(ORIGIN_POS.x + (pIdxs[1] - pIdxs[0]) * tileW/2, ORIGIN_POS.y + (pIdxs[0] + pIdxs[1]) * tileH/2 + tileH)
+		}
+		
+		/**格子坐标转化为像素坐标*/
+		public function gridPosTransformToPixelPos(x, y):Point {
+			var _x = (ORIGIN_POS.x - (HomeData.tileW / 2) * x + (HomeData.tileW / 2 ) * y);
+			var _y = (ORIGIN_POS.y + (HomeData.tileH / 2 ) * x + (HomeData.tileH / 2 ) * y);
+			
+			return new Point(_x, _y);
 		}
 		
 		/**主场景配置数据*/

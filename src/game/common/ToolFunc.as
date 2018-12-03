@@ -562,8 +562,18 @@ package game.common
 				callback(t);
 			}));
 		}
-	
 		
+		/**数组去重*/
+		public static function unique(data:Array):Array {
+			if (!ToolFunc.isArray(data)) return [];
+			var newArr = [];
+			for (var i = 0; i < data.length; i++) {
+				if (newArr.indexOf(data[i]) == -1) {
+					newArr.push(data[i]);
+				}
+			}
+			return newArr;
+		}
 		
 	
 		

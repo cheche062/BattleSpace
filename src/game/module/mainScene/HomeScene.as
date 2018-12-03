@@ -7,7 +7,6 @@ package game.module.mainScene
 	import game.common.LayerManager;
 	import game.common.ModuleManager;
 	import game.common.ResourceManager;
-	import game.common.SceneManager;
 	import game.common.SoundMgr;
 	import game.common.ToolFunc;
 	import game.common.XFacade;
@@ -44,13 +43,13 @@ package game.module.mainScene
 	import game.module.alert.XAlert;
 	import game.module.login.PreLoadingView;
 	import game.module.mainui.BuildEvent;
+	import game.module.mainui.FogInfoVo;
 	import game.module.mainui.MainMenuView;
 	import game.module.mainui.MainView;
 	import game.module.mainui.SceneVo;
 	import game.module.mainui.speedView.SpeedView;
 	import game.module.military.MilitaryView;
 	import game.module.monterRiot.MonsterRiotView;
-	import game.module.story.StoryManager;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Sprite;
@@ -84,7 +83,7 @@ package game.module.mainScene
 		 */
 		private var _selectedBuilding:BaseArticle;
 		
-		//数据支撑
+		/**数据支撑*/
 		private var _vo:SceneVo = null;
 
 		/**
@@ -93,35 +92,69 @@ package game.module.mainScene
 		private var _scrollRect:Rectangle;
 		//记录正在升级的建筑
 		private var _upBuilds:Array = [];
-		/**迷雾按钮*/
-		private var _unlockBtn:unlockComUI;
+		
 		/**队列满之后的回调*/
 		public static var speedHandler:Handler;
 		
 		/**切图宽度*/
-		public static const SizeX:int = 4;
-		public static const SizeY:int = 3;
-		public static const CellW:int = 1000;
-		public static const CellH:int = 911;
+		public static const SizeX:int = 7;
+		public static const SizeY:int = 4;
+		
+		public static const CellW:int = 800;
+		public static const CellH:int = 729;
+		
 		private var _imgs:Array = [];
 		private var _imgContainer:Sprite;
 		
-		/***/
+		/**迷雾容器*/
+		private var _fogContainer:Sprite;
+		/**解锁容器*/
+		private var _lockContainer:Sprite;
+
+		private const AREA_TYPE_FUN = "fun";
+		private const AREA_TYPE_RES = "res";
+		
 		public function HomeScene()
 		{
 			isResDispose = false;
 			m_bCanDrag = true;
 		}
 		
-		override protected function loadMap():void{
-//			super.loadMap();
+		/**覆盖这个方法，达到重用的效果*/
+		override public function show(...args):void{
+			if(!m_sprMap){
+				initScence();
+				this.loadMap();
+			}else{
+				this.loadMapCell();
+				onStageResize();
+				_vo = User.getInstance().sceneInfo;
+			}
 			
+			// 层级顺序    背景图，网格层，迷雾层，建筑层，迷雾锁
+			_fogContainer = new Sprite();
+			_fogContainer.zOrder = 2;
+			m_sprMap.addChild(_fogContainer);
+			
+			_lockContainer = new Sprite();
+			_lockContainer.zOrder = 4;
+			m_sprMap.addChild(_lockContainer);
+			
+			initMap = ToolFunc.throttle(initMap, this);
+			
+			DataLoading.instance.show();
+			WebSocketNetService.instance.sendData(ServiceConst.B_INFO,null);
+			WebSocketNetService.instance.sendData(ServiceConst.M_INFO,null);
+			super.show();
+			
+			SoundMgr.instance.playMusicByURL(ResourceManager.instance.getSoundURL("mainbase"));
+		}
+		
+		override protected function loadMap():void{
 			m_sprMap.width = SizeX*CellW;
 			m_sprMap.height = SizeY*CellH;
-//			onMapLoaded();
 			
 			loadMapCell();
-			
 			loadMapCallBack();
 		}
 		
@@ -131,6 +164,7 @@ package game.module.mainScene
 			var img:Image;
 			if(!_imgContainer){
 				_imgContainer = new Sprite();
+				_imgContainer.zOrder = 0;
 				m_sprMap.addChild(_imgContainer);
 				m_sprMap.cacheAsBitmap = true;
 			}
@@ -148,7 +182,7 @@ package game.module.mainScene
 					if(!img){
 						img = new Image();
 						_imgs[id] = img;
-						img.scale(1.25,1.25);
+//						img.scale(1.25,1.25);
 						m_sprMap.addChildAt(img,0);
 						img.pos(j*CellW, i*CellH);
 					}
@@ -164,13 +198,10 @@ package game.module.mainScene
 			super.onMapLoaded();
 			this._scrollRect = new Rectangle(0,0, LayerManager.instence.stageWidth, LayerManager.instence.stageHeight);
 			this.scrollRect = _scrollRect;
-			//需要设定渲染区域
 			
-			//this.optimizeScrollRect = true;
-			//	
 			XFacade.instance.closeModule(PreLoadingView);
 			_vo = User.getInstance().sceneInfo;
-			WebSocketNetService.instance.sendData(ServiceConst.M_REFRESH,null);
+			WebSocketNetService.instance.sendData(ServiceConst.M_REFRESH, null);
 		}
 		
 		override protected function initMapPosition():void{
@@ -232,6 +263,7 @@ package game.module.mainScene
 		public static var ARTICLE_UPDATE:String = "ARTICLE_UPDATE";
 		private function onResult(cmdStr:Number,... args):void{
 			DataLoading.instance.close();
+//			trace("HomeScene", cmdStr, args);
 			switch(cmdStr){
 				//国战BOSS倒计时
 				case ServiceConst.BOSS_OPEN_VIEW:
@@ -274,8 +306,6 @@ package game.module.mainScene
 				//基地附近的红点
 				case ServiceConst.GET_ACT_LIST:
 				{
-					//TraceUtils.log("actList:"+JSON.stringify(args));
-					TraceUtils.log("actList:",args);
 					var activityData = args[0].activity; 
 					for(var i = 0;i<activityData.length;i++){
 						if(activityData[i].tid == 19){
@@ -298,7 +328,6 @@ package game.module.mainScene
 				}	
 				case ServiceConst.B_INFO:
 					HomeData.intance.resetMapData();
-					TraceUtils.log("buildInfo:",JSON.stringify(args[1]));
 					//国战数据相关
 					legionwar_state = args[1].legionwar_state;
 					boss_state = args[1].boss_state;
@@ -307,8 +336,11 @@ package game.module.mainScene
 					var rewardArr:Array = args[1].base_rob_info.day_box_reward;
 					User.getInstance().day_box_reward = (rewardArr && rewardArr.length);
 					
-					this._vo.updateValue(args[1]);
-					this.initMap(args[1].fog); 
+					_vo.updateValue(args[1]);
+					HomeData.updateFunResFogxy(_vo.fun_fog_id, _vo.res_fog_id);
+					
+					this.initMap();
+					
 					this.initBuilding();
 					this.updateBuildingTime();
 					//注册图标=======================================
@@ -404,8 +436,8 @@ package game.module.mainScene
 					gridSp.showGrid(false);
 										
 					//坐标点
-					this._selectedBuilding.realPoint.x = args[1][1]["xpos"];
-					this._selectedBuilding.realPoint.y = args[1][1]["ypos"];
+					this._selectedBuilding.realPoint.x = Number(args[1][1]["xpos"]);
+					this._selectedBuilding.realPoint.y = Number(args[1][1]["ypos"]);
 					//压入数据
 					HomeData.intance.modifyData(selectedBuilding,1);
 					//
@@ -449,7 +481,7 @@ package game.module.mainScene
 					}
 					//数据维护
 					_vo.queue = args[1][2];
-					TraceUtils.log("_vo.queue:"+JSON.stringify(args[1][2]));
+//					trace("_vo.queue:"+JSON.stringify(args[1][2]));
 					Signal.intance.event(HomeScene.ARTICLE_UPDATE);
 					this.updateBuildingTime();
 					//重新设定菜单
@@ -508,12 +540,19 @@ package game.module.mainScene
 						XFacade.instance.openModule("MainMenuView",[MainMenuView.MENU_LVUP, this.selectedBuilding.data])
 					}
 				
-//					updateBuildingTime();
 					break;
+				
 				case ServiceConst.B_EXPAND:
-					_vo.fog = parseInt(args[1]["id"]);
-					this.initMap(_vo.fog);
+					var key = _fog_type == AREA_TYPE_FUN ? "fun_fog_id" : "res_fog_id";
+					var _result = {};
+					_result[key] = args[1];
+					_vo.updateValue(_result);
+					HomeData.updateFunResFogxy(_vo.fun_fog_id, _vo.res_fog_id);
+					
+					initMap();
+					
 					break;
+				
 				case ServiceConst.B_HARVEST:
 					if (!_selectedBuilding||!_selectedBuilding.harvestIcon)
 					{
@@ -690,120 +729,119 @@ package game.module.mainScene
 			WebSocketNetService.instance.sendData(ServiceConst.getNotice);
 		}
 		
-		protected function showGrid(w:int, h:int):void
+		protected function showGrid():void
 		{
 			gridSp.width = m_sprMap.width;
 			gridSp.height = m_sprMap.height;
-			gridSp.initParam(HomeData.tileColumn,HomeData.tileRow,w,h,HomeData.tileW,HomeData.tileH, HomeData.OffsetX, HomeData.OffsetY);
+			gridSp.initParam();
 			gridSp.showGrid(false);
-//			gridSp.showGrid(true);
-			//gridSp.drawMask(w,h,HomeData.tileColumn, HomeData.tileRow);
 		}
 		
-		private var _fogImgs:Array = [];
-		private var _fogContainer:Sprite;
-		private var _nowFogid:int=-1;
-		private const FOG_POS:Array = {
-			1:[2528, 1494], 2:[2627, 1651], 3:[688, 1494], 4:[630, 1651],
-			5:[2607,1835],6:[2740,1998],7:[525,1905],8:[2788,2207],9:[525,2073]
-		}
-		private function initMap(fogId:*):void{
-			if(!fogId){
-				fogId = "1"
-			}else if(fogId == -1){
-				return;
+		private function initMap():void{
+			showGrid();
+			
+			_fogContainer.destroyChildren();
+			var funFogImages:Array = createFunctionFogArea();
+			var resFogImages:Array = createResourceFogArea();
+			var totalImages:Array = funFogImages.concat(resFogImages);
+			if (totalImages.length) {
+				_fogContainer.addChildren.apply(_fogContainer, totalImages);
 			}
-			//if(_nowFogid != fogId){
-//				TraceUtils.log("当前迷雾ID：", fogId);
-				_nowFogid = fogId;
-				var fogInfo:Object = DBFog.getFogInfo(fogId);
-				var tmp:Array = (fogInfo.coord_4+"").split(",");
-				HomeData.intance.curColumn = parseInt(tmp[0]);
-				HomeData.intance.curRow = parseInt(tmp[1]);
-				showGrid(HomeData.intance.curColumn, HomeData.intance.curRow);
-				for(var i:int=0; i<10; i++){
-					var img:Image = _fogImgs[i];
-					if(i > parseInt(_nowFogid)){
-						if(!_fogContainer){
-							_fogContainer = new Sprite();
-							m_sprMap.addChild(_fogContainer);
-							_fogContainer.cacheAsBitmap = true;
-						}
-						if(!img){
-							img = new Image(URL.formatURL(ResourceManager.instance.setResURL("scene\/fog\/"+i+".png")));
-							//img.scale(1.66667, 1.66667);
-							img.scale(2, 2);
-							_fogImgs[i] = img;
-						}else{
-							img.skin = "";
-							img.skin = URL.formatURL(ResourceManager.instance.setResURL("scene\/fog\/"+i+".png"))
-						}
-						img.name = img.skin;
-						this._fogContainer.addChild(img);
-						var posArr:Array = BuildPosData.getFogPos(i)
-						img.pos(posArr[0], posArr[1]);
-					}else{
-						if(img){
-							Loader.clearRes(img.skin);
-							img.removeSelf();
-							delete _fogImgs[i];
-						}
-					}
-				}
-//				TraceUtils.log("_fogImgs:"+_fogImgs);
-				if(parseInt(_nowFogid) < DBFog.maxFogId){
-					var nextInfo:Object = DBFog.getFogInfo(fogId+1);
-					if(!_unlockBtn){
-						_unlockBtn = new unlockComUI();
-					}
-					_unlockBtn.on(Event.CLICK, this, this.onBtnClick);
-					//开地等级限制取消 做此修改 防止再改回等级限制 只注释
-					//if(nextInfo.level > User.getInstance().level){
-					if(false){
-						_unlockBtn.bgLocked.visible = true;
-						_unlockBtn.bgUnlock.visible = false;
-						_unlockBtn.icon.visible = false;
-						_unlockBtn.priceTF.text = _unlockBtn.unlockLabel.text = "";
-						_unlockBtn.lockLabel.text = XUtils.getDesBy("L_A_53",nextInfo.level);
-						_unlockBtn.lockLabel.y = (94-_unlockBtn.lockLabel.height)/2//94 is ui height
-						_unlockBtn.mouseEnabled = false;
-					}else{
-						_unlockBtn.bgLocked.visible = false;
-						_unlockBtn.bgUnlock.visible = true;
-						
-						var tmp:Array = (nextInfo.price+"").split("=");
-						
-						_unlockBtn.icon.visible = true;
-						ItemUtil.formatIcon(_unlockBtn.icon,nextInfo.price);
-						_unlockBtn.unlockLabel.text = GameLanguage.getLangByKey("L_A_52");
-						_unlockBtn.priceTF.text = tmp[1]+"";
-						_unlockBtn.lockLabel.text = "";
-						
-						_unlockBtn.mouseEnabled = true;
-					}
-					_fogContainer.addChild(_unlockBtn);
-					var pos:Array = FOG_POS[fogId];
-					_unlockBtn.pos(pos[0],pos[1])
-				}else{
-					if(_unlockBtn){
-						_unlockBtn.removeSelf();
-						_unlockBtn.off(Event.CLICK, this, this.onBtnClick);
-					}
-				}
-			//}
+			
+			_lockContainer.destroyChildren();
+			var _lock_uis:Array = renderUnlockBtns();
+			if (_lock_uis.length) {
+				_lockContainer.addChildren.apply(_lockContainer, _lock_uis);
+			}
 		}
 		
-		private function onBtnClick():void{
-			var fogInfo:Object = DBFog.getFogInfo(_nowFogid+1);
-			var tmp:Array = (fogInfo.price+"").split("=");
-			var user:User = User.getInstance();
-			var handler:Handler = Handler.create(WebSocketNetService.instance, WebSocketNetService.instance.sendData,[ServiceConst.B_EXPAND,[(user.sceneInfo.fog+1)]])
+		/**功能区     创建迷雾*/
+		private function createFunctionFogArea():Array {
+			var fogInfos:Array = DBFog.getFunctionNeedLockFogInfos(_vo.fun_fog_id);
+			var images:Array = fogInfos.map(function(item:FogInfoVo) {
+				var posArr:Array = BuildPosData.getFunFogPos(item.id);
+				var skin = "scene/fog/newfog/fun/" + item.id + ".png";
+				return createFogImage(skin, posArr);
+			})
+			
+			return images;
+		}
+		
+		/**资源区   创建迷雾*/
+		private function createResourceFogArea():void {
+			var fogInfos:Array = DBFog.getResourceNeedLockFogInfos(_vo.res_fog_id);
+			var images:Array = fogInfos.map(function(item:FogInfoVo) {
+				var posArr:Array = BuildPosData.getResFogPos(item.id);
+				var skin = "scene/fog/newfog/res/" + item.id + ".png";
+				return createFogImage(skin, posArr);
+			})
+			
+			return images;
+		}
+		
+		/**创建单个迷雾遮罩图*/
+		private function createFogImage(skin:String, posArr:Array):Image {
+			var img = new Image(URL.formatURL(ResourceManager.instance.setResURL(skin)));
+			img.pos(posArr[0], posArr[1]);
+			return img;
+		}
+		
+		/**渲染扩地锁按钮*/
+		private function renderUnlockBtns():Array {
+			// 功能区解锁
+			var fun_ui:unlockComUI = createUnlockComUI(AREA_TYPE_FUN, DBFog.getFunctionFogInfo(_vo.fun_fog_id + 1));
+			// 资源区解锁
+			var res_ui:unlockComUI = createUnlockComUI(AREA_TYPE_RES, DBFog.getResourceFogInfo(_vo.res_fog_id + 1));
+			
+			return [fun_ui, res_ui].filter(function(item){ return !!item});
+		}
+		
+		/**渲染某个解锁按钮*/
+		private function createUnlockComUI(lockType:String, nextInfo:FogInfoVo):unlockComUI {
+			if (!nextInfo) return null;
+			
+			var lockui:unlockComUI = new unlockComUI();
+			lockui.anchorX = lockui.anchorY = 0.5;
+			lockui.on(Event.CLICK, this, unLockFogHandler, [lockType, nextInfo]);
+			var pos:Point = HomeData.intance.gridPosTransformToPixelPos(nextInfo.btn_pos.x, nextInfo.btn_pos.y);
+			lockui.pos(pos.x , pos.y);
+			//开地等级限制
+			if(nextInfo.level > Number(User.getInstance().level)){
+				lockui.bgLocked.visible = true;
+				lockui.bgUnlock.visible = false;
+				lockui.icon.visible = false;
+				lockui.priceTF.text = lockui.unlockLabel.text = "";
+				lockui.lockLabel.text = XUtils.getDesBy("L_A_53", nextInfo.level);
+				lockui.lockLabel.y = (94 - lockui.lockLabel.height)/2//94 is ui height
+				lockui.mouseEnabled = false;
+			}else{
+				lockui.bgLocked.visible = false;
+				lockui.bgUnlock.visible = true;
+				lockui.icon.visible = true;
+				ItemUtil.formatIcon(lockui.icon, nextInfo.price.join("="));
+				lockui.unlockLabel.text = GameLanguage.getLangByKey("L_A_52");
+				lockui.priceTF.text = nextInfo.price[1];
+				lockui.lockLabel.text = "";
+				lockui.mouseEnabled = true;
+			}
+			
+			return lockui;
+		}
+		
+		/**发送的迷雾类型*/
+		private var _fog_type:String
+		/**解锁迷雾*/
+		private function unLockFogHandler(type:String, fogInfo:FogInfoVo):void{
+			_fog_type = type;
+			var handler:Handler = Handler.create(WebSocketNetService.instance, 
+				WebSocketNetService.instance.sendData,[ServiceConst.B_EXPAND, [fogInfo.id, type]]);
+				
 			var str:String = GameLanguage.getLangByKey("L_A_23");
-			str = str.replace(/{(\d+)}/,tmp[1]);
-			var data:ItemData = new ItemData;
-			data.iid = parseInt(tmp[0]);
-			data.inum = parseInt(tmp[1]);
-			//ConsumeHelp.Consume([data],handler);
+			str = str.replace(/{(\d+)}/, fogInfo.price[1]);
+			var data:ItemData = new ItemData();
+			data.iid = parseInt(fogInfo.price[0]);
+			data.inum = parseInt(fogInfo.price[1]);
+			
 			var consumeHander:Handler = Handler.create(ConsumeHelp, ConsumeHelp.Consume, [[data], handler]);
 			
 			if (data.iid == DBItem.WATER)
@@ -820,6 +858,8 @@ package game.module.mainScene
 			}
 			
 			XAlert.showAlert(str, consumeHander);
+			
+			return trace(type, fogInfo.id);
 		}
 		
 		//初始化建筑
@@ -841,7 +881,7 @@ package game.module.mainScene
 				info = _vo.building[i];
 				bitem = this.createBuilding(info["id"],info["level"],i, info);
 				this._buildItemList.push(bitem);
-				setBuildPos(bitem, new Point(info["xpos"], info["ypos"]));
+				setBuildPos(bitem, new Point(Number(info["xpos"]), Number(info["ypos"])));
 				bitem.doScale(m_sprMap.scaleX);
 			}
 			SortingFun();
@@ -892,7 +932,7 @@ package game.module.mainScene
 		//根据信息生成建筑数据
 		public function createBuilding(id:Number, lv:Number, bid:String = "-1", infoArr:Object=null):BaseArticle{
 			var bitem:BaseArticle = getBuild(bid);//
-			TraceUtils.log("bitem:"+bitem);
+//			trace("bitem:"+bitem);
 			var bdData:ArticleData;
 			if(!bitem){
 				bitem = new BaseArticle();
@@ -916,8 +956,6 @@ package game.module.mainScene
 			bitem.update(bdData);
 			return bitem;
 		}
-		
-		
 		
 		protected var _buildItemList:Array = [];
 		private var _tempList:Array;
@@ -1205,23 +1243,15 @@ package game.module.mainScene
 				_selectedBuilding.moving = true;
 			}
 			
-			var tilePixelWidth:Number = HomeData.tileW * this.m_sprMap.scaleX ;
-			var tilePixelHeight:Number = HomeData.tileH * this.m_sprMap.scaleY;
-			var wHalfTile:uint = Math.floor(tilePixelWidth/2);
-			var hHalfTile:uint = Math.floor(tilePixelHeight/2);
-			
 			var p:Point = new Point(e.stageX,e.stageY);
 			p = m_sprMap.globalToLocal(p);
-			var showPoint:Point = HomeData.intance.getTilePoint(HomeData.tileW, HomeData.tileH, p.x, p.y, HomeData.OffsetX, HomeData.OffsetY);
-			showPoint.x += Math.floor(_selectedBuilding.data.model_w/2);
-			showPoint.y += Math.floor(_selectedBuilding.data.model_h/2);
 			
-			selectedBuilding.data.inMap = HomeData.intance.checkPoint(showPoint.x,showPoint.y)
+			var showPoint:Point = HomeData.intance.getTilePoint(HomeData.tileW, HomeData.tileH, p.x, p.y, HomeData.OffsetX, HomeData.OffsetY);
+//			trace('get', showPoint.toString());
+			showPoint.x += Math.floor(_selectedBuilding.data.model_w / 2);
+			showPoint.y += Math.floor(_selectedBuilding.data.model_h / 2);
 			
 			selectedBuilding.showPoint = showPoint;
-			var i:int = 0;
-			var key:String;
-			var b:Boolean = false;
 			
 			if(!_tmpBuilding){
 				var tmp:BaseArticle = HomeData.intance.getExchangeBuild(selectedBuilding,this._buildItemList);
@@ -1261,8 +1291,9 @@ package game.module.mainScene
 			}
 			
 			//判定是否可以移动到该位置===>
-			b = HomeData.intance.isOk(selectedBuilding.data,selectedBuilding.data.showPoint);
-			selectedBuilding.showBgLayer(b);  
+			var b = HomeData.intance.isOk(selectedBuilding.data, selectedBuilding.data.showPoint);
+			selectedBuilding.showBgLayer(b);
+			
 			//预览状态，判定是否能建筑
 			if(this._tmpBuilding){
 				Signal.intance.event(BuildEvent.BUILD_RESULT, b);
@@ -1294,16 +1325,26 @@ package game.module.mainScene
 			XFacade.instance.getView(MainMenuView).visible = true;
 			_exchanged = false;
 			_selectedBuilding.moving = false;
+			
+			var isInMap = HomeData.intance.checkPoint(selectedBuilding.data.showPoint.x,selectedBuilding.data.showPoint.y);
+			selectedBuilding.data.inMap = isInMap;
+//			trace(showPoint)
+			
 			//无效的显示位置
 			var canMove:Boolean
 			if(!selectedBuilding.data.inMap){
 				canMove = false;
+				trace("不在地图内")
 			}else{
 				canMove = HomeData.intance.isOk(selectedBuilding.data,selectedBuilding.data.showPoint);
 			}
 			if(canMove && (!XUtils.isEmpty(_selectedBuilding.data.effMonsters) || !XUtils.isEmpty(_selectedBuilding.data.buff))){
 				canMove = false;
+				trace("怪占领")
 			}
+			
+			// 全部有效
+//			canMove = true;
 			
 			//如果交换建筑，需要立即执行交换位置操作
 			//A建筑id  A的x坐标  A的y坐标  B建筑id  B的x坐标  B的y坐标
@@ -1343,6 +1384,8 @@ package game.module.mainScene
 				if(!this._tmpBuilding){
 					if(!XUtils.isEmpty(_selectedBuilding.data.effMonsters) || !XUtils.isEmpty(_selectedBuilding.data.buff)){
 						var handler:Handler = Handler.create(MonsterRiotView,MonsterRiotView.fight,[_selectedBuilding.data.effMonsters[0]])
+						
+						// 临时去除
 						XAlert.showAlert(GameLanguage.getLangByKey("L_A_47003"),handler)
 					}
 					if(canMove){
@@ -1550,7 +1593,7 @@ package game.module.mainScene
 		}
 		
 		private function onUserEvent(e:Event):void{
-			this.initMap(this._nowFogid);
+			initMap();
 			/**工会奖励*/
 			var b:BaseArticle = getBuildByBid(DBBuilding.B_GUILD)
 				
@@ -1861,6 +1904,11 @@ package game.module.mainScene
 					SortingFun();
 				}
 				this._selectedBuilding = b;
+				
+				if (this._selectedBuilding) {
+					trace('建筑类型', this._selectedBuilding.data.building_type);
+				}
+				
 				if(this._selectedBuilding){
 					this._selectedBuilding.isSelect = true;
 				}
@@ -1875,16 +1923,21 @@ package game.module.mainScene
 		
 		override public function initScence():void
 		{
+			window.home = this;
+			
 			Laya.stage.bgColor="#6B7C8C";
 			this._loadSceneResCom=false;
 			this.m_SceneResource="HomeScene";
 			super.initScence();
 			
 			gridSp = new GridSprite();
+			gridSp.zOrder = 1;
 			this.m_sprMap.addChild(gridSp);
 			
 			buildingLayer = new Sprite();
+			buildingLayer.zOrder = 3; 
 			this.m_sprMap.addChild(buildingLayer);
+			
 			if(GameSetting.IsRelease){
 				MIN_SCALE = 0.4;
 				doScale(-0.6);
@@ -1895,35 +1948,6 @@ package game.module.mainScene
 //			testPos();//测试建筑坐标位置
 			Signal.intance.on(ServiceConst.getServerEventKey(ServiceConst.PUSH_INVADE),this,onResult,[ServiceConst.PUSH_INVADE]);
 		}
-		
-//		private function testPos():void
-//		{
-//			// TODO Auto Generated method stub
-//			var bSprite:Sprite = new Sprite();
-//			var img:Image = new Image();
-//			var skin:String = "appRes/building/base_a.png";
-//			img.loadImage(skin, 0, 0, 0, 0, Handler.create(this, onLoadPic));
-//			var tileW:Number = HomeData.tileW;
-//			var tileH:Number = HomeData.tileH;
-//			var newX:int = 1880;
-//			var newY:int = 400;
-//			var pIdxs:Array = [4, 4];
-//			bSprite.addChild(img);
-//			function onLoadPic():void
-//			{
-//				img.x = -img.width/2;
-//				img.y = -img.height;
-//				var posArr:Array = BuildPosData.getOff("1");
-//				if(posArr){
-//					img.x += posArr[0];
-//					img.y += posArr[1];
-//				}
-//				bSprite.x = newX + ((pIdxs[1]+1) - (pIdxs[0]+1)) * tileW/2;
-//				bSprite.y = newY + ((pIdxs[0]+1) + (pIdxs[1]+1)) * tileH/2 ;
-//				this.buildingLayer.addChild(bSprite);
-//			}
-//		}
-	
 		
 		override protected function onLoaded():void{
 			addEvent();
@@ -1979,26 +2003,6 @@ package game.module.mainScene
 			}
 		}
 		 
-		
-		
-		/**覆盖这个方法，达到重用的效果*/
-		override public function show(...args):void{
-			if(!m_sprMap){
-				initScence();
-				this.loadMap();
-			}else{
-				this.loadMapCell();
-				onStageResize();
-				_vo = User.getInstance().sceneInfo;
-			}
-			DataLoading.instance.show();
-			WebSocketNetService.instance.sendData(ServiceConst.B_INFO,null);
-			WebSocketNetService.instance.sendData(ServiceConst.M_INFO,null);
-			super.show();
-		
-			SoundMgr.instance.playMusicByURL(ResourceManager.instance.getSoundURL("mainbase"));
-		}
-		
 		override public function close():void{
 			super.close();
 			this._vo = null;
@@ -2016,11 +2020,11 @@ package game.module.mainScene
 					item.releaseSkin();
 				}
 			}
-			var img:Image;
-			for(i=0; i<_fogImgs.length; i++){
-				img = _fogImgs[i];
-				img && Loader.clearRes(img.name);
-			}
+			_fogContainer.destroy();
+			_fogContainer = null;
+			_lockContainer.destroy();
+			_lockContainer = null;
+			
 			BuildAniUtil.dispose();
 			HomeSceneUtil.clearHarvest();
 			doClearTimerHandler();

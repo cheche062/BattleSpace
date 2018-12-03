@@ -42,6 +42,10 @@ package game.module.mainui
 		public var fog:Number; 
 		/**基地互动次数信息*/
 		public var base_rob_info:Object;
+		/**功能区  迷雾开放*/
+		public var fun_fog_id:int = 1;
+		/**资源区   迷雾开放*/
+		public var res_fog_id:int = 1;
 		
 		public function SceneVo()
 		{
@@ -54,6 +58,12 @@ package game.module.mainui
 				if(this.hasOwnProperty(i)){
 					this[i] = info[i];
 				}
+			}
+			if (info.fun_fog_id) {
+				fun_fog_id = Number(info.fun_fog_id);
+			}
+			if (info.res_fog_id) {
+				res_fog_id = Number(info.res_fog_id);
 			}
 		}
 		

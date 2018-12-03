@@ -29,9 +29,14 @@ package game.module.mainScene
 		}
 		
 		
-		/**获取迷雾位置*/
-		public static function getFogPos(fogid:*):Array{
-			return posDic.fogs[fogid]
+		/**功能   获取迷雾位置*/
+		public static function getFunFogPos(fogid:*):Array{
+			return posDic.fun_fog_pos[fogid]
+		}
+		
+		/**资源	获取迷雾位置*/
+		public static function getResFogPos(fogid:*):Array{
+			return posDic.res_fog_pos[fogid]
 		}
 		
 		

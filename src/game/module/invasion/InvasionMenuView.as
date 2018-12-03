@@ -143,7 +143,7 @@ package game.module.invasion
 					break;
 			}
 		}
-		
+		 
 		//错误处理
 		private function onErr(...args):void{
 			DataLoading.instance.close();
