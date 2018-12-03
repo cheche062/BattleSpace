@@ -140,8 +140,6 @@ package game.module.mainScene
 			_lockContainer.zOrder = 4;
 			m_sprMap.addChild(_lockContainer);
 			
-			initMap = ToolFunc.throttle(initMap, this);
-			
 			DataLoading.instance.show();
 			WebSocketNetService.instance.sendData(ServiceConst.B_INFO,null);
 			WebSocketNetService.instance.sendData(ServiceConst.M_INFO,null);
@@ -543,9 +541,7 @@ package game.module.mainScene
 					break;
 				
 				case ServiceConst.B_EXPAND:
-					var key = _fog_type == AREA_TYPE_FUN ? "fun_fog_id" : "res_fog_id";
-					var _result = {};
-					_result[key] = args[1];
+					var _result = args[1];
 					_vo.updateValue(_result);
 					HomeData.updateFunResFogxy(_vo.fun_fog_id, _vo.res_fog_id);
 					
@@ -828,11 +824,8 @@ package game.module.mainScene
 			return lockui;
 		}
 		
-		/**发送的迷雾类型*/
-		private var _fog_type:String
 		/**解锁迷雾*/
 		private function unLockFogHandler(type:String, fogInfo:FogInfoVo):void{
-			_fog_type = type;
 			var handler:Handler = Handler.create(WebSocketNetService.instance, 
 				WebSocketNetService.instance.sendData,[ServiceConst.B_EXPAND, [fogInfo.id, type]]);
 				
@@ -1076,7 +1069,7 @@ package game.module.mainScene
 				for each (c in db) 
 				{
 					if(c.building_id == id&&c.level == 1){
-						if(c.HQ_level<=baseLv && c.character_level<=lv){
+						if(Number(c.HQ_level)<=baseLv && Number(c.character_level<=lv)){
 							return true;
 						}
 						
@@ -1113,6 +1106,7 @@ package game.module.mainScene
 			//所有需要弱引导的建筑物加上小箭头
 			for(var i:int=0; i<arr_guideBuilds.length; i++){
 				var buildData:BaseArticle = getBuildByBid(arr_guideBuilds[i]);
+				if (!buildData) continue; 
 				//建筑物是否开放
 				if(isOpenBuild(buildData.data.buildId)){
 					//建筑物是否需要弱引导

@@ -520,7 +520,7 @@ package game.common
 		}
 		
 		/**
-		 * 节流函数
+		 * 节流函数（一段时间内调用多次只会触发第一次的调用，忽略之后的调用）
 		 * @param fn  回调函数
 		 * @param context  this上下文
 		 * @param diffTime  最小时间差
@@ -541,6 +541,23 @@ package game.common
 			}
 		}
 		
+		/**
+		 * 防抖函数 （连续调用多次，只在最后一次调用后等待一段时间才触发）
+		 * @param fn  回调函数
+		 * @param context  this上下文
+		 * @param diffTime  最小时间差
+		 * @return 
+		 * 
+		 */
+		public static function debounce(fn:Function, context:Object, diffTime = 100):Function {
+			var _newFn = function() {
+				fn.apply(context, arguments);
+			}
+			
+			return function() {
+				Laya.timer.once(diffTime, context, _newFn, arguments);
+			}
+		}
 		/**打乱数组*/
 		public static function breakRankArray(arr:Array):Array {
 			return arr.map(function(item) {
@@ -574,8 +591,5 @@ package game.common
 			}
 			return newArr;
 		}
-		
-	
-		
 	}
 }

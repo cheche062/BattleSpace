@@ -25,6 +25,7 @@ package game.module.invasion
 	import game.module.mainScene.BuildPosData;
 	import game.module.mainScene.HomeData;
 	import game.module.mainScene.HomeScene;
+	import game.module.mainui.FogInfoVo;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Animation;
@@ -34,6 +35,7 @@ package game.module.invasion
 	import laya.maths.Point;
 	import laya.maths.Rectangle;
 	import laya.net.Loader;
+	import laya.net.URL;
 	import laya.ui.Image;
 	import laya.utils.Handler;
 	import laya.utils.HitArea;
@@ -96,7 +98,7 @@ package game.module.invasion
 					img = _imgs[id];
 					if(!img){
 						img = new Image();
-						img.scale(1.25,1.25);
+//						img.scale(1.25,1.25);
 						_imgs[id] = img;
 						m_sprMap.addChildAt(img,0);
 						img.pos(j*HomeScene.CellW, i*HomeScene.CellH);
@@ -111,45 +113,45 @@ package game.module.invasion
 		private var _nowFogid:int=-1;
 		private var _fogImgs:Array = [];
 		private var _fogContainer:Sprite;
-		private function initMap(fogId:*):void{
-			if(!fogId){
-				fogId = "1"
+		private function initMap():void{
+			_fogContainer.destroyChildren();
+			var funFogImages:Array = createFunctionFogArea();
+			var resFogImages:Array = createResourceFogArea();
+			var totalImages:Array = funFogImages.concat(resFogImages);
+			if (totalImages.length) {
+				_fogContainer.addChildren.apply(_fogContainer, totalImages);
 			}
-			//if(_nowFogid != fogId){
-			_nowFogid = fogId;
-			var fogInfo:Object = DBFog.getFogInfo(fogId);
-			var tmp:Array = (fogInfo.coord_4+"").split(",");
-			HomeData.intance.curColumn = parseInt(tmp[0]);
-			HomeData.intance.curRow = parseInt(tmp[1]);
-			for(var i:int=0; i<8; i++){
-				var img:Image = _fogImgs[i];
-				if(i > parseInt(_nowFogid)){
-					if(!_fogContainer){
-						_fogContainer = new Sprite();
-						m_sprMap.addChild(_fogContainer);
-						_fogContainer.cacheAsBitmap = true;
-					}
-					if(!img){
-						img = new Image(ResourceManager.instance.setResURL("scene\\fog\\"+i+".png"));
-						//img.scale(1.66667, 1.66667);
-						img.scale(2, 2);
-						_fogImgs[i] = img;
-					}else{
-						img.skin = "";
-						img.skin = ResourceManager.instance.setResURL("scene\\fog\\"+i+".png")
-					}
-					img.name = img.skin;
-					this._fogContainer.addChild(img);
-					var posArr:Array = BuildPosData.getFogPos(i)
-					img.pos(posArr[0], posArr[1]);
-				}else{
-					if(img){
-						Loader.clearRes(img.skin);
-						img.removeSelf();
-						delete _fogImgs[i];
-					}
-				}
-			}
+		}
+		
+		/**功能区     创建迷雾*/
+		private function createFunctionFogArea():Array {
+			var fogInfos:Array = DBFog.getFunctionNeedLockFogInfos(_data.fun_fog_id);
+			var images:Array = fogInfos.map(function(item:FogInfoVo) {
+				var posArr:Array = BuildPosData.getFunFogPos(item.id);
+				var skin = "scene/fog/newfog/fun/" + item.id + ".png";
+				return createFogImage(skin, posArr);
+			})
+			
+			return images;
+		}
+		
+		/**资源区   创建迷雾*/
+		private function createResourceFogArea():void {
+			var fogInfos:Array = DBFog.getResourceNeedLockFogInfos(_data.res_fog_id);
+			var images:Array = fogInfos.map(function(item:FogInfoVo) {
+				var posArr:Array = BuildPosData.getResFogPos(item.id);
+				var skin = "scene/fog/newfog/res/" + item.id + ".png";
+				return createFogImage(skin, posArr);
+			})
+			
+			return images;
+		}
+		
+		/**创建单个迷雾遮罩图*/
+		private function createFogImage(skin:String, posArr:Array):Image {
+			var img = new Image(URL.formatURL(ResourceManager.instance.setResURL(skin)));
+			img.pos(posArr[0], posArr[1]);
+			return img;
 		}
 		
 		//初始化建筑
@@ -393,9 +395,6 @@ package game.module.invasion
 				}
 				var imgHitArea:HitArea = new HitArea();
 				imgHitArea.hit.drawPoly(0,0,tmp,"#f8ffff");
-				/*var sp:Sprite = new Sprite();
-				_circleAni.addChild(sp);
-				sp.graphics.drawPoly(0,0,tmp,"#f8ffff");*/
 				_circleAni.hitArea = imgHitArea;
 			}
 			_circleAni.play();
@@ -424,39 +423,6 @@ package game.module.invasion
 			_mouseIndex = 0;
 			Laya.stage.on(Event.MOUSE_MOVE, this, checkHit);
 		}
-		/*private function onMouseMove(e:Event=null):void
-		{
-			var distance:Number = getDistance(e.touches);
-			
-			//判断当前距离与上次距离变化，确定是放大还是缩小
-			const factor:Number = 0.001;
-			var del:Number = (distance - lastDistance) * factor;
-			doScale(del);
-			
-			lastDistance = distance;
-		}*/
-		/**计算两个触摸点之间的距离*/
-		/*private function getDistance(points:Array):Number
-		{
-			var distance:Number = 0;
-			if (points && points.length == 2)
-			{
-				var dx:Number = points[0].stageX - points[1].stageX;
-				var dy:Number = points[0].stageY - points[1].stageY;
-				
-				distance = Math.sqrt(dx * dx + dy * dy);
-			}
-			return distance;
-		}*/
-		
-		
-		
-		/***/
-		/*private function onScale(e:Event):void{
-			var deltaScale:Number = e.delta/30;
-			doScale(deltaScale);
-		}*/
-		
 		private function doScale(deltaScale:Number):void{
 			var scale:Number = m_sprMap.scaleX;
 			scale += deltaScale;
@@ -519,7 +485,12 @@ package game.module.invasion
 		
 		/**覆盖这个方法，达到重用的效果*/
 		override public function show(...args):void{
-			this._data = args[0];
+			trace("【InvasionScene】", args)
+			
+			_data = args[0];
+			_data.fun_fog_id = Number(_data.fun_fog_id);
+			_data.res_fog_id = Number(_data.res_fog_id);
+			
 			if(!m_sprMap){
 				initScence();
 				this.loadMap();
@@ -528,7 +499,10 @@ package game.module.invasion
 				onStageResize();
 				initBuilding();
 			}
-			initMap(_data.fog)
+			_fogContainer = new Sprite();
+			m_sprMap.addChild(_fogContainer);
+			
+			initMap()
 			super.show();
 			XFacade.instance.openModule("InvasionMenuView", this._data);
 			//画区域 
@@ -542,6 +516,7 @@ package game.module.invasion
 			this._data = null;
 			_circleAni.stop();
 			_circleAni.destroy(true);
+			_fogContainer.destroy();
 			Laya.loader.clearRes("appRes\\atlas\\invasion\\effects.json");
 			for(var i:int=0; i<_imgs.length; i++){
 				Laya.loader.clearRes(_imgs[i].skin);

@@ -328,11 +328,12 @@ package game.module.store
 				}
 			}
 			onChange();
+			checkShowType();
 		}
 		
 		/**------检测是否处于预览模式--------*/
 		public function checkShowType():void{
-			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_STORE));
+			setDisableShowType(!HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_STORE));
 		}
 		
 		/**------是否处于预览模式--------*/

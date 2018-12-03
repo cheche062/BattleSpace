@@ -78,6 +78,7 @@ package game.module.TeamCopy
 				m_joinId=0;
 			}
 			view.IdText.text="";
+			checkShowType();
 			WebSocketNetService.instance.sendData(ServiceConst.TEAMCOPY_INIT,[]);
 		}
 		
@@ -550,7 +551,7 @@ package game.module.TeamCopy
 		
 		/**------检测是否处于预览模式--------*/
 		public function checkShowType():void{
-			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_TEAMCOPY));
+			setDisableShowType(!HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_TEAMCOPY));
 		}
 		
 		/**------是否处于预览模式--------*/

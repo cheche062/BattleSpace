@@ -67,6 +67,7 @@ package game.module.guild
 			super.show();
 			AnimationUtil.flowIn(this);
 			addEvent();
+			checkShowType();
 			WebSocketNetService.instance.sendData(ServiceConst.GUILD_GET_ALL_GUILD_LIST, []);
 			
 			//GameConfigManager.intance.getGuildInitData();
@@ -194,7 +195,7 @@ package game.module.guild
 		
 		/**------检测是否处于预览模式--------*/
 		public function checkShowType():void{
-			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_GUILD));
+			setDisableShowType(!HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_GUILD));
 		}
 		
 		/**------是否处于预览模式--------*/

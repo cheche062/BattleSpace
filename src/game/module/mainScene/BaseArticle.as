@@ -412,20 +412,25 @@ package game.module.mainScene
 		
 		public function set showPoint(value:Point):void
 		{
-			if(data.showPoint != value)
+//			if(data.showPoint != value)
+			if(isDiffPoints(data.showPoint, value))
 			{
 				data.showPoint = value;
 				if(data.showPoint)
 				{
+					trace('坐标', data.showPoint.toString())
 					var p:Point = HomeData.intance.getPointPos(data.showPoint.x,data.showPoint.y);
 					this.x = p.x;
 					this.y = p.y;
-//					trace('坐标', p.toString())
-					
 				}
 			}
 		}
 		
+		private function isDiffPoints(p1:Point, p2:Point):Boolean {
+			if (!p1 || !p2) return true;
+			
+			return p1.x != p2.x || p1.y != p2.y;
+		}
 		
 		private function setBgLayer():void
 		{

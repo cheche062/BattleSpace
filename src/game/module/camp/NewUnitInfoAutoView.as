@@ -27,6 +27,7 @@ package game.module.camp
 	import game.module.fighting.adata.ArmyData;
 	import game.module.fighting.view.BaseChapetrView;
 	import game.module.mainui.SceneVo;
+	import game.module.newPata.NewPataView;
 	
 	import laya.display.Animation;
 	import laya.display.Sprite;
@@ -199,10 +200,11 @@ package game.module.camp
 		}
 		
 		private function showMineFightView():void {
-			XFacade.instance.closeModule(NewUnitInfoView);
-			XFacade.instance.closeModule(CampView);
-			
-			XFacade.instance.openModule(ModuleName.NewPataView);
+			var canOpen:Boolean = NewPataView.openView();
+			if (canOpen) {
+				XFacade.instance.closeModule(NewUnitInfoView);
+				XFacade.instance.closeModule(CampView);
+			}
 		}
 		
 		private function showPowerTip(e:Event):void

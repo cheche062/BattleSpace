@@ -159,6 +159,10 @@ package game.global
 		
 		public function loginWin(... args):void
 		{
+			// 暂时都不是新手
+			args[1].is_new_user = false;
+			args[1].step = 1000;
+			
 			TraceUtils.log("loginWin"+args);
 			if (!this.user)
 			{
@@ -203,6 +207,7 @@ package game.global
 			if (args[1].is_new_user)
 			{
 				this.user.is_new_user=args[1].is_new_user;
+				
 				if (this.user.is_new_user == true)
 				{
 					//trace("create_role");

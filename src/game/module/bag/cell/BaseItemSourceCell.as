@@ -10,6 +10,9 @@ package game.module.bag.cell
 	import game.global.util.TraceUtils;
 	import game.global.vo.User;
 	import game.global.vo.itemSourceVo;
+	import game.module.camp.CampView;
+	import game.module.camp.NewUnitInfoView;
+	import game.module.newPata.NewPataView;
 	
 	import laya.ui.Box;
 	import laya.ui.Image;
@@ -127,8 +130,11 @@ package game.module.bag.cell
 				}
 				case 10: //爬塔玩法：活动ID，直接从基地进入，退出后到基地
 				{
-					XFacade.instance.openModule(ModuleName.NewPataView);
-					callBackHandler && callBackHandler.run();
+					var canOpen:Boolean = NewPataView.openView();
+					if (canOpen) {
+						callBackHandler && callBackHandler.run();
+					}
+					
 					break;
 				}
 					

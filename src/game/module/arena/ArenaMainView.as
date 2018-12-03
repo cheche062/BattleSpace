@@ -480,6 +480,7 @@ package game.module.arena
 			NEED_REFRESH_LIST = false;
 			updateCoin();
 			stageSizeChange();
+			checkShowType();
 		}
 
 		override public function close():void

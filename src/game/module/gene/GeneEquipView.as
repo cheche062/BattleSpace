@@ -626,6 +626,7 @@ package game.module.gene
 					AnimationUtil.flowIn(this);
 				}
 			}
+			checkShowType();
 		}
 		
 		override public function close():void{
@@ -719,7 +720,7 @@ package game.module.gene
 		
 		/**------检测是否处于预览模式--------*/
 		public function checkShowType():void{
-			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_GENE));
+			setDisableShowType(!HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_GENE));
 		}
 		
 		/**------是否处于预览模式--------*/

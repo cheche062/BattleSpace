@@ -262,6 +262,7 @@ package game.module.bingBook
 			getData();
 			
 			startEff();
+			checkShowType();
 		}
 		
 		override public function close():void{
@@ -796,7 +797,7 @@ package game.module.bingBook
 		
 		/**------检测是否处于预览模式--------*/
 		public function checkShowType():void{
-			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_RADIO));
+			setDisableShowType(!HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_RADIO));
 		}
 		
 		/**------是否处于预览模式--------*/

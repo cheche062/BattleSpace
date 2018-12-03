@@ -62,7 +62,7 @@ package game.module.pvp.views
 		
 		public override function show(...args):void{
 			super.show(args);
-			
+			checkShowType();
 			WebSocketNetService.instance.sendData(ServiceConst.PVP_GETINFO,[]);
 			
 			onStageResize();
@@ -327,7 +327,7 @@ package game.module.pvp.views
 		
 		/**------检测是否处于预览模式--------*/
 		public function checkShowType():void{
-			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_PVP));
+			setDisableShowType(!HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_PVP));
 		}
 		
 		/**------是否处于预览模式--------*/

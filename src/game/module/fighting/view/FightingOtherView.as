@@ -24,6 +24,7 @@ package game.module.fighting.view
 	import game.global.vo.worldBoss.BossFightInfoVo;
 	import game.module.fighting.scene.FightingMapScene;
 	import game.module.mainui.SceneVo;
+	import game.module.newPata.NewPataView;
 	import game.net.socket.WebSocketNetService;
 	
 	import laya.display.Text;
@@ -244,28 +245,7 @@ package game.module.fighting.view
 		}
 		
 		private function gotoPata():void {
-			if(User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_CAMP)<3)
-			{
-				return;
-			}else 
-			{
-				if(User.getInstance().sceneInfo.getBuildingLv(DBBuilding.B_CAMP)==3)
-				{
-					var vo:SceneVo = User.getInstance().sceneInfo;
-					var ifIqueue:Boolean = vo.hasBuildingInQueue(Number(DBBuilding.B_CAMP));
-					TraceUtils.log("兵营是否在建筑队列中:"+ifIqueue);
-					if(ifIqueue)
-					{
-						XTipManager.showTip(GameLanguage.getLangByKey("L_A_151"));
-					}else 
-					{
-						XFacade.instance.openModule(ModuleName.NewPataView);
-					}
-				}else
-				{
-					XFacade.instance.openModule(ModuleName.NewPataView);
-				}
-			}
+			NewPataView.openView();
 		}
 		
 		

@@ -106,7 +106,7 @@ package game.module.relic
 				selectTrainType(3);
 				
 			}
-			
+			checkShowType();
 			// 关闭该功能
 			view.BattleBtn.visible = false;
 		}
@@ -819,7 +819,7 @@ package game.module.relic
 		
 		/**------检测是否处于预览模式--------*/
 		public function checkShowType():void{
-			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_RELIC));
+			setDisableShowType(!HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_RELIC));
 		}
 		
 		/**------是否处于预览模式--------*/

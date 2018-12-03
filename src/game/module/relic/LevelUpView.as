@@ -79,6 +79,7 @@ package game.module.relic
 			m_heroList=new Array();
 			m_selectHero=0;
 			GameConfigManager.intance.getTransport();
+			checkShowType();
 			WebSocketNetService.instance.sendData(ServiceConst.C_INFO,[]);
 			//WebSocketNetService.instance.sendData(ServiceConst.ADD_ITEM,["80017=1000"]);
 			initUI();
@@ -796,7 +797,7 @@ package game.module.relic
 		
 		/**------检测是否处于预览模式--------*/
 		public function checkShowType():void{
-			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_RADIO));
+			setDisableShowType(!HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_RADIO));
 		}
 		
 		/**------是否处于预览模式--------*/

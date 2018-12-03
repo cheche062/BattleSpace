@@ -123,7 +123,7 @@ package game.module.mainui
 			PreloadUtil.preloadFirstBattle();
 			
 			var atr_data:ArticleData = this._data[1];
-			if(atr_data.buildId &&HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(atr_data.buildId)){
+			if(atr_data && atr_data.buildId &&HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(atr_data.buildId)){
 				//建筑物是否需要弱引导
 				if(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOnGuildBuild(atr_data.buildId)){
 					var id:String = atr_data.buildId.replace("B","");
@@ -379,7 +379,9 @@ package game.module.mainui
 			recyle();
 			//获取配置数据=====>
 			var list:Array = [];
-			list=DBBuilding.getBuildListByType(this.view.tab.selectedIndex+1);
+//			list=DBBuilding.getBuildListByType(this.view.tab.selectedIndex + 1);
+			// 改变类型去除了原先的第一项
+			list=DBBuilding.getBuildListByType(this.view.tab.selectedIndex + 2);
 			var item:BuildingItem;
 			var arr:Array = [];
 			var arr1:Array = [];

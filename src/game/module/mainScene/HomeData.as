@@ -169,7 +169,7 @@ package game.module.mainScene
 					break;
 				//资源建筑
 				case 3:
-					return (point.x <= res_fog_x && point.y <= res_fog_y);
+					return (point.x >= MIDDLE_WALL_X && point.x <= res_fog_x && point.y <= res_fog_y);
 					break;
 				//防御建筑,装饰建筑
 				case 2:
@@ -263,11 +263,11 @@ package game.module.mainScene
 		public static function updateFunResFogxy(fun_fog_id, res_fog_id):void {
 			var fun_point:Point = DBFog.getFunctionFogInfo(fun_fog_id).coord_1; 
 			// 使得看上去不碰到迷雾
-			fun_fog_x = fun_point.x - 1;
-			fun_fog_y = fun_point.y - 1;
+			fun_fog_x = fun_point.x;
+			fun_fog_y = fun_point.y;
 			var res_point:Point = DBFog.getResourceFogInfo(res_fog_id).coord_1;
-			res_fog_x = res_point.x - 1;
-			res_fog_y = res_point.y - 1;
+			res_fog_x = res_point.x;
+			res_fog_y = res_point.y;
 			
 			trace("功能区", fun_fog_x, fun_fog_y)
 			trace("资源区", res_fog_x, res_fog_y)

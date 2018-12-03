@@ -45,6 +45,24 @@ package game.module.newPata
 			super();
 			this.bg.alpha = 1;
 		}
+		
+		public static function openView():void {
+			var config_data = ResourceManager.instance.getResByURL("config/pvepata_config.json")
+			var _needArr:Array = config_data[2].split("=");
+			if (User.getInstance().sceneInfo.getBuildingLv(_needArr[0]) < Number(_needArr[1])) {
+				XTip.showTip(GameLanguage.getLangByKey("L_A_14058").replace("{0}", _needArr[1]));
+				return false;
+			}
+			
+			if (User.getInstance().level < Number(config_data[5])) {
+				XTip.showTip(GameLanguage.getLangByKey("L_A_14059").replace("{0}", config_data[5]));
+				return false;
+			}
+			
+			XFacade.instance.openModule(ModuleName.NewPataView);
+			return true;
+		}
+		
 		private function get view():NewPaTaUI {
 			_view = _view || new NewPaTaUI();
 			return _view;

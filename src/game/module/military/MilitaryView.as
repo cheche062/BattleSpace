@@ -138,7 +138,7 @@ package game.module.military
 			var vo:MilitaryVo = DBMilitary.getInfoByCup(User.getInstance().cup || 1);
 			this.view.icon.skin = "appRes\\icon\\military\\"+vo.icon+".png";
 			this.view.icon2.skin = "appRes\\icon\\military\\"+vo.icon+".png";
-			
+			checkShowType();
 //			setDisableShowType(true);
 		}
 		
@@ -278,7 +278,7 @@ package game.module.military
 		
 		/**------检测是否处于预览模式--------*/
 		public function checkShowType():void{
-			setDisableShowType(HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_PROTECT));
+			setDisableShowType(!HomeScene(ModuleManager.intance.getModule(HomeScene)).isOpenBuild(DBBuilding.B_PROTECT));
 		}
 			
 		/**------是否处于预览模式--------*/

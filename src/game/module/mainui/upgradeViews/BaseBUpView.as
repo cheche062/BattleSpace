@@ -164,7 +164,7 @@ package game.module.mainui.upgradeViews
 			//升级面板
 			
 			if(ui.upBox && _nextLvData){
-				var infoList:Array = [ui.upBox.expBox,ui.upBox.timeBox];
+				var infoList:Array = [/*ui.upBox.expBox,*/ui.upBox.timeBox];
 				ui.upBox.visible = true;
 				if(_nextLvData && _nextLvData.cost1){
 					var tmpArr:Array = _nextLvData.cost1.split("=")
@@ -209,6 +209,9 @@ package game.module.mainui.upgradeViews
 				if(infoList.length == 4){
 					pos = POS[4];
 				}
+				
+				
+				
 				for(var i:int=0; i<infoList.length; i++){
 					infoList[i].x = pos[i];
 				}

@@ -26,6 +26,7 @@ package game.module.mainScene.guest
 	import game.module.mainScene.BuildPosData;
 	import game.module.mainScene.HomeData;
 	import game.module.mainScene.HomeScene;
+	import game.module.mainui.FogInfoVo;
 	import game.module.mainui.MainView;
 	import game.net.socket.WebSocketNetService;
 	
@@ -34,6 +35,7 @@ package game.module.mainScene.guest
 	import laya.maths.Point;
 	import laya.maths.Rectangle;
 	import laya.net.Loader;
+	import laya.net.URL;
 	import laya.ui.Image;
 	import laya.utils.Handler;
 	
@@ -88,7 +90,7 @@ package game.module.mainScene.guest
 					img = _imgs[id];
 					if(!img){
 						img = new Image();
-						img.scale(1.25, 1.25);
+//						img.scale(1.25, 1.25);
 						_imgs[id] = img;
 						m_sprMap.addChildAt(img,0);
 						img.pos(j*HomeScene.CellW, i*HomeScene.CellH);
@@ -102,45 +104,45 @@ package game.module.mainScene.guest
 		private var _nowFogid:int=-1;
 		private var _fogImgs:Array = [];
 		private var _fogContainer:Sprite;
-		private function initMap(fogId:*):void{
-			if(!fogId){
-				fogId = "1"
+		private function initMap():void{
+			_fogContainer.destroyChildren();
+			var funFogImages:Array = createFunctionFogArea();
+			var resFogImages:Array = createResourceFogArea();
+			var totalImages:Array = funFogImages.concat(resFogImages);
+			if (totalImages.length) {
+				_fogContainer.addChildren.apply(_fogContainer, totalImages);
 			}
-			//if(_nowFogid != fogId){
-			_nowFogid = fogId;
-			var fogInfo:Object = DBFog.getFogInfo(fogId);
-			var tmp:Array = (fogInfo.coord_4+"").split(",");
-			HomeData.intance.curColumn = parseInt(tmp[0]);
-			HomeData.intance.curRow = parseInt(tmp[1]);
-			for(var i:int=0; i<8; i++){
-				var img:Image = _fogImgs[i];
-				if(i > parseInt(_nowFogid)){
-					if(!_fogContainer){
-						_fogContainer = new Sprite();
-						m_sprMap.addChild(_fogContainer);
-						_fogContainer.cacheAsBitmap = true;
-					}
-					if(!img){
-						img = new Image(ResourceManager.instance.setResURL("scene/fog/"+i+".png"));
-						//img.scale(1.66667, 1.66667);
-						img.scale(2, 2);
-						_fogImgs[i] = img;
-					}else{
-						img.skin = "";
-						img.skin = ResourceManager.instance.setResURL("scene/fog/"+i+".png")
-					}
-					img.name = img.skin;
-					this._fogContainer.addChild(img);
-					var posArr:Array = BuildPosData.getFogPos(i)
-					img.pos(posArr[0], posArr[1]);
-				}else{
-					if(img){
-						Loader.clearRes(img.skin);
-						img.removeSelf();
-						delete _fogImgs[i];
-					}
-				}
-			}
+		}
+		
+		/**功能区     创建迷雾*/
+		private function createFunctionFogArea():Array {
+			var fogInfos:Array = DBFog.getFunctionNeedLockFogInfos(_data.fun_fog_id);
+			var images:Array = fogInfos.map(function(item:FogInfoVo) {
+				var posArr:Array = BuildPosData.getFunFogPos(item.id);
+				var skin = "scene/fog/newfog/fun/" + item.id + ".png";
+				return createFogImage(skin, posArr);
+			})
+			
+			return images;
+		}
+		
+		/**资源区   创建迷雾*/
+		private function createResourceFogArea():void {
+			var fogInfos:Array = DBFog.getResourceNeedLockFogInfos(_data.res_fog_id);
+			var images:Array = fogInfos.map(function(item:FogInfoVo) {
+				var posArr:Array = BuildPosData.getResFogPos(item.id);
+				var skin = "scene/fog/newfog/res/" + item.id + ".png";
+				return createFogImage(skin, posArr);
+			})
+			
+			return images;
+		}
+		
+		/**创建单个迷雾遮罩图*/
+		private function createFogImage(skin:String, posArr:Array):Image {
+			var img = new Image(URL.formatURL(ResourceManager.instance.setResURL(skin)));
+			img.pos(posArr[0], posArr[1]);
+			return img;
 		}
 		
 		//初始化建筑
@@ -277,9 +279,6 @@ package game.module.mainScene.guest
 			return distance;
 		}
 		
-		
-		
-		/***/
 		private function onScale(e:Event):void{
 			var deltaScale:Number = e.delta/30;
 			doScale(deltaScale);
@@ -334,6 +333,10 @@ package game.module.mainScene.guest
 		override public function show(...args):void{
 			this._data = args[0];
 			TraceUtils.log("_data......................."+_data);
+			_data = args[0];
+			_data.fun_fog_id = Number(_data.fun_fog_id);
+			_data.res_fog_id = Number(_data.res_fog_id);
+			
 			if(!m_sprMap){
 				initScence();
 				this.loadMap();
@@ -342,7 +345,10 @@ package game.module.mainScene.guest
 				initBuilding();
 				loadMapCell();
 			}
-			initMap(_data.fog);
+			_fogContainer = new Sprite();
+			m_sprMap.addChild(_fogContainer);
+			
+			initMap();
 			super.show();
 			XFacade.instance.closeModule(MainView)
 			XFacade.instance.showModule(GuestMenuView, _data);
@@ -350,6 +356,7 @@ package game.module.mainScene.guest
 		
 		override public function close():void{
 			super.close();
+			_fogContainer.destroy();
 			for(var i:int=0; i<_imgs.length; i++){
 				_imgs[i].skin = "";
 			}
